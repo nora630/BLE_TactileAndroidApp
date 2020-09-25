@@ -20,7 +20,7 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package no.nordicsemi.android.nrftoolbox.uart;
+package com.onodera.BleApp.uart;
 
 import android.support.wearable.view.CircularButton;
 import android.support.wearable.view.GridPagerAdapter;
@@ -29,9 +29,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import no.nordicsemi.android.nrftoolbox.R;
-import no.nordicsemi.android.nrftoolbox.uart.domain.Command;
-import no.nordicsemi.android.nrftoolbox.uart.domain.UartConfiguration;
+import com.onodera.BleApp.R;
+import com.onodera.BleApp.uart.domain.Command;
+import com.onodera.BleApp.uart.domain.UartConfiguration;
 
 class UARTCommandsAdapter extends GridPagerAdapter {
 	private final OnCommandSelectedListener listener;

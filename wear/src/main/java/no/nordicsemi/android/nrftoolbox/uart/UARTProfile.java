@@ -20,7 +20,7 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package no.nordicsemi.android.nrftoolbox.uart;
+package com.onodera.BleApp.uart;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -30,16 +30,16 @@ import android.text.TextUtils;
 import java.util.Deque;
 import java.util.UUID;
 
-import no.nordicsemi.android.nrftoolbox.ble.BleManager;
-import no.nordicsemi.android.nrftoolbox.ble.BleProfile;
-import no.nordicsemi.android.nrftoolbox.ble.BleProfileApi;
+import com.onodera.BleApp.ble.BleManager;
+import com.onodera.BleApp.ble.BleProfile;
+import com.onodera.BleApp.ble.BleProfileApi;
 
 public class UARTProfile extends BleProfile {
 	/** Broadcast sent when a UART message is received. */
-	static final String BROADCAST_DATA_RECEIVED = "no.nordicsemi.android.nrftoolbox.uart.BROADCAST_DATA_RECEIVED";
+	static final String BROADCAST_DATA_RECEIVED = "com.onodera.BleApp.uart.BROADCAST_DATA_RECEIVED";
 	/** The message. */
 	@SuppressWarnings("unused")
-	public static final String EXTRA_DATA = "no.nordicsemi.android.nrftoolbox.EXTRA_DATA";
+	public static final String EXTRA_DATA = "com.onodera.BleApp.EXTRA_DATA";
 
 	/** Nordic UART Service UUID */
 	private static final UUID UART_SERVICE_UUID = UUID.fromString("6E400001-B5A3-F393-E0A9-E50E24DCCA9E");

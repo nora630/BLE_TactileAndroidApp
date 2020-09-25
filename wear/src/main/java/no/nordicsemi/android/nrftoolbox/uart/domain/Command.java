@@ -20,14 +20,14 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package no.nordicsemi.android.nrftoolbox.uart.domain;
+package com.onodera.BleApp.uart.domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.gms.wearable.DataMap;
 
-import no.nordicsemi.android.nrftoolbox.wearable.common.Constants;
+import com.onodera.BleApp.wearable.common.Constants;
 
 public class Command implements Parcelable {
 	public enum Icon {

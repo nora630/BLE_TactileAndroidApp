@@ -19,11 +19,11 @@
  * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package no.nordicsemi.android.nrftoolbox.utility;
+package com.onodera.BleApp.utility;
 
 import android.util.Log;
 
-import no.nordicsemi.android.nrftoolbox.common.BuildConfig;
+import com.onodera.BleApp.common.BuildConfig;
 
 public class DebugLogger {
 	public static void v(final String tag, final String text) {

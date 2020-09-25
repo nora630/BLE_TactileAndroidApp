@@ -20,7 +20,7 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package no.nordicsemi.android.nrftoolbox.uart;
+package com.onodera.BleApp.uart;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -55,10 +55,10 @@ import com.google.android.gms.wearable.Wearable;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.nordicsemi.android.nrftoolbox.R;
-import no.nordicsemi.android.nrftoolbox.ble.BleProfileService;
-import no.nordicsemi.android.nrftoolbox.wearable.common.Constants;
-import no.nordicsemi.android.nrftoolbox.uart.domain.UartConfiguration;
+import com.onodera.BleApp.R;
+import com.onodera.BleApp.ble.BleProfileService;
+import com.onodera.BleApp.wearable.common.Constants;
+import com.onodera.BleApp.uart.domain.UartConfiguration;
 
 public class UARTConfigurationsActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,
 		DataApi.DataListener, GoogleApiClient.OnConnectionFailedListener, WearableListView.ClickListener, MessageApi.MessageListener {

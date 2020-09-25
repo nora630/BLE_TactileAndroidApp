@@ -20,7 +20,7 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package no.nordicsemi.android.nrftoolbox.ble;
+package com.onodera.BleApp.ble;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothGatt;

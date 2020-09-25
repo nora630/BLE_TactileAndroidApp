@@ -6,7 +6,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "no.nordicsemi.android.nrftoolbox"
+        applicationId "com.onodera.BleApp"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 292847601 // target: 29, version: 2.8.4, build: 74, multi-APK: 01

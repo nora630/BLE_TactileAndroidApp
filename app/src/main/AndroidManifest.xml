@@ -23,7 +23,7 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	package="no.nordicsemi.android.nrftoolbox"
+	package="com.onodera.BleApp"
 	android:installLocation="auto">
 
 	<uses-permission android:name="android.permission.BLUETOOTH" />
@@ -53,7 +53,7 @@
 			android:value="@integer/google_play_services_version" />
 
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.SplashscreenActivity"
+			android:name="com.onodera.BleApp.SplashscreenActivity"
 			android:label="@string/app_name"
 			android:theme="@style/AppTheme.SplashScreen" >
 			<intent-filter>
@@ -75,7 +75,7 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.FeaturesActivity"
+			android:name="com.onodera.BleApp.FeaturesActivity"
 			android:label="@string/app_name"
             android:theme="@style/AppTheme.TranslucentStatusBar"
 			android:launchMode="singleTask" >
@@ -84,123 +84,123 @@
 		<!-- Template plugin activities -->
 		<!-- Remember to add your plug-in Activities to the Android Manifest file. -->
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.template.TemplateActivity"
+			android:name="com.onodera.BleApp.template.TemplateActivity"
 			android:icon="@drawable/ic_template_feature"
 			android:label="@string/template_feature_title" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
+				<category android:name="com.onodera.BleApp.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.template.settings.SettingsActivity"
+			android:name="com.onodera.BleApp.template.settings.SettingsActivity"
 			android:label="@string/template_settings_title" />
 		<service
-			android:name="no.nordicsemi.android.nrftoolbox.template.TemplateService"
+			android:name="com.onodera.BleApp.template.TemplateService"
 			android:label="@string/template_feature_title" />
 
 		<!-- Plug-in activities -->
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.dfu.DfuActivity"
+			android:name="com.onodera.BleApp.dfu.DfuActivity"
 			android:icon="@drawable/ic_dfu_feature"
 			android:label="@string/dfu_feature_title" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
+				<category android:name="com.onodera.BleApp.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.dfu.settings.SettingsActivity"
+			android:name="com.onodera.BleApp.dfu.settings.SettingsActivity"
 			android:label="@string/dfu_settings_title" />
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.dfu.NotificationActivity"
+			android:name="com.onodera.BleApp.dfu.NotificationActivity"
 			android:label="@string/dfu_feature_title" />
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.hr.HRActivity"
+			android:name="com.onodera.BleApp.hr.HRActivity"
 			android:icon="@drawable/ic_hrs_feature"
 			android:label="@string/hrs_feature_title" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
+				<category android:name="com.onodera.BleApp.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.ht.HTActivity"
+			android:name="com.onodera.BleApp.ht.HTActivity"
 			android:icon="@drawable/ic_hts_feature"
 			android:label="@string/hts_feature_title" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
+				<category android:name="com.onodera.BleApp.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.ht.settings.SettingsActivity"
+			android:name="com.onodera.BleApp.ht.settings.SettingsActivity"
 			android:label="@string/hts_settings_title" />
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.bpm.BPMActivity"
+			android:name="com.onodera.BleApp.bpm.BPMActivity"
 			android:icon="@drawable/ic_bpm_feature"
 			android:label="@string/bpm_feature_title" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
+				<category android:name="com.onodera.BleApp.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.gls.GlucoseActivity"
+			android:name="com.onodera.BleApp.gls.GlucoseActivity"
 			android:icon="@drawable/ic_glucose_feature"
 			android:label="@string/gls_feature_title" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
+				<category android:name="com.onodera.BleApp.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.proximity.ProximityActivity"
+			android:name="com.onodera.BleApp.proximity.ProximityActivity"
 			android:icon="@drawable/ic_proximity_feature"
 			android:label="@string/proximity_feature_title"
 			android:launchMode="singleTask" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
+				<category android:name="com.onodera.BleApp.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.rsc.RSCActivity"
+			android:name="com.onodera.BleApp.rsc.RSCActivity"
 			android:icon="@drawable/ic_rsc_feature"
 			android:label="@string/rsc_feature_title"
 			android:launchMode="singleTask" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
+				<category android:name="com.onodera.BleApp.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.rsc.settings.SettingsActivity"
+			android:name="com.onodera.BleApp.rsc.settings.SettingsActivity"
 			android:label="@string/rsc_settings_title" />
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.csc.CSCActivity"
+			android:name="com.onodera.BleApp.csc.CSCActivity"
 			android:icon="@drawable/ic_csc_feature"
 			android:label="@string/csc_feature_title"
 			android:launchMode="singleTask" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
+				<category android:name="com.onodera.BleApp.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.csc.settings.SettingsActivity"
+			android:name="com.onodera.BleApp.csc.settings.SettingsActivity"
 			android:label="@string/csc_settings_title" />
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.uart.UARTActivity"
+			android:name="com.onodera.BleApp.uart.UARTActivity"
 			android:icon="@drawable/ic_uart_feature"
 			android:label="@string/uart_feature_title"
 			android:windowSoftInputMode="adjustResize"
@@ -208,25 +208,25 @@
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
+				<category android:name="com.onodera.BleApp.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name="no.nordicsemi.android.nrftoolbox.cgm.CGMSActivity"
+		<activity android:name="com.onodera.BleApp.cgm.CGMSActivity"
 			android:icon="@drawable/ic_cgms_feature"
 			android:label="@string/cgms_feature_title"
 			android:launchMode="singleTask">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
+				<category android:name="com.onodera.BleApp.LAUNCHER" />
 			</intent-filter>
 		</activity>
 
 		<service
-			android:name="no.nordicsemi.android.nrftoolbox.proximity.ProximityService"
+			android:name="com.onodera.BleApp.proximity.ProximityService"
 			android:label="@string/proximity_feature_title" />
 		<service
-			android:name="no.nordicsemi.android.nrftoolbox.dfu.DfuService"
+			android:name="com.onodera.BleApp.dfu.DfuService"
 			android:exported="true"
 			android:label="@string/dfu_service_title" >
 			<intent-filter>
@@ -237,7 +237,7 @@
 		</service>
 
 		<activity
-			android:name="no.nordicsemi.android.nrftoolbox.dfu.DfuInitiatorActivity"
+			android:name="com.onodera.BleApp.dfu.DfuInitiatorActivity"
 			android:label="@string/dfu_service_title"
 			android:noHistory="true"
 			android:theme="@style/AppTheme.Translucent" >
@@ -249,19 +249,19 @@
 		</activity>
 
 		<service
-			android:name="no.nordicsemi.android.nrftoolbox.cgm.CGMService"
+			android:name="com.onodera.BleApp.cgm.CGMService"
 			android:label="@string/cgms_feature_title" />
 		<service
-			android:name="no.nordicsemi.android.nrftoolbox.rsc.RSCService"
+			android:name="com.onodera.BleApp.rsc.RSCService"
 			android:label="@string/rsc_feature_title" />
 		<service
-			android:name="no.nordicsemi.android.nrftoolbox.csc.CSCService"
+			android:name="com.onodera.BleApp.csc.CSCService"
 			android:label="@string/csc_feature_title" />
 		<service
-			android:name="no.nordicsemi.android.nrftoolbox.ht.HTService"
+			android:name="com.onodera.BleApp.ht.HTService"
 			android:label="@string/hts_feature_title" />
 		<service
-			android:name="no.nordicsemi.android.nrftoolbox.uart.UARTService"
+			android:name="com.onodera.BleApp.uart.UARTService"
 			android:label="@string/uart_feature_title" />
 		<service android:name=".wearable.MainWearableListenerService">
 			<intent-filter>
@@ -271,8 +271,8 @@
 			</intent-filter>
 		</service>
 
-		<provider android:name="no.nordicsemi.android.nrftoolbox.uart.UARTLocalLogContentProvider"
-			android:authorities="no.nordicsemi.android.nrftoolbox.uart.log"
+		<provider android:name="com.onodera.BleApp.uart.UARTLocalLogContentProvider"
+			android:authorities="com.onodera.BleApp.uart.log"
 			android:exported="true"/>
 	</application>
 

@@ -30,7 +30,7 @@
 		android:id="@+id/toolbar_actionbar"
 		layout="@layout/toolbar"/>
 
-	<no.nordicsemi.android.nrftoolbox.widget.ForegroundRelativeLayout
+	<com.onodera.BleApp.widget.ForegroundRelativeLayout
 		style="@style/HeaderShadow"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
@@ -218,5 +218,5 @@
 			android:onClick="onConnectClicked"
 			android:text="@string/action_connect"/>
 
-	</no.nordicsemi.android.nrftoolbox.widget.ForegroundRelativeLayout>
+	</com.onodera.BleApp.widget.ForegroundRelativeLayout>
 </LinearLayout>

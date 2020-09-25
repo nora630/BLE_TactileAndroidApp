@@ -31,12 +31,12 @@
 		android:shortcutDisabledMessage="@string/shortcut_dfu_short">
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:targetPackage="no.nordicsemi.android.nrftoolbox"
-			android:targetClass="no.nordicsemi.android.nrftoolbox.FeaturesActivity" />
+			android:targetPackage="com.onodera.BleApp"
+			android:targetClass="com.onodera.BleApp.FeaturesActivity" />
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:targetPackage="no.nordicsemi.android.nrftoolbox"
-			android:targetClass="no.nordicsemi.android.nrftoolbox.dfu.DfuActivity" />
+			android:targetPackage="com.onodera.BleApp"
+			android:targetClass="com.onodera.BleApp.dfu.DfuActivity" />
 		<categories android:name="android.shortcut.conversation" />
 	</shortcut>
 	<shortcut
@@ -48,12 +48,12 @@
 		android:shortcutDisabledMessage="@string/shortcut_uart_short">
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:targetPackage="no.nordicsemi.android.nrftoolbox"
-			android:targetClass="no.nordicsemi.android.nrftoolbox.FeaturesActivity" />
+			android:targetPackage="com.onodera.BleApp"
+			android:targetClass="com.onodera.BleApp.FeaturesActivity" />
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:targetPackage="no.nordicsemi.android.nrftoolbox"
-			android:targetClass="no.nordicsemi.android.nrftoolbox.uart.UARTActivity" />
+			android:targetPackage="com.onodera.BleApp"
+			android:targetClass="com.onodera.BleApp.uart.UARTActivity" />
 		<categories android:name="android.shortcut.conversation" />
 	</shortcut>
 	<!-- Specify more shortcuts here. -->

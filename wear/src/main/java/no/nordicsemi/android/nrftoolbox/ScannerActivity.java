@@ -20,7 +20,7 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package no.nordicsemi.android.nrftoolbox;
+package com.onodera.BleApp;
 
 import android.Manifest;
 import android.app.Activity;
@@ -37,8 +37,8 @@ import android.support.wearable.view.WearableListView;
 import android.view.View;
 import android.widget.Toast;
 
-import no.nordicsemi.android.nrftoolbox.ble.BleProfileService;
-import no.nordicsemi.android.nrftoolbox.uart.UARTConfigurationsActivity;
+import com.onodera.BleApp.ble.BleProfileService;
+import com.onodera.BleApp.uart.UARTConfigurationsActivity;
 
 public class ScannerActivity extends Activity {
 	private static final String TAG = "ScannerActivity";

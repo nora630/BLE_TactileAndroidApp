@@ -20,7 +20,7 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package no.nordicsemi.android.nrftoolbox;
+package com.onodera.BleApp;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;

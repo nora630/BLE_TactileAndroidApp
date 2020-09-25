@@ -21,6 +21,6 @@
   -->
 
 <manifest
-	package="no.nordicsemi.android.nrftoolbox.common">
+	package="com.onodera.BleApp.common">
 
 </manifest>
