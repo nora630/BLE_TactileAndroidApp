@@ -35,6 +35,8 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import no.nordicsemi.android.ble.data.Data;
 import no.nordicsemi.android.log.Logger;
 import com.onodera.BleApp.FeaturesActivity;
 import com.onodera.BleApp.R;
@@ -114,7 +116,7 @@ public class TemplateService extends BleProfileService implements TemplateManage
     }
 
     @Override
-    public void onSampleValueReceived(@NonNull final BluetoothDevice device, final int value) {
+    public void onSampleValueReceived(@NonNull final BluetoothDevice device, final byte[] value) {
         final Intent broadcast = new Intent(BROADCAST_TEMPLATE_MEASUREMENT);
         broadcast.putExtra(EXTRA_DEVICE, getBluetoothDevice());
         broadcast.putExtra(EXTRA_DATA, value);

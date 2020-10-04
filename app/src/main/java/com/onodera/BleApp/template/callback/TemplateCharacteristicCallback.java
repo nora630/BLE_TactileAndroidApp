@@ -3,6 +3,8 @@ package com.onodera.BleApp.template.callback;
 import android.bluetooth.BluetoothDevice;
 import androidx.annotation.NonNull;
 
+import no.nordicsemi.android.ble.data.Data;
+
 /**
  * This class defines your characteristic API.
  * In this example (that is the HRM characteristic, which the template is based on), is notifying
@@ -17,5 +19,5 @@ public interface TemplateCharacteristicCallback {
 	 * @param device a device from which the value was obtained.
 	 * @param value  the new value.
 	 */
-	void onSampleValueReceived(@NonNull final BluetoothDevice device, int value);
+	void onSampleValueReceived(@NonNull final BluetoothDevice device, byte[] value);
 }

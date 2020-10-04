@@ -38,6 +38,9 @@ import com.onodera.BleApp.R;
 import com.onodera.BleApp.profile.BleProfileService;
 import com.onodera.BleApp.profile.BleProfileServiceReadyActivity;
 import com.onodera.BleApp.template.settings.SettingsActivity;
+import com.onodera.BleApp.template.signal.SendingSignalActivity;
+
+import no.nordicsemi.android.ble.data.Data;
 
 /**
  * Modify the Template Activity to match your needs.
@@ -99,15 +102,15 @@ public class TemplateActivity extends BleProfileServiceReadyActivity<TemplateSer
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		getMenuInflater().inflate(R.menu.settings_and_about, menu);
+		getMenuInflater().inflate(R.menu.signal, menu);
 		return true;
 	}
 
 	@Override
 	protected boolean onOptionsItemSelected(final int itemId) {
 		switch (itemId) {
-			case R.id.action_settings:
-				final Intent intent = new Intent(this, SettingsActivity.class);
+			case R.id.sending_signal:
+				final Intent intent = new Intent(this, SendingSignalActivity.class);
 				startActivity(intent);
 				break;
 		}
@@ -124,6 +127,8 @@ public class TemplateActivity extends BleProfileServiceReadyActivity<TemplateSer
 		// TODO this method may return the UUID of the service that is required to be in the advertisement packet of a device in order to be listed on the Scanner dialog.
 		// If null is returned no filtering is done.
 		return TemplateManager.SERVICE_UUID;
+		//return TemplateManager.BASE_UUID;
+		//return null;
 	}
 
 	@Override
@@ -171,9 +176,13 @@ public class TemplateActivity extends BleProfileServiceReadyActivity<TemplateSer
 			final BluetoothDevice device = intent.getParcelableExtra(TemplateService.EXTRA_DEVICE);
 
 			if (TemplateService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
-				final int value = intent.getIntExtra(TemplateService.EXTRA_DATA, 0);
+				byte[] value = intent.getByteArrayExtra(TemplateService.EXTRA_DATA);
 				// Update GUI
-				setValueOnView(device, value);
+				int[] intValue = new int[20];
+				for(int i=0; i<20; i++){
+					intValue[i] = value[i] & 0xFF;
+				}
+				setValueOnView(device, intValue[1]);
 			} else if (TemplateService.BROADCAST_BATTERY_LEVEL.equals(action)) {
 				final int batteryLevel = intent.getIntExtra(TemplateService.EXTRA_BATTERY_LEVEL, 0);
 				// Update GUI

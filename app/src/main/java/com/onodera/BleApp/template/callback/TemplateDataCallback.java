@@ -14,9 +14,8 @@ import no.nordicsemi.android.ble.data.Data;
  *
  * TODO Modify the content to parse your data.
  */
-@SuppressWarnings("ConstantConditions")
-public abstract class TemplateDataCallback implements ProfileDataCallback, TemplateCharacteristicCallback {
 
+public abstract class TemplateDataCallback implements ProfileDataCallback, TemplateCharacteristicCallback {
 	@Override
 	public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
 		if (data.size() < 2) {
@@ -24,6 +23,7 @@ public abstract class TemplateDataCallback implements ProfileDataCallback, Templ
 			return;
 		}
 
+		/*
 		// Read flags
 		int offset = 0;
 		final int flags = data.getIntValue(Data.FORMAT_UINT8, offset);
@@ -38,8 +38,10 @@ public abstract class TemplateDataCallback implements ProfileDataCallback, Templ
 
 		final int value = data.getIntValue(hearRateType, offset);
 		// offset += hearRateType & 0xF;
-
+		*/
 		// ...
+
+		final byte[] value = data.getValue();
 
 		// Report the parsed value(s)
 		onSampleValueReceived(device, value);

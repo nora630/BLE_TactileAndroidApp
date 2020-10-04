@@ -50,6 +50,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.onodera.BleApp.R;
+import com.onodera.BleApp.template.TemplateManager;
+
 import no.nordicsemi.android.support.v18.scanner.BluetoothLeScannerCompat;
 import no.nordicsemi.android.support.v18.scanner.ScanCallback;
 import no.nordicsemi.android.support.v18.scanner.ScanFilter;
@@ -136,6 +138,7 @@ public class ScannerFragment extends DialogFragment {
 		if (args != null && args.containsKey(PARAM_UUID)) {
 			uuid = args.getParcelable(PARAM_UUID);
 		}
+
 
 		final BluetoothManager manager = (BluetoothManager) requireContext().getSystemService(Context.BLUETOOTH_SERVICE);
 		if (manager != null) {

@@ -411,10 +411,12 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 			case android.R.id.home:
 				onBackPressed();
 				break;
+			/*
 			case R.id.action_about:
 				final AppHelpFragment fragment = AppHelpFragment.getInstance(getAboutTextId());
 				fragment.show(getSupportFragmentManager(), "help_fragment");
 				break;
+			 */
 			default:
 				return onOptionsItemSelected(id);
 		}
