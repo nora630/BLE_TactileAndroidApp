@@ -51,7 +51,7 @@ public class TemplateActivity extends BleProfileServiceReadyActivity<TemplateSer
 
 	// TODO change view references to match your need
 	private TextView valueView;
-	private TextView batteryLevelView;
+	//private TextView batteryLevelView;
 
 	@Override
 	protected void onCreateView(final Bundle savedInstanceState) {
@@ -63,13 +63,16 @@ public class TemplateActivity extends BleProfileServiceReadyActivity<TemplateSer
 	private void setGUI() {
 		// TODO assign your views to fields
 		valueView = findViewById(R.id.value);
-		batteryLevelView = findViewById(R.id.battery);
+		//batteryLevelView = findViewById(R.id.battery);
 
+		/*
 		findViewById(R.id.action_set_name).setOnClickListener(v -> {
 			if (isDeviceConnected()) {
 				getService().performAction("Template");
 			}
 		});
+
+		 */
 	}
 
 	@Override
@@ -87,7 +90,7 @@ public class TemplateActivity extends BleProfileServiceReadyActivity<TemplateSer
 	protected void setDefaultUI() {
 		// TODO clear your UI
 		valueView.setText(R.string.not_available_value);
-		batteryLevelView.setText(R.string.not_available);
+		//batteryLevelView.setText(R.string.not_available);
 	}
 
 	@Override
@@ -154,7 +157,7 @@ public class TemplateActivity extends BleProfileServiceReadyActivity<TemplateSer
 	@Override
 	public void onDeviceDisconnected(@NonNull final BluetoothDevice device) {
 		super.onDeviceDisconnected(device);
-		batteryLevelView.setText(R.string.not_available);
+		//batteryLevelView.setText(R.string.not_available);
 	}
 
 	// Handling updates from the device
@@ -166,7 +169,7 @@ public class TemplateActivity extends BleProfileServiceReadyActivity<TemplateSer
 
 	@SuppressWarnings("unused")
 	public void onBatteryLevelChanged(@NonNull final BluetoothDevice device, final int value) {
-		batteryLevelView.setText(getString(R.string.battery, value));
+		//batteryLevelView.setText(getString(R.string.battery, value));
 	}
 
 	private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {

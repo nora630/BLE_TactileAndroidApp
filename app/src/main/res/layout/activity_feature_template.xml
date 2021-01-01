@@ -38,6 +38,7 @@
 
 		<!-- The size of text below must be fixed, therefore dp are used instead of sp -->
 
+		<!--
 		<androidx.appcompat.widget.AppCompatTextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -62,23 +63,91 @@
 			android:text="@string/not_available"
 			android:textColor="#FFFFFF"
 			android:textSize="12sp"/>
+			-->
 
-		<androidx.appcompat.widget.AppCompatTextView
-			android:id="@+id/device_name"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="10dp"
-			android:layout_marginTop="@dimen/feature_device_name_margin_top"
-			android:layout_toRightOf="@+id/battery"
-			android:ellipsize="end"
-			android:freezesText="true"
-			android:maxLines="1"
-			android:text="@string/template_default_name"
-			android:textAllCaps="true"
-			android:textAppearance="?android:attr/textAppearanceLarge"/>
+		<TableLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" >
+
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/device_name"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:ellipsize="end"
+					android:freezesText="true"
+					android:maxLines="1"
+					android:text="@string/template_default_name"
+					android:textAllCaps="true"
+					android:textAppearance="?android:attr/textAppearanceLarge" />
+
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/value"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:freezesText="true"
+					android:text="@string/not_available_value" />
+
+			</TableRow>
+
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" >
+
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/action_connect"
+					style="@style/Widget.Connect"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentBottom="true"
+					android:onClick="onConnectClicked"
+					android:text="@string/action_connect" />
+			</TableRow>
+
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" >
+
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/device_name2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:ellipsize="end"
+					android:freezesText="true"
+					android:maxLines="1"
+					android:text="@string/template_default_name"
+					android:textAllCaps="true"
+					android:textAppearance="?android:attr/textAppearanceLarge" />
+
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/value2"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:freezesText="true"
+					android:text="@string/not_available_value" />
+			</TableRow>
+
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" >
+
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/action_connect2"
+					style="@style/Widget.Connect"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentBottom="true"
+					android:onClick="onConnectClicked"
+					android:text="@string/action_connect" />
+			</TableRow>
+		</TableLayout>
 
 		<!-- Application section -->
 
+		<!--
 		<LinearLayout
 			android:id="@+id/container"
 			style="@style/Widget.List"
@@ -132,7 +201,9 @@
 
 			</TableLayout>
 		</LinearLayout>
+		-->
 
+		<!--
 		<com.google.android.material.button.MaterialButton
 			android:id="@+id/action_set_name"
 			style="@style/Widget.MaterialComponents.Button"
@@ -142,17 +213,7 @@
 			android:layout_below="@+id/container"
 			app:backgroundTint="@color/nordicLake"
 			android:text="@string/template_action"/>
-
-		<com.google.android.material.button.MaterialButton
-			android:id="@+id/action_connect"
-			style="@style/Widget.Connect"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true"
-			android:layout_centerHorizontal="true"
-			android:layout_marginBottom="@dimen/activity_vertical_margin_bottom"
-			android:onClick="onConnectClicked"
-			android:text="@string/action_connect"/>
+		-->
 
 	</com.onodera.BleApp.widget.ForegroundRelativeLayout>
 </LinearLayout>
