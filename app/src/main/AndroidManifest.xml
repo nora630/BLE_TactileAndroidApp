@@ -45,7 +45,7 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.TranslucentStatusBar"></activity>
         <activity
-            android:name=".template.TemplateActivity"
+            android:name=".template.BleMainActivity"
             android:icon="@drawable/ic_template_feature"
             android:label="@string/template_feature_title">
             <intent-filter>
@@ -200,7 +200,7 @@
             android:authorities="com.onodera.BleApp.uart.log"
             android:exported="true" />
         <service
-            android:name=".template.TemplateService"
+            android:name=".template.AccelerometerService"
             android:label="@string/template_feature_title" />
 
         <service

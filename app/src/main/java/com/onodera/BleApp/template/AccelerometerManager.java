@@ -36,16 +36,16 @@ import no.nordicsemi.android.ble.data.Data;
 import no.nordicsemi.android.log.LogContract;
 import com.onodera.BleApp.battery.BatteryManager;
 import com.onodera.BleApp.parser.TemplateParser;
-import com.onodera.BleApp.template.callback.TemplateDataCallback;
+import com.onodera.BleApp.template.callback.AccelerometerDataCallback;
 
 /**
  * Modify to template manager to match your requirements.
  * The TemplateManager extends {@link BatteryManager}, but it may easily extend {@link BleManager}
  * instead if you don't need Battery Service support. If not, also modify the
- * {@link TemplateManagerCallbacks} to extend {@link no.nordicsemi.android.ble.BleManagerCallbacks}
+ * {@link AccelerometerManagerCallbacks} to extend {@link no.nordicsemi.android.ble.BleManagerCallbacks}
  * and replace BatteryManagerGattCallback to BleManagerGattCallback in this class.
  */
-public class TemplateManager extends BatteryManager<TemplateManagerCallbacks> {
+public class AccelerometerManager extends BatteryManager<AccelerometerManagerCallbacks> {
 	// TODO Replace the services and characteristics below to match your device.
 
 	public static final UUID BASE_UUID = UUID.fromString("0200180A-4202-37BB-EA11-139884E095EA");
@@ -53,12 +53,12 @@ public class TemplateManager extends BatteryManager<TemplateManagerCallbacks> {
 	 * The service UUID.
 	 */
 	//static final UUID SERVICE_UUID = UUID.fromString("0000180D-0000-1000-8000-00805f9b34fb"); // Heart Rate service
-	static final UUID SERVICE_UUID = UUID.fromString("0200ABCD-4202-37BB-EA11-139884E095EA"); // Accelerometer service
+	static final UUID ACCEL_SERVICE_UUID = UUID.fromString("0200ABCD-4202-37BB-EA11-139884E095EA"); // Accelerometer service
 	/**
 	 * A UUID of a characteristic with notify property.
 	 */
 	//private static final UUID MEASUREMENT_CHARACTERISTIC_UUID = UUID.fromString("00002A37-0000-1000-8000-00805f9b34fb"); // Heart Rate Measurement
-	private static final UUID MEASUREMENT_CHARACTERISTIC_UUID = UUID.fromString("0200ABCE-4202-37BB-EA11-139884E095EA"); // Accelerometer Measurement
+	private static final UUID ACCEL_CHARACTERISTIC_UUID = UUID.fromString("0200ABCE-4202-37BB-EA11-139884E095EA"); // Accelerometer Measurement
 	/**
 	 * A UUID of a characteristic with read property.
 	 */
@@ -77,21 +77,21 @@ public class TemplateManager extends BatteryManager<TemplateManagerCallbacks> {
 	//private BluetoothGattCharacteristic requiredCharacteristic, deviceNameCharacteristic, optionalCharacteristic;
 	private BluetoothGattCharacteristic requiredCharacteristic;
 
-	public TemplateManager(final Context context) {
+	public AccelerometerManager(final Context context) {
 		super(context);
 	}
 
 	@NonNull
 	@Override
 	protected BatteryManagerGattCallback getGattCallback() {
-		return new TemplateManagerGattCallback();
+		return new AccelerometerManagerGattCallback();
 	}
 
 	/**
 	 * BluetoothGatt callbacks for connection/disconnection, service discovery,
 	 * receiving indication, etc.
 	 */
-	private class TemplateManagerGattCallback extends BatteryManagerGattCallback {
+	private class AccelerometerManagerGattCallback extends BatteryManagerGattCallback {
 
 		@Override
 		protected void initialize() {
@@ -120,7 +120,7 @@ public class TemplateManager extends BatteryManager<TemplateManagerCallbacks> {
 			// Set notification callback
 			setNotificationCallback(requiredCharacteristic)
 					// This callback will be called each time the notification is received
-					.with(new TemplateDataCallback() {
+					.with(new AccelerometerDataCallback() {
 						@Override
 						public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
 							log(LogContract.Log.Level.APPLICATION, TemplateParser.parse(data));
@@ -154,9 +154,9 @@ public class TemplateManager extends BatteryManager<TemplateManagerCallbacks> {
 		protected boolean isRequiredServiceSupported(@NonNull final BluetoothGatt gatt) {
 			// TODO Initialize required characteristics.
 			// It should return true if all has been discovered (that is that device is supported).
-			final BluetoothGattService service = gatt.getService(SERVICE_UUID);
+			final BluetoothGattService service = gatt.getService(ACCEL_SERVICE_UUID);
 			if (service != null) {
-				requiredCharacteristic = service.getCharacteristic(MEASUREMENT_CHARACTERISTIC_UUID);
+				requiredCharacteristic = service.getCharacteristic(ACCEL_CHARACTERISTIC_UUID);
 			}
 			//final BluetoothGattService otherService = gatt.getService(OTHER_SERVICE_UUID);
 			//if (otherService != null) {

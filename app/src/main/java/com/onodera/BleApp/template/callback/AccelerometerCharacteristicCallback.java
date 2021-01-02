@@ -11,7 +11,7 @@ import no.nordicsemi.android.ble.data.Data;
  * with a value (Heart Rate). The single method just returns the value and ignores other
  * optional data from Heart Rate Measurement characteristic for simplicity.
  */
-public interface TemplateCharacteristicCallback {
+public interface AccelerometerCharacteristicCallback {
 
 	/**
 	 * Called when a value is received.

@@ -10,13 +10,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -24,7 +21,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.onodera.BleApp.R;
-import com.onodera.BleApp.template.TemplateService;
+import com.onodera.BleApp.template.AccelerometerService;
 
 import java.util.ArrayList;
 
@@ -40,9 +37,9 @@ public class SendingSignalActivity extends AppCompatActivity {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             final String action = intent.getAction();
-            final BluetoothDevice device = intent.getParcelableExtra(TemplateService.EXTRA_DEVICE);
-            if (TemplateService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
-                byte[] value = intent.getByteArrayExtra(TemplateService.EXTRA_DATA);
+            final BluetoothDevice device = intent.getParcelableExtra(AccelerometerService.EXTRA_DEVICE);
+            if (AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
+                byte[] value = intent.getByteArrayExtra(AccelerometerService.EXTRA_DATA);
                 // Update GUI
                 //int[] intValue = new int[20];
                 int intValue;
@@ -191,7 +188,7 @@ public class SendingSignalActivity extends AppCompatActivity {
 
     private static IntentFilter makeIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(TemplateService.BROADCAST_TEMPLATE_MEASUREMENT);
+        intentFilter.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
         return intentFilter;
     }
 }

@@ -1,25 +1,3 @@
-/*
- * Copyright (c) 2015, Nordic Semiconductor
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
- * documentation and/or other materials provided with the distribution.
- *
- * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this
- * software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
- * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 package com.onodera.BleApp.template;
 
 import android.app.Notification;
@@ -36,15 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import no.nordicsemi.android.ble.data.Data;
-import no.nordicsemi.android.log.Logger;
 import com.onodera.BleApp.FeaturesActivity;
 import com.onodera.BleApp.R;
 import com.onodera.BleApp.ToolboxApplication;
 import com.onodera.BleApp.profile.BleProfileService;
 import com.onodera.BleApp.profile.LoggableBleManager;
 
-public class TemplateService extends BleProfileService implements TemplateManagerCallbacks {
+import no.nordicsemi.android.log.Logger;
+
+public class HapbeatService extends BleProfileService implements HapbeatManagerCallbacks {
     public static final String BROADCAST_TEMPLATE_MEASUREMENT = "com.onodera.BleApp.template.BROADCAST_MEASUREMENT";
     public static final String EXTRA_DATA = "com.onodera.BleApp.template.EXTRA_DATA";
 
@@ -57,7 +35,7 @@ public class TemplateService extends BleProfileService implements TemplateManage
     private final static int OPEN_ACTIVITY_REQ = 0;
     private final static int DISCONNECT_REQ = 1;
 
-    private TemplateManager manager;
+    private HapbeatManager manager;
 
     private final LocalBinder binder = new TemplateBinder();
 
@@ -83,8 +61,8 @@ public class TemplateService extends BleProfileService implements TemplateManage
     }
 
     @Override
-    protected LoggableBleManager<TemplateManagerCallbacks> initializeManager() {
-        return manager = new TemplateManager(this);
+    protected LoggableBleManager<HapbeatManagerCallbacks> initializeManager() {
+        return manager = new HapbeatManager(this);
     }
 
     @Override
@@ -115,18 +93,6 @@ public class TemplateService extends BleProfileService implements TemplateManage
         startForegroundService();
     }
 
-    @Override
-    public void onSampleValueReceived(@NonNull final BluetoothDevice device, final byte[] value) {
-        final Intent broadcast = new Intent(BROADCAST_TEMPLATE_MEASUREMENT);
-        broadcast.putExtra(EXTRA_DEVICE, getBluetoothDevice());
-        broadcast.putExtra(EXTRA_DATA, value);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
-
-        if (!bound) {
-            // Here we may update the notification to display the current value.
-            // TODO modify the notification here
-        }
-    }
 
     @Override
     public void onBatteryLevelChanged(@NonNull final BluetoothDevice device, final int batteryLevel) {
@@ -172,7 +138,7 @@ public class TemplateService extends BleProfileService implements TemplateManage
     private Notification createNotification(final int messageResId, final int defaults) {
         final Intent parentIntent = new Intent(this, FeaturesActivity.class);
         parentIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        final Intent targetIntent = new Intent(this, TemplateActivity.class);
+        final Intent targetIntent = new Intent(this, BleMainActivity.class);
 
         final Intent disconnect = new Intent(ACTION_DISCONNECT);
         final PendingIntent disconnectAction = PendingIntent.getBroadcast(this, DISCONNECT_REQ, disconnect, PendingIntent.FLAG_UPDATE_CURRENT);

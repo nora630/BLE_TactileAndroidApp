@@ -50,7 +50,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.onodera.BleApp.R;
-import com.onodera.BleApp.template.TemplateManager;
 
 import no.nordicsemi.android.support.v18.scanner.BluetoothLeScannerCompat;
 import no.nordicsemi.android.support.v18.scanner.ScanCallback;

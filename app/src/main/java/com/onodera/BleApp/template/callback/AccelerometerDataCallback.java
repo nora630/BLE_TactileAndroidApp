@@ -15,7 +15,7 @@ import no.nordicsemi.android.ble.data.Data;
  * TODO Modify the content to parse your data.
  */
 
-public abstract class TemplateDataCallback implements ProfileDataCallback, TemplateCharacteristicCallback {
+public abstract class AccelerometerDataCallback implements ProfileDataCallback, AccelerometerCharacteristicCallback {
 	@Override
 	public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
 		if (data.size() < 2) {

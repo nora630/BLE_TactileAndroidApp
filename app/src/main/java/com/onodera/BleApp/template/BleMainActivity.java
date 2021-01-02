@@ -37,15 +37,12 @@ import java.util.UUID;
 import com.onodera.BleApp.R;
 import com.onodera.BleApp.profile.BleProfileService;
 import com.onodera.BleApp.profile.BleProfileServiceReadyActivity;
-import com.onodera.BleApp.template.settings.SettingsActivity;
 import com.onodera.BleApp.template.signal.SendingSignalActivity;
-
-import no.nordicsemi.android.ble.data.Data;
 
 /**
  * Modify the Template Activity to match your needs.
  */
-public class TemplateActivity extends BleProfileServiceReadyActivity<TemplateService.TemplateBinder> {
+public class BleMainActivity extends BleProfileServiceReadyActivity<AccelerometerService.TemplateBinder> {
 	@SuppressWarnings("unused")
 	private final String TAG = "TemplateActivity";
 
@@ -129,18 +126,18 @@ public class TemplateActivity extends BleProfileServiceReadyActivity<TemplateSer
 	protected UUID getFilterUUID() {
 		// TODO this method may return the UUID of the service that is required to be in the advertisement packet of a device in order to be listed on the Scanner dialog.
 		// If null is returned no filtering is done.
-		return TemplateManager.SERVICE_UUID;
+		//return TemplateManager.ACCEL_SERVICE_UUID;
 		//return TemplateManager.BASE_UUID;
-		//return null;
+		return null;
 	}
 
 	@Override
 	protected Class<? extends BleProfileService> getServiceClass() {
-		return TemplateService.class;
+		return AccelerometerService.class;
 	}
 
 	@Override
-	protected void onServiceBound(final TemplateService.TemplateBinder binder) {
+	protected void onServiceBound(final AccelerometerService.TemplateBinder binder) {
 		// not used
 	}
 
@@ -176,18 +173,18 @@ public class TemplateActivity extends BleProfileServiceReadyActivity<TemplateSer
 		@Override
 		public void onReceive(final Context context, final Intent intent) {
 			final String action = intent.getAction();
-			final BluetoothDevice device = intent.getParcelableExtra(TemplateService.EXTRA_DEVICE);
+			final BluetoothDevice device = intent.getParcelableExtra(AccelerometerService.EXTRA_DEVICE);
 
-			if (TemplateService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
-				byte[] value = intent.getByteArrayExtra(TemplateService.EXTRA_DATA);
+			if (AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
+				byte[] value = intent.getByteArrayExtra(AccelerometerService.EXTRA_DATA);
 				// Update GUI
 				int[] intValue = new int[20];
 				for(int i=0; i<20; i++){
 					intValue[i] = value[i] & 0xFF;
 				}
 				setValueOnView(device, intValue[1]);
-			} else if (TemplateService.BROADCAST_BATTERY_LEVEL.equals(action)) {
-				final int batteryLevel = intent.getIntExtra(TemplateService.EXTRA_BATTERY_LEVEL, 0);
+			} else if (AccelerometerService.BROADCAST_BATTERY_LEVEL.equals(action)) {
+				final int batteryLevel = intent.getIntExtra(AccelerometerService.EXTRA_BATTERY_LEVEL, 0);
 				// Update GUI
 				onBatteryLevelChanged(device, batteryLevel);
 			}
@@ -196,8 +193,8 @@ public class TemplateActivity extends BleProfileServiceReadyActivity<TemplateSer
 
 	private static IntentFilter makeIntentFilter() {
 		final IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(TemplateService.BROADCAST_TEMPLATE_MEASUREMENT);
-		intentFilter.addAction(TemplateService.BROADCAST_BATTERY_LEVEL);
+		intentFilter.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
+		intentFilter.addAction(AccelerometerService.BROADCAST_BATTERY_LEVEL);
 		return intentFilter;
 	}
 }

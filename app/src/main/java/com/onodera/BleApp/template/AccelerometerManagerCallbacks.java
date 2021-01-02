@@ -22,13 +22,13 @@
 package com.onodera.BleApp.template;
 
 import com.onodera.BleApp.battery.BatteryManagerCallbacks;
-import com.onodera.BleApp.template.callback.TemplateCharacteristicCallback;
+import com.onodera.BleApp.template.callback.AccelerometerCharacteristicCallback;
 
 /**
- * Interface {@link TemplateManagerCallbacks} must be implemented by {@link TemplateService}
- * in order to receive callbacks from {@link TemplateManager}
+ * Interface {@link AccelerometerManagerCallbacks} must be implemented by {@link AccelerometerService}
+ * in order to receive callbacks from {@link AccelerometerManager}
  */
-interface TemplateManagerCallbacks extends BatteryManagerCallbacks, TemplateCharacteristicCallback {
+interface AccelerometerManagerCallbacks extends BatteryManagerCallbacks, AccelerometerCharacteristicCallback {
 
 	// Callbacks are called when a data has been received/written to a remote device.
 	// This is the way how the manager notifies the activity about this event.
