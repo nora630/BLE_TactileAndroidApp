@@ -74,7 +74,7 @@
 				android:layout_height="match_parent" >
 
 				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/device_name"
+					android:id="@+id/accelerometer_name"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:ellipsize="end"
@@ -98,12 +98,12 @@
 				android:layout_height="match_parent" >
 
 				<com.google.android.material.button.MaterialButton
-					android:id="@+id/action_connect"
+					android:id="@+id/accelerometer_connect"
 					style="@style/Widget.Connect"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_alignParentBottom="true"
-					android:onClick="onConnectClicked"
+					android:onClick="onConnectAccelClicked"
 					android:text="@string/action_connect" />
 			</TableRow>
 
@@ -112,7 +112,7 @@
 				android:layout_height="match_parent" >
 
 				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/device_name2"
+					android:id="@+id/hapbeat_name"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:ellipsize="end"
@@ -135,12 +135,12 @@
 				android:layout_height="match_parent" >
 
 				<com.google.android.material.button.MaterialButton
-					android:id="@+id/action_connect2"
+					android:id="@+id/hapbeat_connect"
 					style="@style/Widget.Connect"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_alignParentBottom="true"
-					android:onClick="onConnectClicked"
+					android:onClick="onConnectHapbeatClicked"
 					android:text="@string/action_connect" />
 			</TableRow>
 		</TableLayout>

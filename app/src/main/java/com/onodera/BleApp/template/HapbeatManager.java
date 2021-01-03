@@ -21,17 +21,17 @@ import no.nordicsemi.android.log.LogContract;
 public class HapbeatManager extends BatteryManager<HapbeatManagerCallbacks> {
     // TODO Replace the services and characteristics below to match your device.
 
-    public static final UUID BASE_UUID = UUID.fromString("0200180A-4202-37BB-EA11-139884E095EA");
+    public static final UUID BASE_UUID = UUID.fromString("AD3EBCDE-B686-40A6-E94B-012E2B3BEA8D");
     /**
      * The service UUID.
      */
     //static final UUID SERVICE_UUID = UUID.fromString("0000180D-0000-1000-8000-00805f9b34fb"); // Heart Rate service
-    static final UUID ACCEL_SERVICE_UUID = UUID.fromString("0200ABCD-4202-37BB-EA11-139884E095EA"); // Accelerometer service
+    static final UUID HAPBEAT_SERVICE_UUID = UUID.fromString("AD3EBCDE-B686-40A6-E94B-012E2B3BEA8D"); // Accelerometer service
     /**
      * A UUID of a characteristic with notify property.
      */
     //private static final UUID MEASUREMENT_CHARACTERISTIC_UUID = UUID.fromString("00002A37-0000-1000-8000-00805f9b34fb"); // Heart Rate Measurement
-    private static final UUID ACCEL_CHARACTERISTIC_UUID = UUID.fromString("0200ABCE-4202-37BB-EA11-139884E095EA"); // Accelerometer Measurement
+    private static final UUID HAPBEAT_CHARACTERISTIC_UUID = UUID.fromString("AD3EBCDF-B686-40A6-E94B-012E2B3BEA8D"); // Accelerometer Measurement
     /**
      * A UUID of a characteristic with read property.
      */
@@ -127,9 +127,9 @@ public class HapbeatManager extends BatteryManager<HapbeatManagerCallbacks> {
         protected boolean isRequiredServiceSupported(@NonNull final BluetoothGatt gatt) {
             // TODO Initialize required characteristics.
             // It should return true if all has been discovered (that is that device is supported).
-            final BluetoothGattService service = gatt.getService(ACCEL_SERVICE_UUID);
+            final BluetoothGattService service = gatt.getService(HAPBEAT_SERVICE_UUID);
             if (service != null) {
-                requiredCharacteristic = service.getCharacteristic(ACCEL_CHARACTERISTIC_UUID);
+                requiredCharacteristic = service.getCharacteristic(HAPBEAT_CHARACTERISTIC_UUID);
             }
             //final BluetoothGattService otherService = gatt.getService(OTHER_SERVICE_UUID);
             //if (otherService != null) {

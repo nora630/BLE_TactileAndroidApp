@@ -88,6 +88,26 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 	private BluetoothDevice bluetoothDevice;
 	private String deviceName;
 
+	public void setDeviceNameView(TextView view){
+		this.deviceNameView = view;
+	}
+
+	public void setConnectButton(Button view){
+		this.connectButton = view;
+	}
+
+	public void setLogSession(ILogSession d){
+		this.logSession = d;
+	}
+
+	public void setBluetoothDevice(BluetoothDevice bd){
+		this.bluetoothDevice = bd;
+	}
+
+	public void setDeviceName(String s){
+		this.deviceName = s;
+	}
+
 	private final BroadcastReceiver commonBroadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(final Context context, final Intent intent) {
@@ -672,4 +692,6 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 		final Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 		startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
 	}
+
+
 }
