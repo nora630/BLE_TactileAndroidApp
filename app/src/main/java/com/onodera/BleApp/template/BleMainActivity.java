@@ -42,7 +42,7 @@ import com.onodera.BleApp.template.signal.SendingSignalActivity;
 /**
  * Modify the Template Activity to match your needs.
  */
-public class BleMainActivity extends BleProfileServiceReadyActivity<AccelerometerService.TemplateBinder> {
+public class BleMainActivity extends BleConnectActivity {
 	@SuppressWarnings("unused")
 	private final String TAG = "TemplateActivity";
 
@@ -95,10 +95,6 @@ public class BleMainActivity extends BleProfileServiceReadyActivity<Acceleromete
 		return R.string.template_feature_title;
 	}
 
-	@Override
-	protected int getAboutTextId() {
-		return R.string.template_about_text;
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
@@ -120,41 +116,6 @@ public class BleMainActivity extends BleProfileServiceReadyActivity<Acceleromete
 	@Override
 	protected int getDefaultDeviceName() {
 		return R.string.template_default_name;
-	}
-
-	@Override
-	protected UUID getFilterUUID() {
-		// TODO this method may return the UUID of the service that is required to be in the advertisement packet of a device in order to be listed on the Scanner dialog.
-		// If null is returned no filtering is done.
-		return AccelerometerManager.ACCEL_SERVICE_UUID;
-		//return TemplateManager.BASE_UUID;
-		//return null;
-	}
-
-	@Override
-	protected Class<? extends BleProfileService> getServiceClass() {
-		return AccelerometerService.class;
-	}
-
-	@Override
-	protected void onServiceBound(final AccelerometerService.TemplateBinder binder) {
-		// not used
-	}
-
-	@Override
-	protected void onServiceUnbound() {
-		// not used
-	}
-
-	@Override
-	public void onServicesDiscovered(@NonNull final BluetoothDevice device, final boolean optionalServicesFound) {
-		// this may notify user or show some views
-	}
-
-	@Override
-	public void onDeviceDisconnected(@NonNull final BluetoothDevice device) {
-		super.onDeviceDisconnected(device);
-		//batteryLevelView.setText(R.string.not_available);
 	}
 
 	// Handling updates from the device

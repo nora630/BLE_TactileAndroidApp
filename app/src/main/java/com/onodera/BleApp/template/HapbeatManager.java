@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.onodera.BleApp.template.callback.AccelerometerDataCallback;
 
 import java.util.UUID;
 
+import no.nordicsemi.android.ble.WriteRequest;
 import no.nordicsemi.android.ble.data.Data;
 import no.nordicsemi.android.log.LogContract;
 
@@ -49,6 +51,7 @@ public class HapbeatManager extends BatteryManager<HapbeatManagerCallbacks> {
     // TODO Add more services and characteristics references.
     //private BluetoothGattCharacteristic requiredCharacteristic, deviceNameCharacteristic, optionalCharacteristic;
     private BluetoothGattCharacteristic requiredCharacteristic;
+    private boolean useLongWrite = true;
 
     public HapbeatManager(final Context context) {
         super(context);
@@ -67,63 +70,6 @@ public class HapbeatManager extends BatteryManager<HapbeatManagerCallbacks> {
     private class HapbeatManagerGattCallback extends BatteryManagerGattCallback {
 
         @Override
-        protected void initialize() {
-            // Initialize the Battery Manager. It will enable Battery Level notifications.
-            // Remove it if you don't need this feature.
-            super.initialize();
-
-            // TODO Initialize your manager here.
-            // Initialization is done once, after the device is connected. Usually it should
-            // enable notifications or indications on some characteristics, write some data or
-            // read some features / version.
-            // After the initialization is complete, the onDeviceReady(...) method will be called.
-
-            // Increase the MTU
-			/*
-			requestMtu(43)
-					.with((device, mtu) -> log(LogContract.Log.Level.APPLICATION, "MTU changed to " + mtu))
-					.done(device -> {
-						// You may do some logic in here that should be done when the request finished successfully.
-						// In case of MTU this method is called also when the MTU hasn't changed, or has changed
-						// to a different (lower) value. Use .with(...) to get the MTU value.
-					})
-					.fail((device, status) -> log(Log.WARN, "MTU change not supported"))
-					.enqueue();
-			*/
-            // Set notification callback
-            setNotificationCallback(requiredCharacteristic)
-                    // This callback will be called each time the notification is received
-                    .with(new AccelerometerDataCallback() {
-                        @Override
-                        public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
-                            log(LogContract.Log.Level.APPLICATION, TemplateParser.parse(data));
-                            super.onDataReceived(device, data);
-                        }
-
-                        @Override
-                        public void onSampleValueReceived(@NonNull final BluetoothDevice device, final byte[] value) {
-                            // Let's lass received data to the service
-                            //callbacks.onSampleValueReceived(device, value);
-                        }
-
-                        @Override
-                        public void onInvalidDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
-                            log(Log.WARN, "Invalid data received: " + data);
-                        }
-                    });
-
-            // Enable notifications
-            enableNotifications(requiredCharacteristic)
-                    // Method called after the data were sent (data will contain 0x0100 in this case)
-                    .with((device, data) -> log(Log.DEBUG, "Data sent: " + data))
-                    // Method called when the request finished successfully. This will be called after .with(..) callback
-                    .done(device -> log(LogContract.Log.Level.APPLICATION, "Notifications enabled successfully"))
-                    // Methods called in case of an error, for example when the characteristic does not have Notify property
-                    .fail((device, status) -> log(Log.WARN, "Failed to enable notifications"))
-                    .enqueue();
-        }
-
-        @Override
         protected boolean isRequiredServiceSupported(@NonNull final BluetoothGatt gatt) {
             // TODO Initialize required characteristics.
             // It should return true if all has been discovered (that is that device is supported).
@@ -131,12 +77,25 @@ public class HapbeatManager extends BatteryManager<HapbeatManagerCallbacks> {
             if (service != null) {
                 requiredCharacteristic = service.getCharacteristic(HAPBEAT_CHARACTERISTIC_UUID);
             }
-            //final BluetoothGattService otherService = gatt.getService(OTHER_SERVICE_UUID);
-            //if (otherService != null) {
-            //deviceNameCharacteristic = otherService.getCharacteristic(WRITABLE_CHARACTERISTIC_UUID);
-            //}
-            //return requiredCharacteristic != null && deviceNameCharacteristic != null;
-            return requiredCharacteristic != null;
+
+            boolean writeRequest = false;
+            boolean writeCommand = false;
+            if (requiredCharacteristic != null) {
+                final int rxProperties = requiredCharacteristic.getProperties();
+                writeRequest = (rxProperties & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0;
+                writeCommand = (rxProperties & BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE) > 0;
+
+                // Set the WRITE REQUEST type when the characteristic supports it.
+                // This will allow to send long write (also if the characteristic support it).
+                // In case there is no WRITE REQUEST property, this manager will divide texts
+                // longer then MTU-3 bytes into up to MTU-3 bytes chunks.
+                if (writeRequest)
+                    requiredCharacteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+                else
+                    useLongWrite = false;
+            }
+
+            return requiredCharacteristic != null && (writeRequest || writeCommand);
         }
 		/*
 		@Override
@@ -160,60 +119,30 @@ public class HapbeatManager extends BatteryManager<HapbeatManagerCallbacks> {
 
             // TODO Release references to your characteristics.
             requiredCharacteristic = null;
+            useLongWrite = true;
             //deviceNameCharacteristic = null;
             //optionalCharacteristic = null;
         }
-
-		/*
-		@Override
-		protected void onDeviceReady() {
-			super.onDeviceReady();
-
-			// Initialization is now ready.
-			// The service or activity has been notified with TemplateManagerCallbacks#onDeviceReady().
-			// TODO Do some extra logic here, of remove onDeviceReady().
-
-			// Device is ready, let's read something here. Usually there is nothing else to be done
-			// here, as all had been done during initialization.
-			readCharacteristic(optionalCharacteristic)
-					.with((device, data) -> {
-						// Characteristic value has been read
-						// Let's do some magic with it.
-						if (data.size() > 0) {
-							final Integer value = data.getIntValue(Data.FORMAT_UINT8, 0);
-							log(LogContract.Log.Level.APPLICATION, "Value '" + value + "' has been read!");
-						} else {
-							log(Log.WARN, "Value is empty!");
-						}
-					})
-					.enqueue();
-		}*/
     }
 
-    // TODO Define manager's API
-
     /**
-     * This method will write important data to the device.
-     *
-     * @param parameter parameter to be written.
+     * Sends the given text to RX characteristic.
+     * @param text the text to be sent
      */
-    void performAction(final String parameter) {
-		/*
-		log(Log.VERBOSE, "Changing device name to \"" + parameter + "\"");
-		// Write some data to the characteristic.
-		writeCharacteristic(deviceNameCharacteristic, Data.from(parameter))
-				// If data are longer than MTU-3, they will be chunked into multiple packets.
-				// Check out other split options, with .split(...).
-				.split()
-				// Callback called when data were sent, or added to outgoing queue in case
-				// Write Without Request type was used.
-				.with((device, data) -> log(Log.DEBUG, data.size() + " bytes were sent"))
-				// Callback called when data were sent, or added to outgoing queue in case
-				// Write Without Request type was used. This is called after .with(...) callback.
-				.done(device -> log(LogContract.Log.Level.APPLICATION, "Device name set to \"" + parameter + "\""))
-				// Callback called when write has failed.
-				.fail((device, status) -> log(Log.WARN, "Failed to change device name"))
-				.enqueue();
-	*/
+    public void send(final String text) {
+        // Are we connected?
+        if (requiredCharacteristic == null)
+            return;
+
+        if (!TextUtils.isEmpty(text)) {
+            final WriteRequest request = writeCharacteristic(requiredCharacteristic, text.getBytes())
+                    .with((device, data) -> log(LogContract.Log.Level.APPLICATION,
+                            "\"" + data.getStringValue(0) + "\" sent"));
+            if (!useLongWrite) {
+                // This will automatically split the long data into MTU-3-byte long packets.
+                request.split();
+            }
+            request.enqueue();
+        }
     }
 }

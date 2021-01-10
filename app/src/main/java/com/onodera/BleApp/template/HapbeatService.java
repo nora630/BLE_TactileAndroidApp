@@ -52,9 +52,12 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
          *
          * @param parameter some parameter.
          */
+        /*
         void performAction(final String parameter) {
             manager.performAction(parameter);
         }
+
+         */
     }
 
     @Override

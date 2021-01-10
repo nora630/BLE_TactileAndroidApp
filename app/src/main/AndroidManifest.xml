@@ -216,6 +216,9 @@
             android:name=".template.AccelerometerService"
             android:label="@string/template_feature_title" />
         <service
+            android:name=".template.HapbeatService"
+            android:label="@string/template_feature_title" />
+        <service
             android:name=".proximity.ProximityService"
             android:label="@string/proximity_feature_title" />
         <service
