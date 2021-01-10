@@ -53,7 +53,7 @@ public class AccelerometerManager extends BatteryManager<AccelerometerManagerCal
 	 * The service UUID.
 	 */
 	//static final UUID SERVICE_UUID = UUID.fromString("0000180D-0000-1000-8000-00805f9b34fb"); // Heart Rate service
-	static final UUID ACCEL_SERVICE_UUID = UUID.fromString("0200ABCD-4202-37BB-EA11-139884E095EA"); // Accelerometer service
+	public static final UUID ACCEL_SERVICE_UUID = UUID.fromString("0200ABCD-4202-37BB-EA11-139884E095EA"); // Accelerometer service
 	/**
 	 * A UUID of a characteristic with notify property.
 	 */

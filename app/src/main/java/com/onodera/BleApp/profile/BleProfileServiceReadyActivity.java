@@ -72,6 +72,7 @@ import com.onodera.BleApp.utility.DebugLogger;
 @SuppressWarnings("unused")
 public abstract class BleProfileServiceReadyActivity<E extends BleProfileService.LocalBinder> extends AppCompatActivity implements
 		ScannerFragment.OnDeviceSelectedListener, BleManagerCallbacks {
+
 	private static final String TAG = "BleProfileServiceReadyActivity";
 
 	private static final String SIS_DEVICE_NAME = "device_name";
@@ -111,7 +112,7 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 							break;
 						}
 						case BleProfileService.STATE_DISCONNECTED: {
-							onDeviceDisconnected(bluetoothDevice);
+							 onDeviceDisconnected(bluetoothDevice);
 							deviceName = null;
 							break;
 						}

@@ -140,7 +140,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_alignParentBottom="true"
-					android:onClick="onConnectClicked"
+					android:onClick="onConnectClicked2"
 					android:text="@string/action_connect" />
 			</TableRow>
 		</TableLayout>

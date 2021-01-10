@@ -56,6 +56,8 @@ public class AccelerometerService extends BleProfileService implements Accelerom
     private final static int OPEN_ACTIVITY_REQ = 0;
     private final static int DISCONNECT_REQ = 1;
 
+    public static final int ACCELEROMETER = 1;
+
     private AccelerometerManager manager;
 
     private final LocalBinder binder = new TemplateBinder();
@@ -130,6 +132,135 @@ public class AccelerometerService extends BleProfileService implements Accelerom
     @Override
     public void onBatteryLevelChanged(@NonNull final BluetoothDevice device, final int batteryLevel) {
 
+    }
+
+    @Override
+    public void onDeviceConnecting(@NonNull final BluetoothDevice device) {
+        final Intent broadcast = new Intent(BROADCAST_CONNECTION_STATE);
+        broadcast.putExtra(EXTRA_DISTINGUISH, ACCELEROMETER);
+        broadcast.putExtra(EXTRA_DEVICE, bluetoothDevice);
+        broadcast.putExtra(EXTRA_CONNECTION_STATE, STATE_CONNECTING);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+    }
+
+    @Override
+    public void onDeviceConnected(@NonNull final BluetoothDevice device) {
+        final Intent broadcast = new Intent(BROADCAST_CONNECTION_STATE);
+        broadcast.putExtra(EXTRA_DISTINGUISH, ACCELEROMETER);
+        broadcast.putExtra(EXTRA_CONNECTION_STATE, STATE_CONNECTED);
+        broadcast.putExtra(EXTRA_DEVICE, bluetoothDevice);
+        broadcast.putExtra(EXTRA_DEVICE_NAME, deviceName);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+    }
+
+    @Override
+    public void onDeviceDisconnecting(@NonNull final BluetoothDevice device) {
+        // Notify user about changing the state to DISCONNECTING
+        final Intent broadcast = new Intent(BROADCAST_CONNECTION_STATE);
+        broadcast.putExtra(EXTRA_DISTINGUISH, ACCELEROMETER);
+        broadcast.putExtra(EXTRA_DEVICE, bluetoothDevice);
+        broadcast.putExtra(EXTRA_CONNECTION_STATE, STATE_DISCONNECTING);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+    }
+
+    @Override
+    public void onDeviceDisconnected(@NonNull final BluetoothDevice device) {
+        // Note 1: Do not use the device argument here unless you change calling onDeviceDisconnected from the binder above
+
+        // Note 2: if BleManager#shouldAutoConnect() for this device returned true, this callback will be
+        // invoked ONLY when user requested disconnection (using Disconnect button). If the device
+        // disconnects due to a link loss, the onLinkLossOccurred(BluetoothDevice) method will be called instead.
+
+        final Intent broadcast = new Intent(BROADCAST_CONNECTION_STATE);
+        broadcast.putExtra(EXTRA_DISTINGUISH, ACCELEROMETER);
+        broadcast.putExtra(EXTRA_DEVICE, bluetoothDevice);
+        broadcast.putExtra(EXTRA_CONNECTION_STATE, STATE_DISCONNECTED);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+
+        if (stopWhenDisconnected())
+            stopService();
+    }
+
+    @Override
+    public void onLinkLossOccurred(@NonNull final BluetoothDevice device) {
+        final Intent broadcast = new Intent(BROADCAST_CONNECTION_STATE);
+        broadcast.putExtra(EXTRA_DISTINGUISH, ACCELEROMETER);
+        broadcast.putExtra(EXTRA_DEVICE, bluetoothDevice);
+        broadcast.putExtra(EXTRA_CONNECTION_STATE, STATE_LINK_LOSS);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+    }
+
+    @Override
+    public void onServicesDiscovered(@NonNull final BluetoothDevice device, final boolean optionalServicesFound) {
+        final Intent broadcast = new Intent(BROADCAST_SERVICES_DISCOVERED);
+        broadcast.putExtra(EXTRA_DISTINGUISH, ACCELEROMETER);
+        broadcast.putExtra(EXTRA_DEVICE, bluetoothDevice);
+        broadcast.putExtra(EXTRA_SERVICE_PRIMARY, true);
+        broadcast.putExtra(EXTRA_SERVICE_SECONDARY, optionalServicesFound);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+    }
+
+    @Override
+    public void onDeviceReady(@NonNull final BluetoothDevice device) {
+        final Intent broadcast = new Intent(BROADCAST_DEVICE_READY);
+        broadcast.putExtra(EXTRA_DISTINGUISH, ACCELEROMETER);
+        broadcast.putExtra(EXTRA_DEVICE, bluetoothDevice);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+    }
+
+    @Override
+    public void onDeviceNotSupported(@NonNull final BluetoothDevice device) {
+        final Intent broadcast = new Intent(BROADCAST_SERVICES_DISCOVERED);
+        broadcast.putExtra(EXTRA_DISTINGUISH, ACCELEROMETER);
+        broadcast.putExtra(EXTRA_DEVICE, bluetoothDevice);
+        broadcast.putExtra(EXTRA_SERVICE_PRIMARY, false);
+        broadcast.putExtra(EXTRA_SERVICE_SECONDARY, false);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+
+        // no need for disconnecting, it will be disconnected by the manager automatically
+    }
+
+    @Override
+    public void onBondingRequired(@NonNull final BluetoothDevice device) {
+        showToast(com.onodera.BleApp.common.R.string.bonding);
+
+        final Intent broadcast = new Intent(BROADCAST_BOND_STATE);
+        broadcast.putExtra(EXTRA_DISTINGUISH, ACCELEROMETER);
+        broadcast.putExtra(EXTRA_DEVICE, bluetoothDevice);
+        broadcast.putExtra(EXTRA_BOND_STATE, BluetoothDevice.BOND_BONDING);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+    }
+
+    @Override
+    public void onBonded(@NonNull final BluetoothDevice device) {
+        showToast(com.onodera.BleApp.common.R.string.bonded);
+
+        final Intent broadcast = new Intent(BROADCAST_BOND_STATE);
+        broadcast.putExtra(EXTRA_DISTINGUISH, ACCELEROMETER);
+        broadcast.putExtra(EXTRA_DEVICE, bluetoothDevice);
+        broadcast.putExtra(EXTRA_BOND_STATE, BluetoothDevice.BOND_BONDED);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+    }
+
+    @Override
+    public void onBondingFailed(@NonNull final BluetoothDevice device) {
+        showToast(com.onodera.BleApp.common.R.string.bonding_failed);
+
+        final Intent broadcast = new Intent(BROADCAST_BOND_STATE);
+        broadcast.putExtra(EXTRA_DISTINGUISH, ACCELEROMETER);
+        broadcast.putExtra(EXTRA_DEVICE, bluetoothDevice);
+        broadcast.putExtra(EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+    }
+
+    @Override
+    public void onError(@NonNull final BluetoothDevice device, @NonNull final String message, final int errorCode) {
+        final Intent broadcast = new Intent(BROADCAST_ERROR);
+        broadcast.putExtra(EXTRA_DISTINGUISH, ACCELEROMETER);
+        broadcast.putExtra(EXTRA_DEVICE, bluetoothDevice);
+        broadcast.putExtra(EXTRA_ERROR_MESSAGE, message);
+        broadcast.putExtra(EXTRA_ERROR_CODE, errorCode);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
     }
 
     /**

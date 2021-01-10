@@ -126,9 +126,9 @@ public class BleMainActivity extends BleProfileServiceReadyActivity<Acceleromete
 	protected UUID getFilterUUID() {
 		// TODO this method may return the UUID of the service that is required to be in the advertisement packet of a device in order to be listed on the Scanner dialog.
 		// If null is returned no filtering is done.
-		//return TemplateManager.ACCEL_SERVICE_UUID;
+		return AccelerometerManager.ACCEL_SERVICE_UUID;
 		//return TemplateManager.BASE_UUID;
-		return null;
+		//return null;
 	}
 
 	@Override
