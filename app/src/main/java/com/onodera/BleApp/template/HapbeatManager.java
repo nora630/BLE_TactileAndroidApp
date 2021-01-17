@@ -127,22 +127,16 @@ public class HapbeatManager extends BatteryManager<HapbeatManagerCallbacks> {
 
     /**
      * Sends the given text to RX characteristic.
-     * @param text the text to be sent
      */
-    public void send(final String text) {
+    public void send(byte[] value) {
         // Are we connected?
         if (requiredCharacteristic == null)
             return;
 
-        if (!TextUtils.isEmpty(text)) {
-            final WriteRequest request = writeCharacteristic(requiredCharacteristic, text.getBytes())
-                    .with((device, data) -> log(LogContract.Log.Level.APPLICATION,
-                            "\"" + data.getStringValue(0) + "\" sent"));
-            if (!useLongWrite) {
-                // This will automatically split the long data into MTU-3-byte long packets.
-                request.split();
-            }
-            request.enqueue();
-        }
+        final WriteRequest request = writeCharacteristic(requiredCharacteristic, value)
+                .with((device, data) -> log(LogContract.Log.Level.APPLICATION,
+                        "\"" + data + "\" sent"));
+
+        request.enqueue();
     }
 }

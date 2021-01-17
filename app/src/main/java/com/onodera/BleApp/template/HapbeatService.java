@@ -77,6 +77,9 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         final IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_DISCONNECT);
         registerReceiver(disconnectActionBroadcastReceiver, filter);
+        final IntentFilter filter1 = new IntentFilter();
+        filter1.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
+        LocalBroadcastManager.getInstance(this).registerReceiver(intentBroadcastReceiver, filter1);
     }
 
     @Override
@@ -84,6 +87,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         // when user has disconnected from the sensor, we have to cancel the notification that we've created some milliseconds before using unbindService
         stopForegroundService();
         unregisterReceiver(disconnectActionBroadcastReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(intentBroadcastReceiver);
 
         super.onDestroy();
     }
@@ -236,7 +240,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     /**
      * Sets the service as a foreground service
      */
-    private void startForegroundService(){
+    private void startForegroundService() {
         // when the activity closes we need to show the notification that user is connected to the peripheral sensor
         // We start the service as a foreground service as Android 8.0 (Oreo) onwards kills any running background services
         final Notification notification = createNotification(R.string.uart_notification_connected_message, 0);
@@ -251,7 +255,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     /**
      * Stops the service as a foreground service
      */
-    private void stopForegroundService(){
+    private void stopForegroundService() {
         // when the activity rebinds to the service, remove the notification and stop the foreground service
         // on devices running Android 8.0 (Oreo) or above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -308,6 +312,25 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
                 getBinder().disconnect();
             else
                 stopSelf();
+        }
+    };
+
+    private BroadcastReceiver intentBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
+                byte[] value = intent.getByteArrayExtra(AccelerometerService.EXTRA_DATA);
+                /*
+                int[] intValue = new int[20];
+                for(int i=0; i<20; i++){
+                    intValue[i] = value[i] & 0xFF;
+                }
+
+                 */
+                Logger.i(getLogSession(), "sending!!");
+                manager.send(value);
+            }
         }
     };
 }

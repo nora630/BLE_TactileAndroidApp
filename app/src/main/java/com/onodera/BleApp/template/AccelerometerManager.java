@@ -142,9 +142,13 @@ public class AccelerometerManager extends BatteryManager<AccelerometerManagerCal
 			// Enable notifications
 			enableNotifications(requiredCharacteristic)
 					// Method called after the data were sent (data will contain 0x0100 in this case)
+
 					.with((device, data) -> log(Log.DEBUG, "Data sent: " + data))
+
 					// Method called when the request finished successfully. This will be called after .with(..) callback
+
 					.done(device -> log(LogContract.Log.Level.APPLICATION, "Notifications enabled successfully"))
+
 					// Methods called in case of an error, for example when the characteristic does not have Notify property
 					.fail((device, status) -> log(Log.WARN, "Failed to enable notifications"))
 					.enqueue();
