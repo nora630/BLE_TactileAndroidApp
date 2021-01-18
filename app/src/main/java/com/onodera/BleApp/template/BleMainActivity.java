@@ -138,6 +138,7 @@ public class BleMainActivity extends BleConnectActivity {
 
 			if (AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
 				byte[] value = intent.getByteArrayExtra(AccelerometerService.EXTRA_DATA);
+
 				// Update GUI
 				int[] intValue = new int[20];
 				for(int i=0; i<20; i++){

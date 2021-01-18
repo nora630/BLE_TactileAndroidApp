@@ -328,7 +328,6 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
                 }
 
                  */
-                Logger.i(getLogSession(), "sending!!");
                 manager.send(value);
             }
         }

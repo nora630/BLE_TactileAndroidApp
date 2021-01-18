@@ -89,8 +89,8 @@ public class HapbeatManager extends BatteryManager<HapbeatManagerCallbacks> {
                 // This will allow to send long write (also if the characteristic support it).
                 // In case there is no WRITE REQUEST property, this manager will divide texts
                 // longer then MTU-3 bytes into up to MTU-3 bytes chunks.
-                if (writeRequest)
-                    requiredCharacteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+                if (writeCommand)
+                    requiredCharacteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
                 else
                     useLongWrite = false;
             }
