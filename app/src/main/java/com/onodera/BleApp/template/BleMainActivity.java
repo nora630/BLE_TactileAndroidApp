@@ -30,6 +30,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.UUID;
@@ -48,6 +51,10 @@ public class BleMainActivity extends BleConnectActivity {
 
 	// TODO change view references to match your need
 	private TextView valueView;
+	private EditText editPhoneView;
+	private TextView Phoneview;
+	private Button   PhoneConnectButton;
+
 	//private TextView batteryLevelView;
 
 	@Override
@@ -57,9 +64,22 @@ public class BleMainActivity extends BleConnectActivity {
 		setGUI();
 	}
 
+	/**
+	 * Called after the view and the toolbar has been created.
+	 */
+	@Override
+	protected void setUpView() {
+		// set GUI
+		super.setUpView();
+		editPhoneView = findViewById(R.id.editPhoneText);
+		Phoneview = findViewById(R.id.phone_name);
+		PhoneConnectButton = findViewById(R.id.phone_connect);
+	}
+
 	private void setGUI() {
 		// TODO assign your views to fields
 		valueView = findViewById(R.id.value);
+
 		//batteryLevelView = findViewById(R.id.battery);
 
 		/*
@@ -128,6 +148,12 @@ public class BleMainActivity extends BleConnectActivity {
 	@SuppressWarnings("unused")
 	public void onBatteryLevelChanged(@NonNull final BluetoothDevice device, final int value) {
 		//batteryLevelView.setText(getString(R.string.battery, value));
+	}
+
+	public void onConnectPhoneClicked(final View view){
+		String text = editPhoneView.getText().toString();
+		Phoneview.setText(text);
+
 	}
 
 	private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {

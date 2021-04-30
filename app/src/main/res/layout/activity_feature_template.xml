@@ -143,6 +143,49 @@
 					android:onClick="onConnectClicked2"
 					android:text="@string/action_connect" />
 			</TableRow>
+
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" >
+
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/phone_name"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:ellipsize="end"
+					android:freezesText="true"
+					android:maxLines="1"
+					android:text="@string/template_phone_name"
+					android:textAllCaps="true"
+					android:textAppearance="?android:attr/textAppearanceLarge" />
+			</TableRow>
+
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" >
+
+				<EditText
+					android:id="@+id/editPhoneText"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:ems="10"
+					android:hint="Phone"
+					android:inputType="text" />
+			</TableRow>
+
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/phone_connect"
+					style="@style/Widget.Connect"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentBottom="true"
+					android:onClick="onConnectPhoneClicked"
+					android:text="@string/action_connect" />
+			</TableRow>
 		</TableLayout>
 
 		<!-- Application section -->
@@ -216,5 +259,6 @@
 		-->
 
 	</com.onodera.BleApp.widget.ForegroundRelativeLayout>
+
 </LinearLayout>
 
