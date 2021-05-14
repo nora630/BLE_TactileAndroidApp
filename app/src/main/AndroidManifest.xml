@@ -212,6 +212,9 @@
             android:authorities="com.onodera.BleApp.uart.log"
             android:exported="true" />
 
+        <service android:name=".template.network.UdpServerService"/>
+        <service android:name=".template.network.UdpClientService"/>
+
         <service
             android:name=".template.AccelerometerService"
             android:label="@string/template_feature_title" />
@@ -272,6 +275,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

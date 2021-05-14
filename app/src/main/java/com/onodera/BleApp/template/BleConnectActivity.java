@@ -323,7 +323,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
     };
 
     @Override
-    protected final void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ensureBLESupported();

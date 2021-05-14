@@ -162,7 +162,22 @@
 
 			<TableRow
 				android:layout_width="match_parent"
-				android:layout_height="match_parent" >
+				android:layout_height="match_parent">
+
+				<Switch
+					android:id="@+id/NetworkSwitch"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:checked="false"
+					android:text="Network"
+					android:textOff="Local"
+					android:textOn="UDP/TCP"
+					android:showText="true"/>
+			</TableRow>
+
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
 
 				<EditText
 					android:id="@+id/editPhoneText"
@@ -186,6 +201,7 @@
 					android:onClick="onConnectPhoneClicked"
 					android:text="@string/action_connect" />
 			</TableRow>
+
 		</TableLayout>
 
 		<!-- Application section -->

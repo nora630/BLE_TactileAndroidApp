@@ -23,23 +23,27 @@ package com.onodera.BleApp.template;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
-import java.util.UUID;
-
 import com.onodera.BleApp.R;
-import com.onodera.BleApp.profile.BleProfileService;
-import com.onodera.BleApp.profile.BleProfileServiceReadyActivity;
+import com.onodera.BleApp.template.network.UdpClientService;
+import com.onodera.BleApp.template.network.UdpServerService;
 import com.onodera.BleApp.template.signal.SendingSignalActivity;
 
 /**
@@ -49,13 +53,60 @@ public class BleMainActivity extends BleConnectActivity {
 	@SuppressWarnings("unused")
 	private final String TAG = "TemplateActivity";
 
-	// TODO change view references to match your need
+	private UdpClientService.LocalBinder mUdpClientService;
+	private UdpServerService.LocalBinder mUdpServerService;
 	private TextView valueView;
 	private EditText editPhoneView;
 	private TextView Phoneview;
 	private Button   PhoneConnectButton;
+	private Switch mSwitch;
 
 	//private TextView batteryLevelView;
+
+	private ServiceConnection udpClientServiceConnection = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(ComponentName componentName, IBinder service) {
+			BleMainActivity.this.mUdpClientService = (UdpClientService.LocalBinder) service;
+			PhoneConnectButton.setText("DISCONNECT");
+
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName componentName) {
+			PhoneConnectButton.setText("CONNECT");
+			mUdpClientService = null;
+		}
+	};
+
+	private ServiceConnection udpServerServiceConnection = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(ComponentName componentName, IBinder service) {
+			BleMainActivity.this.mUdpServerService = (UdpServerService.LocalBinder) service;
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName componentName) {
+			mUdpServerService = null;
+		}
+	};
+
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		final Intent service3;
+		service3 = new Intent(BleMainActivity.this, UdpServerService.class);
+		startService(service3);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		final Intent service3;
+		service3 = new Intent(BleMainActivity.this, UdpServerService.class);
+		bindService(service3, udpServerServiceConnection, 0);
+		final Intent service4 = new Intent(BleMainActivity.this, UdpClientService.class);
+		bindService(service4, udpClientServiceConnection, 0);
+	}
 
 	@Override
 	protected void onCreateView(final Bundle savedInstanceState) {
@@ -74,6 +125,23 @@ public class BleMainActivity extends BleConnectActivity {
 		editPhoneView = findViewById(R.id.editPhoneText);
 		Phoneview = findViewById(R.id.phone_name);
 		PhoneConnectButton = findViewById(R.id.phone_connect);
+		mSwitch = findViewById(R.id.NetworkSwitch);
+		mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				if (mSwitch.isChecked()){
+					/*
+					final Intent service;
+					service = new Intent(BleMainActivity.this, UdpServerService.class);
+					startService(service);
+					bindService(service, udpServerServiceConnection, 0);
+
+					 */
+				} else {
+					//mUdpServerService.disconnect();
+				}
+			}
+		});
 	}
 
 	private void setGUI() {
@@ -95,6 +163,24 @@ public class BleMainActivity extends BleConnectActivity {
 	@Override
 	protected void onInitialize(final Bundle savedInstanceState) {
 		LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, makeIntentFilter());
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		try {
+			if (mUdpServerService != null)
+				mUdpServerService.setActivityIsChangingConfiguration(isChangingConfigurations());
+			if (mUdpClientService != null)
+				mUdpClientService.setActivityIsChangingConfiguration(isChangingConfigurations());
+			unbindService(udpServerServiceConnection);
+			unbindService(udpClientServiceConnection);
+			mUdpServerService = null;
+			mUdpClientService = null;
+		} catch (final IllegalArgumentException e){
+
+		}
+
 	}
 
 	@Override
@@ -154,7 +240,17 @@ public class BleMainActivity extends BleConnectActivity {
 		String text = editPhoneView.getText().toString();
 		Phoneview.setText(text);
 
+		if(mUdpClientService == null) {
+			final Intent service = new Intent(this, UdpClientService.class);
+			startService(service);
+			bindService(service, udpClientServiceConnection, 0);
+
+		} else {
+			mUdpClientService.disconnect();
+		}
+
 	}
+
 
 	private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 		@Override
