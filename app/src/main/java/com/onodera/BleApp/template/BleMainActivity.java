@@ -208,6 +208,7 @@ public class BleMainActivity extends BleConnectActivity {
 		return true;
 	}
 
+	/*
 	@Override
 	protected boolean onOptionsItemSelected(final int itemId) {
 		switch (itemId) {
@@ -218,6 +219,8 @@ public class BleMainActivity extends BleConnectActivity {
 		}
 		return true;
 	}
+
+	 */
 
 	@Override
 	protected int getDefaultDeviceName() {
