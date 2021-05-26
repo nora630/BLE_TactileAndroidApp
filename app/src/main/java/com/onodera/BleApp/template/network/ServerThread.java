@@ -35,13 +35,15 @@ public abstract class ServerThread extends Thread {
 
             //count++;
             //if(count>=2000) {
-            /*
+
             if(nData>0) {
                 int val = mReadBuffer[0] & 0xff;
                 Log.d("MyMonitor", "Receive: " + val);
             }
 
-             */
+
+
+
             //    count = 0;
             //}
 

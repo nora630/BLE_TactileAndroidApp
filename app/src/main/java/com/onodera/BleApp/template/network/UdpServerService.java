@@ -66,11 +66,11 @@ public class UdpServerService extends Service {
 
         @Override
         protected void closeSocket() {
-            if(mSocket != null) {
+            if(mSocket != null && !mSocket.isClosed()) {
                 mSocket.close();
-                mSocket = null;
-                //Log.d("MyMonitor", "Socket close!");
+                Log.d("MyMonitor", "Socket close!");
             }
+            mSocket = null;
         }
 
         @Override

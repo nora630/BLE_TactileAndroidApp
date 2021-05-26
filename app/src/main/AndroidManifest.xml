@@ -56,19 +56,6 @@
             android:name=".template.settings.SettingsActivity"
             android:label="@string/template_settings_title" />
 
-        <activity
-            android:name=".vibrotactileCommunication.BleMainActivity"
-            android:icon="@drawable/ic_template_feature"
-            android:label="@string/template_feature_title">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="com.onodera.BleApp.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".vibrotactileCommunication.settings.SettingsActivity"
-            android:label="@string/template_settings_title" />
 
         <activity
             android:name=".dfu.DfuActivity"

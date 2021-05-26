@@ -111,7 +111,7 @@ public class UdpClientService extends Service {
             mIsNetworkConnected.set(false);
             //Log.d("MyMonitor", "Socket Close");
 
-            if(mSocket != null)
+            if(mSocket != null && !mSocket.isClosed())
                 mSocket.close();
 
             mSocket = null;
