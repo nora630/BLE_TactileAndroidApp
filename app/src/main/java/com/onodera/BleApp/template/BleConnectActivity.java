@@ -56,8 +56,8 @@ public abstract class BleConnectActivity extends AppCompatActivity
 
     protected static final int REQUEST_ENABLE_BT = 2;
 
-    private AccelerometerService.TemplateBinder accelService;
-    private HapbeatService.TemplateBinder hapbeatService;
+    protected AccelerometerService.TemplateBinder accelService;
+    protected HapbeatService.TemplateBinder hapbeatService;
 
     private BleManagerCallbacks accelListener;
     private BleManagerCallbacks hapbeatListner;
@@ -641,6 +641,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
             startService(service);
             Logger.d(hapbeatLogSession, "Binding to the service...");
             bindService(service, hapbeatServiceConnection, 0);
+            hapbeatService.setNetwork(HapbeatService.Network.local);
         }
     }
 

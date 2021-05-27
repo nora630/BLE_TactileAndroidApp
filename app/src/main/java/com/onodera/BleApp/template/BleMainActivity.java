@@ -130,15 +130,9 @@ public class BleMainActivity extends BleConnectActivity {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 				if (mSwitch.isChecked()){
-					/*
-					final Intent service;
-					service = new Intent(BleMainActivity.this, UdpServerService.class);
-					startService(service);
-					bindService(service, udpServerServiceConnection, 0);
-
-					 */
+					if (hapbeatService!=null) hapbeatService.setNetwork(HapbeatService.Network.UDP);
 				} else {
-					//mUdpServerService.disconnect();
+					if (hapbeatService!=null) hapbeatService.setNetwork(HapbeatService.Network.local);
 				}
 			}
 		});
@@ -250,10 +244,11 @@ public class BleMainActivity extends BleConnectActivity {
 
 	public void onConnectPhoneClicked(final View view){
 		String text = editPhoneView.getText().toString();
-		Phoneview.setText(text);
+
 
 		if(mUdpClientService == null) {
 			final Intent service = new Intent(this, UdpClientService.class);
+			service.putExtra("IpAddress", text);
 			startService(service);
 			bindService(service, udpClientServiceConnection, 0);
 

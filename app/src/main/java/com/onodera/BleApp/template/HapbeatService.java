@@ -19,6 +19,7 @@ import com.onodera.BleApp.R;
 import com.onodera.BleApp.ToolboxApplication;
 import com.onodera.BleApp.profile.BleProfileService;
 import com.onodera.BleApp.profile.LoggableBleManager;
+import com.onodera.BleApp.template.network.UdpServerService;
 
 import no.nordicsemi.android.log.Logger;
 
@@ -36,6 +37,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     private final static int NOTIFICATION_ID = 864;
     private final static int OPEN_ACTIVITY_REQ = 0;
     private final static int DISCONNECT_REQ = 1;
+    private Network mNetwork;
 
     private HapbeatManager manager;
 
@@ -45,19 +47,14 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
      * This local binder is an interface for the bound activity to operate with the sensor.
      */
     class TemplateBinder extends LocalBinder {
-        // TODO Define service API that may be used by a bound Activity
-
-        /**
-         * Sends some important data to the device.
-         *
-         * @param parameter some parameter.
-         */
-        /*
-        void performAction(final String parameter) {
-            manager.performAction(parameter);
+        public void setNetwork(Network network){
+            mNetwork = network;
         }
 
-         */
+        public Network getNetwork(){
+            return mNetwork;
+        }
+
     }
 
     @Override
@@ -70,6 +67,11 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         return manager = new HapbeatManager(this);
     }
 
+    public enum Network{
+        local,
+        UDP
+    };
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -79,6 +81,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         registerReceiver(disconnectActionBroadcastReceiver, filter);
         final IntentFilter filter1 = new IntentFilter();
         filter1.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
+        filter1.addAction(UdpServerService.BROADCAST_NETWORK_MEASUREMENT);
         LocalBroadcastManager.getInstance(this).registerReceiver(intentBroadcastReceiver, filter1);
     }
 
@@ -319,8 +322,19 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
-            if (AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
-                byte[] value = intent.getByteArrayExtra(AccelerometerService.EXTRA_DATA);
+            switch (mNetwork) {
+                case local:
+                    if (AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
+                        byte[] value = intent.getByteArrayExtra(AccelerometerService.EXTRA_DATA);
+                        manager.send(value);
+                    }
+                    break;
+                case UDP:
+                    if (UdpServerService.BROADCAST_NETWORK_MEASUREMENT.equals(action)) {
+                        byte[] value = intent.getByteArrayExtra(UdpServerService.NETWORK_DATA);
+                        manager.send(value);
+                    }
+
                 /*
                 int[] intValue = new int[20];
                 for(int i=0; i<20; i++){
@@ -328,8 +342,8 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
                 }
 
                  */
-                manager.send(value);
-            }
+                }
+
         }
     };
 }

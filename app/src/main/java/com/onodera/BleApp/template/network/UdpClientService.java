@@ -60,7 +60,8 @@ public class UdpClientService extends Service {
         private DatagramPacket mPacket;
         private byte[] mSendBuffer = new byte[MAXIMUM_PACKET_SIZE];
 
-        public UdpClientThread(){
+        public UdpClientThread(String IpAddress){
+            setIpAddress(IpAddress);
             mPacket = new DatagramPacket(mSendBuffer, MAXIMUM_PACKET_SIZE);
             mPacket.setPort(UDP_PORT);
         }
@@ -109,7 +110,7 @@ public class UdpClientService extends Service {
         @Override
         protected void closeConection() {
             mIsNetworkConnected.set(false);
-            Log.d("MyMonitor", "Socket Close");
+            Log.d("MyMonitor", "Client Socket Close");
 
             if(mSocket != null && !mSocket.isClosed())
                 mSocket.close();
@@ -154,11 +155,16 @@ public class UdpClientService extends Service {
             public void setActivityIsChangingConfiguration(final boolean changing) {
                 activityIsChangingConfiguration = changing;
             }
+
+            public void setIpAddress(String IpAddress){
+                mClientThread.setIpAddress(IpAddress);
+            }
     }
 
     @Override
     public int onStartCommand(final Intent intent, final int flags, final int startId){
-        mClientThread = new UdpClientThread();
+        String IpAddress = intent.getStringExtra("IpAddress");
+        mClientThread = new UdpClientThread(IpAddress);
         mClientThread.start();
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, makeIntentFilter());
         return START_REDELIVER_INTENT;

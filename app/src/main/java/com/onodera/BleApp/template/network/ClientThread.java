@@ -42,7 +42,7 @@ public abstract class ClientThread extends Thread {
 
         try {
 
-            mIpAddress = "192.168.11.9";
+            //mIpAddress = "192.168.11.9";
 
             mInetAddress = InetAddress.getByName(mIpAddress);
             onResolveIP(mInetAddress);

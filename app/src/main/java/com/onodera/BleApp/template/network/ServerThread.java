@@ -1,6 +1,9 @@
 package com.onodera.BleApp.template.network;
 
+import android.content.Intent;
 import android.util.Log;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -18,6 +21,7 @@ public abstract class ServerThread extends Thread {
     protected abstract void waitConnection();
     protected abstract void closeSocket();
     protected abstract int waitForData(byte[] ReadBuffer);
+    protected abstract void networkDataReceived(byte[] ReadBuffer);
 
     private int count = 0;
 
@@ -39,6 +43,10 @@ public abstract class ServerThread extends Thread {
             if(nData>0) {
                 int val = mReadBuffer[0] & 0xff;
                 Log.d("MyMonitor", "Receive: " + val);
+            }
+
+            if(nData>0) {
+                networkDataReceived(mReadBuffer);
             }
 
 

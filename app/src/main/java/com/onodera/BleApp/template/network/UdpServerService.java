@@ -13,6 +13,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.onodera.BleApp.FeaturesActivity;
 import com.onodera.BleApp.R;
@@ -29,6 +30,8 @@ import static com.onodera.BleApp.template.network.NetworkConfiguration.MAXIMUM_P
 import static com.onodera.BleApp.template.network.NetworkConfiguration.UDP_PORT;
 
 public class UdpServerService extends Service {
+    public static final String BROADCAST_NETWORK_MEASUREMENT = "com.onodera.BleApp.template.BROADCAST_NETWORK_MEASUREMENT";
+    public static final String NETWORK_DATA = "com.onodera.bleApp.template.NETWORK_DATA";
     private volatile UdpServerThread mServerThread;
     private boolean activityIsChangingConfiguration;
     private final static int NOTIFICATION_ID = 643;
@@ -86,6 +89,13 @@ public class UdpServerService extends Service {
                 ReadBuffer[i] = mReceiveBuffer[i];
             }
             return nData;
+        }
+
+        @Override
+        protected void networkDataReceived(byte[] ReadBuffer) {
+            final Intent broadcast = new Intent(BROADCAST_NETWORK_MEASUREMENT);
+            broadcast.putExtra(NETWORK_DATA, ReadBuffer);
+            LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(broadcast);
         }
     }
 
