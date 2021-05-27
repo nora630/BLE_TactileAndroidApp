@@ -48,6 +48,6 @@ public abstract class ServerThread extends Thread {
             //}
 
         }
-        closeSocket();
+        //closeSocket();
     }
 }

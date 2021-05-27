@@ -109,7 +109,7 @@ public class UdpClientService extends Service {
         @Override
         protected void closeConection() {
             mIsNetworkConnected.set(false);
-            //Log.d("MyMonitor", "Socket Close");
+            Log.d("MyMonitor", "Socket Close");
 
             if(mSocket != null && !mSocket.isClosed())
                 mSocket.close();
@@ -209,6 +209,8 @@ public class UdpClientService extends Service {
         mClientThread = null;
 
          */
+        mClientThread.mKeepAlive = false;
+        mClientThread.closeConection();
         mClientThread = null;
 
     }

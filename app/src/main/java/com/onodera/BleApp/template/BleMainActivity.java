@@ -186,7 +186,16 @@ public class BleMainActivity extends BleConnectActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		Intent service = new Intent(BleMainActivity.this, UdpServerService.class);
+		stopService(service);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+		String text = PhoneConnectButton.getText().toString();
+		if(text=="DISCONNECT"){
+			Intent service2 = new Intent(BleMainActivity.this, UdpClientService.class);
+			stopService(service2);
+			PhoneConnectButton.setText("CONNECT");
+		}
+
 	}
 
 	@Override

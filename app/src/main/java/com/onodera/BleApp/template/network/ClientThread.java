@@ -85,7 +85,7 @@ public abstract class ClientThread extends Thread {
                 }
             }
         }
-        closeConection();
+        //closeConection();
     }
 
     public void addDataToSendQueue(byte[] data, int size){

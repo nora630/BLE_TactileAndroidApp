@@ -526,6 +526,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
         return false;
     }
 
+    /*
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         final int id = item.getItemId();
@@ -533,17 +534,18 @@ public abstract class BleConnectActivity extends AppCompatActivity
             case android.R.id.home:
                 onBackPressed();
                 break;
-			/*
+
 			case R.id.action_about:
 				final AppHelpFragment fragment = AppHelpFragment.getInstance(getAboutTextId());
 				fragment.show(getSupportFragmentManager(), "help_fragment");
 				break;
-			 */
             default:
                 return onOptionsItemSelected(id);
         }
         return true;
     }
+
+     */
 
     /**
      * Called when user press CONNECT or DISCONNECT button. See layout files -> onClick attribute.

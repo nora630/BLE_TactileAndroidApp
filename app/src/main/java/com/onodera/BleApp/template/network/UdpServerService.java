@@ -56,7 +56,7 @@ public class UdpServerService extends Service {
                 }
                 isSocketCreated = true;
             }
-            Log.d("MyMonitor", "Create Socket!");
+            Log.d("MyMonitor", "Create Server Socket!");
         }
 
         @Override
@@ -68,7 +68,7 @@ public class UdpServerService extends Service {
         protected void closeSocket() {
             if(mSocket != null && !mSocket.isClosed()) {
                 mSocket.close();
-                Log.d("MyMonitor", "Socket close!");
+                //Log.d("MyMonitor", "Socket close!");
             }
             mSocket = null;
         }
@@ -93,6 +93,7 @@ public class UdpServerService extends Service {
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
             mServerThread = new UdpServerThread();
             mServerThread.start();
+            //Log.d("MyMonitor", "Server Start!");
         return START_REDELIVER_INTENT;
     }
 
@@ -153,7 +154,9 @@ public class UdpServerService extends Service {
 
          */
         mServerThread.mKeepAlive = false;
+        mServerThread.closeSocket();
         mServerThread = null;
+        //Log.d("MyMonitor", "Server finish!");
     }
 
     /**
