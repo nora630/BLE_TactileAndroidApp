@@ -641,7 +641,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
             startService(service);
             Logger.d(hapbeatLogSession, "Binding to the service...");
             bindService(service, hapbeatServiceConnection, 0);
-            hapbeatService.setNetwork(HapbeatService.Network.local);
+            //hapbeatService.setNetwork(HapbeatService.Network.local);
         }
     }
 

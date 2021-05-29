@@ -76,6 +76,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     public void onCreate() {
         super.onCreate();
 
+        mNetwork = Network.local;
         final IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_DISCONNECT);
         registerReceiver(disconnectActionBroadcastReceiver, filter);
