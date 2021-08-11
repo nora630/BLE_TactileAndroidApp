@@ -38,13 +38,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.onodera.BleApp.R;
 import com.onodera.BleApp.template.network.UdpClientService;
 import com.onodera.BleApp.template.network.UdpServerService;
-import com.onodera.BleApp.template.signal.SendingSignalActivity;
 
 /**
  * Modify the Template Activity to match your needs.
@@ -56,11 +56,13 @@ public class BleMainActivity extends BleConnectActivity {
 	private UdpClientService.LocalBinder mUdpClientService;
 	private UdpServerService.LocalBinder mUdpServerService;
 	private TextView valueView;
+	private SeekBar seekBarView;
+	private TextView seekTextView;
 	private EditText editPhoneView;
 	private TextView Phoneview;
 	private Button   PhoneConnectButton;
 	private Switch mSwitch;
-	private VolumeControlService.LocalBinder volumeControlService;
+	private OutputControlService.LocalBinder outputControlService;
 
 	//private TextView batteryLevelView;
 
@@ -91,16 +93,16 @@ public class BleMainActivity extends BleConnectActivity {
 		}
 	};
 
-	private ServiceConnection volumeControlServiceConnection = new ServiceConnection(){
+	private ServiceConnection outputControlServiceConnection = new ServiceConnection(){
 
 		@Override
 		public void onServiceConnected(ComponentName componentName, IBinder service) {
-			BleMainActivity.this.volumeControlService = (VolumeControlService.LocalBinder) service;
+			BleMainActivity.this.outputControlService = (OutputControlService.LocalBinder) service;
 		}
 
 		@Override
 		public void onServiceDisconnected(ComponentName componentName) {
-
+			outputControlService = null;
 		}
 	};
 
@@ -112,8 +114,9 @@ public class BleMainActivity extends BleConnectActivity {
 		service3 = new Intent(BleMainActivity.this, UdpServerService.class);
 		startService(service3);
 		final Intent volumeControlService;
-		volumeControlService = new Intent(BleMainActivity.this, VolumeControlService.class);
+		volumeControlService = new Intent(BleMainActivity.this, OutputControlService.class);
 		startService(volumeControlService);
+
 	}
 
 	@Override
@@ -125,8 +128,9 @@ public class BleMainActivity extends BleConnectActivity {
 		final Intent service4 = new Intent(BleMainActivity.this, UdpClientService.class);
 		bindService(service4, udpClientServiceConnection, 0);
 		final Intent volumeControlService;
-		volumeControlService = new Intent(BleMainActivity.this, VolumeControlService.class);
-		bindService(volumeControlService, volumeControlServiceConnection, 0);
+		volumeControlService = new Intent(BleMainActivity.this, OutputControlService.class);
+		bindService(volumeControlService, outputControlServiceConnection, 0);
+
 	}
 
 	@Override
@@ -151,9 +155,9 @@ public class BleMainActivity extends BleConnectActivity {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 				if (mSwitch.isChecked()){
-					if (hapbeatService!=null) volumeControlService.setNetwork(VolumeControlService.Network.UDP);
+					if (hapbeatService!=null) outputControlService.setNetwork(OutputControlService.Network.UDP);
 				} else {
-					if (hapbeatService!=null) volumeControlService.setNetwork(VolumeControlService.Network.local);
+					if (hapbeatService!=null) outputControlService.setNetwork(OutputControlService.Network.local);
 				}
 			}
 		});
@@ -162,6 +166,32 @@ public class BleMainActivity extends BleConnectActivity {
 	private void setGUI() {
 		// TODO assign your views to fields
 		valueView = findViewById(R.id.value);
+		seekBarView = findViewById(R.id.seekBar);
+		seekTextView = findViewById(R.id.value2);
+
+		int p = seekBarView.getProgress();
+		String s = "" + p/10.0;
+		seekTextView.setText(s);
+		//outputControlService.setVolumeScale(p);
+
+		seekBarView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+				String s = "" + i/10.0;
+				outputControlService.setVolumeScale(i);
+				seekTextView.setText(s);
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+
+			}
+		});
 
 		//batteryLevelView = findViewById(R.id.battery);
 
@@ -188,10 +218,14 @@ public class BleMainActivity extends BleConnectActivity {
 				mUdpServerService.setActivityIsChangingConfiguration(isChangingConfigurations());
 			if (mUdpClientService != null)
 				mUdpClientService.setActivityIsChangingConfiguration(isChangingConfigurations());
+			if (outputControlService != null)
+				outputControlService.setActivityIsChangingConfiguration(isChangingConfigurations());
+			unbindService(outputControlServiceConnection);
 			unbindService(udpServerServiceConnection);
 			unbindService(udpClientServiceConnection);
 			mUdpServerService = null;
 			mUdpClientService = null;
+			outputControlService = null;
 		} catch (final IllegalArgumentException e){
 
 		}

@@ -122,12 +122,13 @@
 					android:textAllCaps="true"
 					android:textAppearance="?android:attr/textAppearanceLarge" />
 
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/value2"
-					android:layout_width="wrap_content"
+				<SeekBar
+					android:id="@+id/seekBar"
+					android:layout_width="101dp"
 					android:layout_height="match_parent"
-					android:freezesText="true"
-					android:text="@string/not_available_value" />
+					android:max="100"
+					android:progress="70" />
+
 			</TableRow>
 
 			<TableRow
@@ -142,6 +143,13 @@
 					android:layout_alignParentBottom="true"
 					android:onClick="onConnectClicked2"
 					android:text="@string/action_connect" />
+
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/value2"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:freezesText="true"
+					android:text="@string/not_available_value" />
 			</TableRow>
 
 			<TableRow
