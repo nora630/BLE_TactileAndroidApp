@@ -175,6 +175,7 @@
 
         <service android:name=".template.network.UdpServerService"/>
         <service android:name=".template.network.UdpClientService"/>
+        <service android:name=".template.VolumeControlService"/>
 
         <service
             android:name=".template.AccelerometerService"

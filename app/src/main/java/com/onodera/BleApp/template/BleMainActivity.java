@@ -60,6 +60,7 @@ public class BleMainActivity extends BleConnectActivity {
 	private TextView Phoneview;
 	private Button   PhoneConnectButton;
 	private Switch mSwitch;
+	private VolumeControlService.LocalBinder volumeControlService;
 
 	//private TextView batteryLevelView;
 
@@ -90,12 +91,29 @@ public class BleMainActivity extends BleConnectActivity {
 		}
 	};
 
+	private ServiceConnection volumeControlServiceConnection = new ServiceConnection(){
+
+		@Override
+		public void onServiceConnected(ComponentName componentName, IBinder service) {
+			BleMainActivity.this.volumeControlService = (VolumeControlService.LocalBinder) service;
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName componentName) {
+
+		}
+	};
+
+
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final Intent service3;
 		service3 = new Intent(BleMainActivity.this, UdpServerService.class);
 		startService(service3);
+		final Intent volumeControlService;
+		volumeControlService = new Intent(BleMainActivity.this, VolumeControlService.class);
+		startService(volumeControlService);
 	}
 
 	@Override
@@ -106,6 +124,9 @@ public class BleMainActivity extends BleConnectActivity {
 		bindService(service3, udpServerServiceConnection, 0);
 		final Intent service4 = new Intent(BleMainActivity.this, UdpClientService.class);
 		bindService(service4, udpClientServiceConnection, 0);
+		final Intent volumeControlService;
+		volumeControlService = new Intent(BleMainActivity.this, VolumeControlService.class);
+		bindService(volumeControlService, volumeControlServiceConnection, 0);
 	}
 
 	@Override
@@ -130,9 +151,9 @@ public class BleMainActivity extends BleConnectActivity {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 				if (mSwitch.isChecked()){
-					if (hapbeatService!=null) hapbeatService.setNetwork(HapbeatService.Network.UDP);
+					if (hapbeatService!=null) volumeControlService.setNetwork(VolumeControlService.Network.UDP);
 				} else {
-					if (hapbeatService!=null) hapbeatService.setNetwork(HapbeatService.Network.local);
+					if (hapbeatService!=null) volumeControlService.setNetwork(VolumeControlService.Network.local);
 				}
 			}
 		});

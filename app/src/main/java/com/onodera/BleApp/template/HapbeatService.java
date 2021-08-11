@@ -24,8 +24,8 @@ import com.onodera.BleApp.template.network.UdpServerService;
 import no.nordicsemi.android.log.Logger;
 
 public class HapbeatService extends BleProfileService implements HapbeatManagerCallbacks {
-    public static final String BROADCAST_TEMPLATE_MEASUREMENT = "com.onodera.BleApp.template.BROADCAST_MEASUREMENT";
-    public static final String EXTRA_DATA = "com.onodera.BleApp.template.EXTRA_DATA";
+    public static final String BROADCAST_OUTPUT_MEASUREMENT = "com.onodera.BleApp.template.BROADCAST_OUTPUT_MEASUREMENT";
+    public static final String EXTRA_OUTPUT_DATA = "com.onodera.BleApp.template.EXTRA_OUTPUT_DATA";
 
     public static final String BROADCAST_BATTERY_LEVEL = "com.onodera.BleApp.BROADCAST_BATTERY_LEVEL";
     public static final String EXTRA_BATTERY_LEVEL = "com.onodera.BleApp.EXTRA_BATTERY_LEVEL";
@@ -42,6 +42,11 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     private HapbeatManager manager;
 
     private final LocalBinder binder = new TemplateBinder();
+
+    /*
+    private Adpcm decodeAdpcm = new Adpcm();
+    private Adpcm encodeAdpcm = new Adpcm();
+    */
 
     /**
      * This local binder is an interface for the bound activity to operate with the sensor.
@@ -76,15 +81,20 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     public void onCreate() {
         super.onCreate();
 
+        //Adpcm.initAdpcm(decodeState);
+        //Adpcm.initAdpcm(encodeState);
+
         mNetwork = Network.local;
         final IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_DISCONNECT);
         registerReceiver(disconnectActionBroadcastReceiver, filter);
         final IntentFilter filter1 = new IntentFilter();
-        filter1.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
-        filter1.addAction(UdpServerService.BROADCAST_NETWORK_MEASUREMENT);
+        //filter1.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
+        //filter1.addAction(UdpServerService.BROADCAST_NETWORK_MEASUREMENT);
+        filter1.addAction(BROADCAST_OUTPUT_MEASUREMENT);
         LocalBroadcastManager.getInstance(this).registerReceiver(intentBroadcastReceiver, filter1);
     }
+
 
     @Override
     public void onDestroy() {
@@ -319,20 +329,43 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         }
     };
 
+    /*
+    private void volumeControl(byte[] value){
+        int sample;
+        byte code;
+        for(int i=0; i<value.length/2; i++){
+            sample = decodeAdpcm.ADPCMDecoder((byte)((value[2*i] >> 4) & 0x0f));
+            code = encodeAdpcm.ADPCMEncoder((short)sample);
+            code = (byte)((code << 4) & 0xf0);
+
+            sample = decodeAdpcm.ADPCMDecoder((byte)((value[2*i+1]) & 0x0f));
+            code |= encodeAdpcm.ADPCMEncoder((short)sample);
+
+            value[i] = code;
+        }
+    }  */
+
     private BroadcastReceiver intentBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
+            if(BROADCAST_OUTPUT_MEASUREMENT.equals(action)) {
+                byte[] value = intent.getByteArrayExtra(EXTRA_OUTPUT_DATA);
+                manager.send(value);
+            }
+            /*
             switch (mNetwork) {
                 case local:
                     if (AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
                         byte[] value = intent.getByteArrayExtra(AccelerometerService.EXTRA_DATA);
+                        //volumeControl(value);
                         manager.send(value);
                     }
                     break;
                 case UDP:
                     if (UdpServerService.BROADCAST_NETWORK_MEASUREMENT.equals(action)) {
                         byte[] value = intent.getByteArrayExtra(UdpServerService.NETWORK_DATA);
+                        //volumeControl(value);
                         manager.send(value);
                     }
 
@@ -342,8 +375,8 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
                     intValue[i] = value[i] & 0xFF;
                 }
 
-                 */
-                }
+
+                } */
 
         }
     };
