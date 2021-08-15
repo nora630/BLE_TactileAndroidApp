@@ -113,9 +113,9 @@ public class BleMainActivity extends BleConnectActivity {
 		final Intent service3;
 		service3 = new Intent(BleMainActivity.this, UdpServerService.class);
 		startService(service3);
-		final Intent volumeControlService;
-		volumeControlService = new Intent(BleMainActivity.this, OutputControlService.class);
-		startService(volumeControlService);
+		//final Intent volumeControlService;
+		//volumeControlService = new Intent(BleMainActivity.this, OutputControlService.class);
+		//startService(volumeControlService);
 
 	}
 
@@ -127,9 +127,9 @@ public class BleMainActivity extends BleConnectActivity {
 		bindService(service3, udpServerServiceConnection, 0);
 		final Intent service4 = new Intent(BleMainActivity.this, UdpClientService.class);
 		bindService(service4, udpClientServiceConnection, 0);
-		final Intent volumeControlService;
-		volumeControlService = new Intent(BleMainActivity.this, OutputControlService.class);
-		bindService(volumeControlService, outputControlServiceConnection, 0);
+		//final Intent volumeControlService;
+		//volumeControlService = new Intent(BleMainActivity.this, OutputControlService.class);
+		//bindService(volumeControlService, outputControlServiceConnection, 0);
 
 	}
 
@@ -155,9 +155,9 @@ public class BleMainActivity extends BleConnectActivity {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 				if (mSwitch.isChecked()){
-					if (hapbeatService!=null) outputControlService.setNetwork(OutputControlService.Network.UDP);
+					if (hapbeatService!=null) hapbeatService.setNetwork(HapbeatService.Network.UDP);
 				} else {
-					if (hapbeatService!=null) outputControlService.setNetwork(OutputControlService.Network.local);
+					if (hapbeatService!=null) hapbeatService.setNetwork(HapbeatService.Network.local);
 				}
 			}
 		});
@@ -178,7 +178,7 @@ public class BleMainActivity extends BleConnectActivity {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 				String s = "" + i/10.0;
-				outputControlService.setVolumeScale(i);
+				hapbeatService.setVolumeScale(i);
 				seekTextView.setText(s);
 			}
 
@@ -218,14 +218,14 @@ public class BleMainActivity extends BleConnectActivity {
 				mUdpServerService.setActivityIsChangingConfiguration(isChangingConfigurations());
 			if (mUdpClientService != null)
 				mUdpClientService.setActivityIsChangingConfiguration(isChangingConfigurations());
-			if (outputControlService != null)
-				outputControlService.setActivityIsChangingConfiguration(isChangingConfigurations());
-			unbindService(outputControlServiceConnection);
+			//if (outputControlService != null)
+			//	outputControlService.setActivityIsChangingConfiguration(isChangingConfigurations());
+			//unbindService(outputControlServiceConnection);
 			unbindService(udpServerServiceConnection);
 			unbindService(udpClientServiceConnection);
 			mUdpServerService = null;
 			mUdpClientService = null;
-			outputControlService = null;
+			//outputControlService = null;
 		} catch (final IllegalArgumentException e){
 
 		}

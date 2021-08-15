@@ -38,6 +38,9 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     private final static int OPEN_ACTIVITY_REQ = 0;
     private final static int DISCONNECT_REQ = 1;
     private Network mNetwork;
+    private Adpcm encodeAdpcm = new Adpcm();
+    private Adpcm decodeAdpcm = new Adpcm();
+    private int mVolumeScale = 70;
 
     private HapbeatManager manager;
 
@@ -59,6 +62,9 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         public Network getNetwork(){
             return mNetwork;
         }
+
+        public void setVolumeScale(int volumeScale) { mVolumeScale = volumeScale; }
+
 
     }
 
@@ -89,9 +95,9 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         filter.addAction(ACTION_DISCONNECT);
         registerReceiver(disconnectActionBroadcastReceiver, filter);
         final IntentFilter filter1 = new IntentFilter();
-        //filter1.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
-        //filter1.addAction(UdpServerService.BROADCAST_NETWORK_MEASUREMENT);
-        filter1.addAction(BROADCAST_OUTPUT_MEASUREMENT);
+        filter1.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
+        filter1.addAction(UdpServerService.BROADCAST_NETWORK_MEASUREMENT);
+        //filter1.addAction(BROADCAST_OUTPUT_MEASUREMENT);
         LocalBroadcastManager.getInstance(this).registerReceiver(intentBroadcastReceiver, filter1);
     }
 
@@ -329,54 +335,60 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         }
     };
 
-    /*
-    private void volumeControl(byte[] value){
+    private void volumeControl(byte[] value) {
         int sample;
         byte code;
-        for(int i=0; i<value.length/2; i++){
-            sample = decodeAdpcm.ADPCMDecoder((byte)((value[2*i] >> 4) & 0x0f));
-            code = encodeAdpcm.ADPCMEncoder((short)sample);
-            code = (byte)((code << 4) & 0xf0);
+        for (int i = 0; i < value.length; i++) {
+            sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
+            sample = (int)(sample * mVolumeScale / 10.0);
+            //Log.d("MyMonitor", "" + sample);
+            code = encodeAdpcm.ADPCMEncoder((short) sample);
+            code = (byte) ((code << 4) & 0xf0);
 
-            sample = decodeAdpcm.ADPCMDecoder((byte)((value[2*i+1]) & 0x0f));
-            code |= encodeAdpcm.ADPCMEncoder((short)sample);
+            sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i]) & 0x0f));
+            sample = (int)(sample * mVolumeScale / 10.0);
+            //Log.d("MyMonitor", "" + sample);
+            code |= encodeAdpcm.ADPCMEncoder((short) sample);
 
             value[i] = code;
         }
-    }  */
+    }
 
     private BroadcastReceiver intentBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             final String action = intent.getAction();
+
+            /*
             if(BROADCAST_OUTPUT_MEASUREMENT.equals(action)) {
                 byte[] value = intent.getByteArrayExtra(EXTRA_OUTPUT_DATA);
                 manager.send(value);
-            }
-            /*
+            } */
+
             switch (mNetwork) {
                 case local:
                     if (AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
                         byte[] value = intent.getByteArrayExtra(AccelerometerService.EXTRA_DATA);
-                        //volumeControl(value);
+                        volumeControl(value);
                         manager.send(value);
                     }
                     break;
                 case UDP:
                     if (UdpServerService.BROADCAST_NETWORK_MEASUREMENT.equals(action)) {
                         byte[] value = intent.getByteArrayExtra(UdpServerService.NETWORK_DATA);
-                        //volumeControl(value);
+                        volumeControl(value);
                         manager.send(value);
                     }
 
-                /*
+                 /*
                 int[] intValue = new int[20];
                 for(int i=0; i<20; i++){
                     intValue[i] = value[i] & 0xFF;
-                }
-
-
                 } */
+
+
+                }
 
         }
     };
