@@ -27,7 +27,7 @@ public abstract class ServerThread extends Thread {
 
     @Override
     public void run() {
-        super.run();
+        //super.run();
         //mKeepAlive.set(true);
         mKeepAlive = true;
         createSocket();
@@ -42,7 +42,7 @@ public abstract class ServerThread extends Thread {
 
             if(nData>0) {
                 int val = mReadBuffer[0] & 0xff;
-                Log.d("MyMonitor", "Receive: " + val);
+                //Log.d("MyMonitor", "Receive: " + val);
             }
 
             if(nData>0) {

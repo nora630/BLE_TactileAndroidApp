@@ -32,6 +32,7 @@ public class OutputControlService extends Service {
     private final static int NOTIFICATION_ID = 361;
     private final static int OPEN_ACTIVITY_REQ = 0;
 
+
     public enum Network{
         local,
         UDP
@@ -147,13 +148,13 @@ public class OutputControlService extends Service {
         for (int i = 0; i < value.length; i++) {
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
             sample = (int)(sample * mVolumeScale / 10.0);
-            Log.d("MyMonitor", "" + sample);
+            //Log.d("MyMonitor", "" + sample);
             code = encodeAdpcm.ADPCMEncoder((short) sample);
             code = (byte) ((code << 4) & 0xf0);
 
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i]) & 0x0f));
             sample = (int)(sample * mVolumeScale / 10.0);
-            Log.d("MyMonitor", "" + sample);
+            //Log.d("MyMonitor", "" + sample);
             code |= encodeAdpcm.ADPCMEncoder((short) sample);
 
             value[i] = code;
@@ -177,6 +178,7 @@ public class OutputControlService extends Service {
                 case UDP:
                     if (UdpServerService.BROADCAST_NETWORK_MEASUREMENT.equals(action)) {
                         byte[] value = intent.getByteArrayExtra(UdpServerService.NETWORK_DATA);
+                        Log.d("MMyMonitor", "" + value[0]);
                         volumeControl(value);
                         final Intent broadcast = new Intent(HapbeatService.BROADCAST_OUTPUT_MEASUREMENT);
                         broadcast.putExtra(HapbeatService.EXTRA_OUTPUT_DATA, value);

@@ -19,7 +19,7 @@ public abstract class ClientThread extends Thread {
     protected volatile boolean mKeepAlive;
     protected InetAddress mInetAddress;
     private String mIpAddress;
-    private final int DATA_SEND_INTERVAL = 5;
+    private final int DATA_SEND_INTERVAL = 40;
     private Object mQueueMutex = new Object();
     private ArrayDeque<Byte> mDataQueue = new ArrayDeque<>();
 
@@ -35,7 +35,7 @@ public abstract class ClientThread extends Thread {
 
     @Override
     public void run() {
-        super.run();
+        //super.run();
         mKeepAlive = true;
 
         //mDataQueue.add((byte)12);

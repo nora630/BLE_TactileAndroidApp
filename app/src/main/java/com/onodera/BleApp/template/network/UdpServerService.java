@@ -51,11 +51,13 @@ public class UdpServerService extends Service {
                     mSocket = new DatagramSocket(null);
                 } catch (SocketException e) {
                     e.printStackTrace();
+                    break;
                 }
                 try {
                     mSocket.bind(new InetSocketAddress(UDP_PORT));
                 } catch (SocketException e) {
                     e.printStackTrace();
+                    break;
                 }
                 isSocketCreated = true;
             }
@@ -86,7 +88,7 @@ public class UdpServerService extends Service {
             }
             nData = mPacket.getLength();
             for(int i=0; i<nData; i++){
-                ReadBuffer[i] = mReceiveBuffer[i];
+                ReadBuffer[i] = (byte) (mReceiveBuffer[i] & 0xff);
             }
             return nData;
         }
