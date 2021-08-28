@@ -178,7 +178,7 @@ public class BleMainActivity extends BleConnectActivity {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 				String s = "" + i/10.0;
-				hapbeatService.setVolumeScale(i);
+				if (hapbeatService!=null) hapbeatService.setVolumeScale(i);
 				seekTextView.setText(s);
 			}
 
