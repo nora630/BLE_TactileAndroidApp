@@ -356,6 +356,8 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
 
 
 
+
+
     private BroadcastReceiver intentBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

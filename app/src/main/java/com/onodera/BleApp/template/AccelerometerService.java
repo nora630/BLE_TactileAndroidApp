@@ -62,11 +62,21 @@ public class AccelerometerService extends BleProfileService implements Accelerom
 
     private final LocalBinder binder = new TemplateBinder();
 
+    private AccelerometerListener mListener;
+
+    interface AccelerometerListener{
+        void onAccelerometerSend(byte[] value);
+    }
+
     /**
      * This local binder is an interface for the bound activity to operate with the sensor.
      */
     class TemplateBinder extends LocalBinder {
         // TODO Define service API that may be used by a bound Activity
+
+        public void setListener(AccelerometerListener listener) {
+            mListener = listener;
+        }
 
         /**
          * Sends some important data to the device.
@@ -118,14 +128,21 @@ public class AccelerometerService extends BleProfileService implements Accelerom
 
     @Override
     public void onSampleValueReceived(@NonNull final BluetoothDevice device, final byte[] value) {
+        /*
         final Intent broadcast = new Intent(BROADCAST_TEMPLATE_MEASUREMENT);
         broadcast.putExtra(EXTRA_DEVICE, getBluetoothDevice());
         broadcast.putExtra(EXTRA_DATA, value);
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
 
+
+
         if (!bound) {
             // Here we may update the notification to display the current value.
             // TODO modify the notification here
+        }
+         */
+        if(mListener!=null) {
+            mListener.onAccelerometerSend(value);
         }
     }
 

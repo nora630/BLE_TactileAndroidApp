@@ -49,7 +49,7 @@ import com.onodera.BleApp.template.network.UdpServerService;
 /**
  * Modify the Template Activity to match your needs.
  */
-public class BleMainActivity extends BleConnectActivity {
+public class BleMainActivity extends BleConnectActivity implements AccelerometerService.AccelerometerListener {
 	@SuppressWarnings("unused")
 	private final String TAG = "TemplateActivity";
 
@@ -342,5 +342,10 @@ public class BleMainActivity extends BleConnectActivity {
 		intentFilter.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
 		intentFilter.addAction(AccelerometerService.BROADCAST_BATTERY_LEVEL);
 		return intentFilter;
+	}
+
+	@Override
+	public void onAccelerometerSend(byte[] value) {
+
 	}
 }
