@@ -30,6 +30,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
@@ -74,7 +75,7 @@ public class AccelerometerService extends BleProfileService implements Accelerom
     class TemplateBinder extends LocalBinder {
         // TODO Define service API that may be used by a bound Activity
 
-        public void setListener(AccelerometerListener listener) {
+        public void setListener(BleConnectActivity listener) {
             mListener = listener;
         }
 

@@ -25,6 +25,12 @@ public abstract class ServerThread extends Thread {
 
     private int count = 0;
 
+    protected ServerListener mListener;
+
+    public interface ServerListener {
+        void onServerToHapbeatSend(byte[] value);
+    }
+
     @Override
     public void run() {
         //super.run();
@@ -46,7 +52,8 @@ public abstract class ServerThread extends Thread {
             }
 
             if(nData>0) {
-                networkDataReceived(mReadBuffer);
+                //networkDataReceived(mReadBuffer);
+                mListener.onServerToHapbeatSend(mReadBuffer);
             }
 
 

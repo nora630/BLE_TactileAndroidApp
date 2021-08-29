@@ -43,13 +43,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.onodera.BleApp.R;
+import com.onodera.BleApp.template.network.ServerThread;
 import com.onodera.BleApp.template.network.UdpClientService;
 import com.onodera.BleApp.template.network.UdpServerService;
 
 /**
  * Modify the Template Activity to match your needs.
  */
-public class BleMainActivity extends BleConnectActivity implements AccelerometerService.AccelerometerListener {
+public class BleMainActivity extends BleConnectActivity implements ServerThread.ServerListener {
 	@SuppressWarnings("unused")
 	private final String TAG = "TemplateActivity";
 
@@ -85,6 +86,7 @@ public class BleMainActivity extends BleConnectActivity implements Accelerometer
 		@Override
 		public void onServiceConnected(ComponentName componentName, IBinder service) {
 			BleMainActivity.this.mUdpServerService = (UdpServerService.LocalBinder) service;
+			mUdpServerService.setListener(BleMainActivity.this);
 		}
 
 		@Override
@@ -309,6 +311,8 @@ public class BleMainActivity extends BleConnectActivity implements Accelerometer
 
 		} else {
 			mUdpClientService.disconnect();
+			//unbindService(udpClientServiceConnection);
+			mUdpClientService = null;
 		}
 
 	}
@@ -346,6 +350,12 @@ public class BleMainActivity extends BleConnectActivity implements Accelerometer
 
 	@Override
 	public void onAccelerometerSend(byte[] value) {
+			if (hapbeatService!=null && hapbeatService.getNetwork()==HapbeatService.Network.local) hapbeatService.hapbeatSend(value);
+			if(mUdpClientService!=null) mUdpClientService.addDataToQueue(value);
+	}
 
+	@Override
+	public void onServerToHapbeatSend(byte[] value) {
+		if (hapbeatService!=null && hapbeatService.getNetwork()==HapbeatService.Network.UDP) hapbeatService.hapbeatSend(value);
 	}
 }

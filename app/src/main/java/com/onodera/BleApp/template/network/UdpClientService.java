@@ -79,6 +79,7 @@ public class UdpClientService extends Service {
             } catch (SocketException e) {
                 e.printStackTrace();
             }
+
             Log.d("MyMonitor", "Client connected to server at " + mPacket.getAddress());
             /* notify server the start of the connection */
 
@@ -134,7 +135,7 @@ public class UdpClientService extends Service {
         stopSelf();
     }
 
-    private volatile UdpClientThread mClientThread;
+    public volatile UdpClientThread mClientThread;
     private boolean activityIsChangingConfiguration;
     protected boolean bound;
     private final static int NOTIFICATION_ID = 754;
@@ -159,6 +160,16 @@ public class UdpClientService extends Service {
             public void setIpAddress(String IpAddress){
                 mClientThread.setIpAddress(IpAddress);
             }
+
+            public void addDataToQueue(byte[] value) {
+                synchronized (mClientThread.mQueueMutex) {
+                    for (int i=0; i<value.length; i++) {
+                        mClientThread.mDataQueue.add(value[i]);
+                    }
+                }
+            }
+
+
     }
 
     @Override

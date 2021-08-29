@@ -19,9 +19,9 @@ public abstract class ClientThread extends Thread {
     protected volatile boolean mKeepAlive;
     protected InetAddress mInetAddress;
     private String mIpAddress;
-    private final int DATA_SEND_INTERVAL = 40;
-    private Object mQueueMutex = new Object();
-    private ArrayDeque<Byte> mDataQueue = new ArrayDeque<>();
+    private final int DATA_SEND_INTERVAL = 2;
+    protected Object mQueueMutex = new Object();
+    protected ArrayDeque<Byte> mDataQueue = new ArrayDeque<>();
 
     protected abstract void onResolveIP(InetAddress ipAddress);
     protected abstract boolean createConnection();
@@ -61,6 +61,7 @@ public abstract class ClientThread extends Thread {
             //mIsNetworkConnected.set(isConnected);
 
             while (mIsNetworkConnected.get() && mKeepAlive) {
+
                 try {
                     Thread.sleep(DATA_SEND_INTERVAL);
                     //mDataQueue.add((byte)12);
@@ -69,6 +70,7 @@ public abstract class ClientThread extends Thread {
                 }
 
                 int nData = 0;
+
 
                 synchronized (mQueueMutex) {
                     nData = Math.min(mDataQueue.size(), MAXIMUM_PACKET_SIZE);
@@ -79,6 +81,10 @@ public abstract class ClientThread extends Thread {
                         sendDataBuffer[i] = mDataQueue.pop();
                     }
                 }
+
+
+
+
                 if (nData>0){
                     sendData(sendDataBuffer, nData);
                     //Log.d("MyMonitor", "send!");

@@ -65,6 +65,10 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
 
         public void setVolumeScale(int volumeScale) { mVolumeScale = volumeScale; }
 
+        public void hapbeatSend(byte[] value){
+            volumeControl(value);
+            manager.send(value);
+        }
 
     }
 
@@ -98,7 +102,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         filter1.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
         filter1.addAction(UdpServerService.BROADCAST_NETWORK_MEASUREMENT);
         //filter1.addAction(BROADCAST_OUTPUT_MEASUREMENT);
-        LocalBroadcastManager.getInstance(this).registerReceiver(intentBroadcastReceiver, filter1);
+        //LocalBroadcastManager.getInstance(this).registerReceiver(intentBroadcastReceiver, filter1);
     }
 
 
@@ -107,7 +111,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         // when user has disconnected from the sensor, we have to cancel the notification that we've created some milliseconds before using unbindService
         stopForegroundService();
         unregisterReceiver(disconnectActionBroadcastReceiver);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(intentBroadcastReceiver);
+        //LocalBroadcastManager.getInstance(this).unregisterReceiver(intentBroadcastReceiver);
 
         super.onDestroy();
     }

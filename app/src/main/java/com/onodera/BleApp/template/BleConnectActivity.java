@@ -43,7 +43,7 @@ import no.nordicsemi.android.log.Logger;
 
 public abstract class BleConnectActivity extends AppCompatActivity
         implements ScannerFragment.OnDeviceSelectedListener, AccelerometerBleManagerCallbacks,
-                        HapbeatBleManagerCallbacks{
+                        HapbeatBleManagerCallbacks, AccelerometerService.AccelerometerListener {
     private static final String TAG = "BleConnectActivity";
 
     private static final String SIS_ACCEL_NAME = "accelerometer_name";
@@ -242,6 +242,8 @@ public abstract class BleConnectActivity extends AppCompatActivity
             accelLogSession = bleService.getLogSession();
             Logger.d(accelLogSession, "Activity bound to the service");
             onServiceBound(bleService);
+
+            accelService.setListener(BleConnectActivity.this);
 
             // Update UI
             accelName = bleService.getDeviceName();

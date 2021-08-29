@@ -128,6 +128,10 @@ public class UdpServerService extends Service {
         public void setActivityIsChangingConfiguration(final boolean changing) {
             activityIsChangingConfiguration = changing;
         }
+
+        public void setListener(ServerThread.ServerListener listener) {
+            mServerThread.mListener = listener;
+        }
     }
 
     @Override
