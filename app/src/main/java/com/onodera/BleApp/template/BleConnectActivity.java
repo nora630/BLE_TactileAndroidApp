@@ -75,7 +75,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
     private String accelName;
     private String hapbeatName;
 
-    private UUID mUuid;
+    protected UUID mUuid;
 
 
     private final BroadcastReceiver commonBroadcastReceiver = new BroadcastReceiver() {
@@ -399,8 +399,8 @@ public abstract class BleConnectActivity extends AppCompatActivity
 
             unbindService(accelServiceConnection);
             unbindService(hapbeatServiceConnection);
-            accelService = null;
-            hapbeatService = null;
+            //accelService = null;
+            //hapbeatService = null;
 
             Logger.d(accelLogSession, "Activity unbound from the service");
             Logger.d(hapbeatLogSession, "Activity unbound from the service");
@@ -419,6 +419,8 @@ public abstract class BleConnectActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        accelService = null;
+        hapbeatService = null;
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(commonBroadcastReceiver);
     }

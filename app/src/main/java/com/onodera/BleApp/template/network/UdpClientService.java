@@ -82,14 +82,14 @@ public class UdpClientService extends Service {
 
             Log.d("MyMonitor", "Client connected to server at " + mPacket.getAddress());
             /* notify server the start of the connection */
-
+            /*
             mPacket.setLength(0);
             try {
                 mSocket.send(mPacket);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            */
 
             mIsNetworkConnected.set(true);
             return mIsNetworkConnected.get();

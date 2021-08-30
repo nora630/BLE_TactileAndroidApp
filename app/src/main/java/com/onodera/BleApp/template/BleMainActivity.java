@@ -30,6 +30,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.os.IBinder;
@@ -225,8 +226,8 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 			//unbindService(outputControlServiceConnection);
 			unbindService(udpServerServiceConnection);
 			unbindService(udpClientServiceConnection);
-			mUdpServerService = null;
-			mUdpClientService = null;
+			//mUdpServerService = null;
+			//mUdpClientService = null;
 			//outputControlService = null;
 		} catch (final IllegalArgumentException e){
 
@@ -239,6 +240,8 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		super.onDestroy();
 		Intent service = new Intent(BleMainActivity.this, UdpServerService.class);
 		stopService(service);
+		mUdpServerService = null;
+		mUdpClientService = null;
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
 		String text = PhoneConnectButton.getText().toString();
 		if(text=="DISCONNECT"){
@@ -350,12 +353,21 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 
 	@Override
 	public void onAccelerometerSend(byte[] value) {
-			if (hapbeatService!=null && hapbeatService.getNetwork()==HapbeatService.Network.local) hapbeatService.hapbeatSend(value);
 			if(mUdpClientService!=null) mUdpClientService.addDataToQueue(value);
+			else if (hapbeatService!=null && hapbeatService.getNetwork()==HapbeatService.Network.local) hapbeatService.hapbeatSend(value);
 	}
 
 	@Override
 	public void onServerToHapbeatSend(byte[] value) {
 		if (hapbeatService!=null && hapbeatService.getNetwork()==HapbeatService.Network.UDP) hapbeatService.hapbeatSend(value);
 	}
+
+	/*
+	@Override
+	public void onDeviceSelected(@NonNull BluetoothDevice device, @Nullable String name) {
+		super.onDeviceSelected(device, name);
+		if (mUuid.equals(HapbeatManager.HAPBEAT_SERVICE_UUID)) {
+			hapbeatService.setVolumeScale(seekBarView.getProgress());
+		}
+	} */
 }
