@@ -40,7 +40,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     private Network mNetwork;
     private Adpcm encodeAdpcm = new Adpcm();
     private Adpcm decodeAdpcm = new Adpcm();
-    private int mVolumeScale = 70;
+    private int mVolumeScale = 50;
 
     private HapbeatManager manager;
 
@@ -344,13 +344,13 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         byte code;
         for (int i = 0; i < value.length; i++) {
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
-            sample = (int)(sample * mVolumeScale / 10.0);
+            sample = (int)(sample * mVolumeScale / 50.0);
             //Log.d("MyMonitor", "" + sample);
             code = encodeAdpcm.ADPCMEncoder((short) sample);
             code = (byte) ((code << 4) & 0xf0);
 
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i]) & 0x0f));
-            sample = (int)(sample * mVolumeScale / 10.0);
+            sample = (int)(sample * mVolumeScale / 50.0);
             //Log.d("MyMonitor", "" + sample);
             code |= encodeAdpcm.ADPCMEncoder((short) sample);
 

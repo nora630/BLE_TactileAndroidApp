@@ -269,7 +269,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
             // when the activity is in foreground.
             Logger.d(accelLogSession, "Activity disconnected from the service");
             accelNameView.setText(getDefaultDeviceName());
-            accelConnectButton.setText(R.string.action_connect);
+            accelConnectButton.setText(R.string.sensor_connect);
 
             accelService = null;
             accelName = null;
@@ -314,7 +314,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
             // when the activity is in foreground.
             Logger.d(hapbeatLogSession, "Activity disconnected from the service");
             hapbeatNameView.setText(getDefaultDeviceName());
-            hapbeatConnectButton.setText(R.string.action_connect);
+            hapbeatConnectButton.setText(R.string.hapbeat_connect);
 
             hapbeatService = null;
             hapbeatName = null;
@@ -736,7 +736,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
 
     @Override
     public void onAccelDisconnected(@NonNull BluetoothDevice device) {
-        accelConnectButton.setText(R.string.action_connect);
+        accelConnectButton.setText(R.string.sensor_connect);
         accelNameView.setText(getDefaultDeviceName());
 
         try {
@@ -814,7 +814,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
 
     @Override
     public void onHapbeatDisconnected(@NonNull BluetoothDevice device) {
-        hapbeatConnectButton.setText(R.string.action_connect);
+        hapbeatConnectButton.setText(R.string.hapbeat_connect);
         hapbeatNameView.setText(getDefaultDeviceName());
 
         try {

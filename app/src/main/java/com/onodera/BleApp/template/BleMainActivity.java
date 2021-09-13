@@ -151,7 +151,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		// set GUI
 		super.setUpView();
 		editPhoneView = findViewById(R.id.editPhoneText);
-		Phoneview = findViewById(R.id.phone_name);
+		//Phoneview = findViewById(R.id.phone_name);
 		PhoneConnectButton = findViewById(R.id.phone_connect);
 		mSwitch = findViewById(R.id.NetworkSwitch);
 		mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -27,7 +27,7 @@
 	<string name="template_feature_title_long">TEMPLATE</string>
 	<dimen name="template_feature_title_long_margin">-62dp</dimen>
 
-	<string name="template_default_name">DEFAULT DEVICE</string>
+	<string name="template_default_name"> </string>
 	<string name="template_phone_name">CONNECTION DESTINATION</string>
 	<string name="template_section_header">Values</string>
 	<string name="template_value_title">Value</string>
