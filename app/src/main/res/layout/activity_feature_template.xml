@@ -142,6 +142,24 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent" >
 
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/space2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:ellipsize="end"
+					android:freezesText="true"
+					android:maxLines="1"
+					android:text="@string/template_default_name"
+					android:textAllCaps="true"
+					android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+			</TableRow>
+
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" >
+
 				<SeekBar
 					android:id="@+id/seekBar"
 					android:layout_width="101dp"
@@ -155,6 +173,8 @@
 					android:layout_height="match_parent"
 					android:freezesText="true"
 					android:text="@string/not_available_value" />
+				
+
 			</TableRow>
 
 			<TableRow
