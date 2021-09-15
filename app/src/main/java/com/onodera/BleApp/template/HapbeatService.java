@@ -344,13 +344,13 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         byte code;
         for (int i = 0; i < value.length; i++) {
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
-            sample = (int)(sample * mVolumeScale / 50.0);
+            sample = (int)(sample * mVolumeScale / 25.0);
             //Log.d("MyMonitor", "" + sample);
             code = encodeAdpcm.ADPCMEncoder((short) sample);
             code = (byte) ((code << 4) & 0xf0);
 
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i]) & 0x0f));
-            sample = (int)(sample * mVolumeScale / 50.0);
+            sample = (int)(sample * mVolumeScale / 25.0);
             //Log.d("MyMonitor", "" + sample);
             code |= encodeAdpcm.ADPCMEncoder((short) sample);
 
