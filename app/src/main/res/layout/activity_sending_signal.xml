@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".template.signal.SendingSignalActivity">
+    tools:context=".template.signal.GraphActivity">
 
     <include
         android:id="@+id/toolbar_actionbar"

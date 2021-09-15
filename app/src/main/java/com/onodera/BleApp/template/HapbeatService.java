@@ -342,20 +342,26 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     private void volumeControl(byte[] value) {
         int sample;
         byte code;
+        int[] data = new int[20];
         for (int i = 0; i < value.length; i++) {
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
             sample = (int)(sample * mVolumeScale / 250.0);
+            data[i] = sample;
             //Log.d("MyMonitor", "" + sample);
             code = encodeAdpcm.ADPCMEncoder((short) sample);
             code = (byte) ((code << 4) & 0xf0);
 
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i]) & 0x0f));
             sample = (int)(sample * mVolumeScale / 250.0);
+            data[i] = sample;
             //Log.d("MyMonitor", "" + sample);
             code |= encodeAdpcm.ADPCMEncoder((short) sample);
 
             value[i] = code;
         }
+        final Intent broadcast = new Intent(BROADCAST_OUTPUT_MEASUREMENT);
+        broadcast.putExtra(EXTRA_OUTPUT_DATA, data);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
     }
 
 

@@ -5,11 +5,7 @@
     <item
     android:id="@+id/sending_signal"
     app:showAsAction="never"
-    android:title="sending signal" />
+    android:title="graph" />
 
-    <item
-        android:id="@+id/receiving_signal"
-        app:showAsAction="never"
-        android:title="receiving signal" />
 
 </menu>

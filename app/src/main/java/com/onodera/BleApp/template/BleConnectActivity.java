@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.onodera.BleApp.AppHelpFragment;
 import com.onodera.BleApp.R;
 import com.onodera.BleApp.profile.BleProfileService;
 import com.onodera.BleApp.profile.BleProfileServiceReadyActivity;
@@ -530,7 +531,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
         return false;
     }
 
-    /*
+
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         final int id = item.getItemId();
@@ -540,8 +541,8 @@ public abstract class BleConnectActivity extends AppCompatActivity
                 break;
 
 			case R.id.action_about:
-				final AppHelpFragment fragment = AppHelpFragment.getInstance(getAboutTextId());
-				fragment.show(getSupportFragmentManager(), "help_fragment");
+				//final AppHelpFragment fragment = AppHelpFragment.getInstance(getAboutTextId());
+				//fragment.show(getSupportFragmentManager(), "help_fragment");
 				break;
             default:
                 return onOptionsItemSelected(id);
@@ -549,7 +550,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
         return true;
     }
 
-     */
+
 
     /**
      * Called when user press CONNECT or DISCONNECT button. See layout files -> onClick attribute.

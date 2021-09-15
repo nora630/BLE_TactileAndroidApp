@@ -173,7 +173,7 @@
 					android:layout_height="match_parent"
 					android:freezesText="true"
 					android:text="@string/not_available_value" />
-				
+
 
 			</TableRow>
 

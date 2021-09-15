@@ -22,11 +22,12 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.onodera.BleApp.R;
 import com.onodera.BleApp.template.AccelerometerService;
+import com.onodera.BleApp.template.HapbeatService;
 
 import java.util.ArrayList;
 
 
-public class SendingSignalActivity extends AppCompatActivity {
+public class GraphActivity extends AppCompatActivity {
 
     private LineChart mChart;
 
@@ -37,16 +38,16 @@ public class SendingSignalActivity extends AppCompatActivity {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             final String action = intent.getAction();
-            final BluetoothDevice device = intent.getParcelableExtra(AccelerometerService.EXTRA_DEVICE);
-            if (AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
-                byte[] value = intent.getByteArrayExtra(AccelerometerService.EXTRA_DATA);
+            //final BluetoothDevice device = intent.getParcelableExtra(AccelerometerService.EXTRA_DEVICE);
+            if (HapbeatService.BROADCAST_OUTPUT_MEASUREMENT.equals(action)) {
+                int[] value = intent.getIntArrayExtra(HapbeatService.EXTRA_OUTPUT_DATA);
                 // Update GUI
                 //int[] intValue = new int[20];
                 int intValue;
-                for(int i=0; i<20; i++){
-                    intValue = value[i] & 0xFF;
+                for(int i=0; i<value.length; i++){
+                    //intValue = value[i] & 0xFF;
                     //if(i+1==index+20) index += 20;
-                    setData(intValue);
+                    setData(value[i]);
                 }
                 /*
                 if(index==20){
@@ -105,8 +106,8 @@ public class SendingSignalActivity extends AppCompatActivity {
 
         YAxis leftAxis = mChart.getAxisLeft();
         // Y軸最大最小設定
-        leftAxis.setAxisMaximum(250f);
-        leftAxis.setAxisMinimum(0f);
+        leftAxis.setAxisMaximum(500f);
+        leftAxis.setAxisMinimum(-400f);
         // Grid横軸を破線
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
         leftAxis.setDrawZeroLine(true);
@@ -151,7 +152,7 @@ public class SendingSignalActivity extends AppCompatActivity {
 
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
-            mChart.setVisibleXRangeMaximum(800);
+            mChart.setVisibleXRangeMaximum(1000);
             mChart.moveViewToX(mChart.getData().getEntryCount());
 
 
@@ -160,11 +161,12 @@ public class SendingSignalActivity extends AppCompatActivity {
             // create a dataset and give it a type
             set1 = new LineDataSet(null, "DataSet");
             //set1.setDrawIcons(false);
-            set1.setColor(Color.BLACK);
+            ////////set1.setColor(Color.BLACK);
             //set1.setCircleColor(Color.BLACK);
-            //set1.setLineWidth(1f);
-            //set1.setCircleRadius(3f);
-            //set1.setDrawCircleHole(false);
+            //set1.setColor(Color.BLUE);
+            set1.setLineWidth(2f);
+            set1.setCircleRadius(2f);
+            set1.setDrawCircleHole(false);
             //set1.setValueTextSize(0f);
             //set1.setDrawFilled(true);
             //set1.setFormLineWidth(1f);
@@ -188,7 +190,7 @@ public class SendingSignalActivity extends AppCompatActivity {
 
     private static IntentFilter makeIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
+        intentFilter.addAction(HapbeatService.BROADCAST_OUTPUT_MEASUREMENT);
         return intentFilter;
     }
 }

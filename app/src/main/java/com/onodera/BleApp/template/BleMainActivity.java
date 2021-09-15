@@ -47,6 +47,7 @@ import com.onodera.BleApp.R;
 import com.onodera.BleApp.template.network.ServerThread;
 import com.onodera.BleApp.template.network.UdpClientService;
 import com.onodera.BleApp.template.network.UdpServerService;
+import com.onodera.BleApp.template.signal.GraphActivity;
 
 /**
  * Modify the Template Activity to match your needs.
@@ -271,19 +272,19 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		return true;
 	}
 
-	/*
+
 	@Override
 	protected boolean onOptionsItemSelected(final int itemId) {
 		switch (itemId) {
 			case R.id.sending_signal:
-				final Intent intent = new Intent(this, SendingSignalActivity.class);
+				final Intent intent = new Intent(getApplication(), GraphActivity.class);
 				startActivity(intent);
 				break;
 		}
 		return true;
 	}
 
-	 */
+
 
 	@Override
 	protected int getDefaultDeviceName() {
