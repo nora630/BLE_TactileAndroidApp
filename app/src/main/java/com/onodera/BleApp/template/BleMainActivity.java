@@ -53,6 +53,7 @@ import com.onodera.BleApp.template.network.UdpClientService;
 import com.onodera.BleApp.template.network.UdpServerService;
 import com.onodera.BleApp.template.signal.GraphActivity;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.util.List;
 
@@ -337,10 +338,13 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 			LinkProperties linkProperties = connectivityManager.getLinkProperties(currentNetwork);
 
 			List<LinkAddress> addresses = linkProperties.getLinkAddresses();
-			InetAddress addr = addresses.get(0).getAddress();
-			IpAddressView.setText(addr.toString());
-
-
+			for (LinkAddress address : addresses) {
+				InetAddress addr = address.getAddress();
+				if (addr instanceof Inet4Address) {
+					IpAddressView.setText(addr.toString());
+					break;
+				}
+			}
 		}
 	}
 
