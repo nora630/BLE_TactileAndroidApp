@@ -236,6 +236,32 @@
 					android:text="@string/action_connect" />
 			</TableRow>
 
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/ip_address"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:ellipsize="end"
+					android:freezesText="true"
+					android:maxLines="1"
+					android:textAllCaps="true"
+					android:textAppearance="?android:attr/textAppearanceLarge" />
+
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/ip_get_button"
+					style="@style/Widget.Connect"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentBottom="true"
+					android:onClick="onIpGetClicked"
+					android:text="@string/get_ip" />
+
+
+			</TableRow>
+
 		</TableLayout>
 
 		<!-- Application section -->

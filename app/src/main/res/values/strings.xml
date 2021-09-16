@@ -36,6 +36,7 @@
     <string name="action_about">About</string>
     <string name="action_settings">Settings</string>
     <string name="action_connect">CONNECT</string>
+    <string name="get_ip">GET IP Address</string>
     <string name="sensor_connect">ADD SENSOR</string>
     <string name="hapbeat_connect">ADD HAPBEAT</string>
     <string name="action_select">SELECT DEVICE</string>

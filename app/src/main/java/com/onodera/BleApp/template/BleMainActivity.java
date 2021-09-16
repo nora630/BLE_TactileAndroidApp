@@ -28,6 +28,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.net.ConnectivityManager;
+import android.net.LinkAddress;
+import android.net.LinkProperties;
+import android.net.Network;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,6 +53,9 @@ import com.onodera.BleApp.template.network.UdpClientService;
 import com.onodera.BleApp.template.network.UdpServerService;
 import com.onodera.BleApp.template.signal.GraphActivity;
 
+import java.net.InetAddress;
+import java.util.List;
+
 /**
  * Modify the Template Activity to match your needs.
  */
@@ -65,6 +72,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 	private TextView Phoneview;
 	private Button   PhoneConnectButton;
 	private Switch mSwitch;
+	private TextView IpAddressView;
 	private OutputControlService.LocalBinder outputControlService;
 
 	//private TextView batteryLevelView;
@@ -152,6 +160,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		// set GUI
 		super.setUpView();
 		editPhoneView = findViewById(R.id.editPhoneText);
+		IpAddressView = findViewById(R.id.ip_address);
 		//Phoneview = findViewById(R.id.phone_name);
 		PhoneConnectButton = findViewById(R.id.phone_connect);
 		mSwitch = findViewById(R.id.NetworkSwitch);
@@ -319,6 +328,20 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 			mUdpClientService = null;
 		}
 
+	}
+
+	public void onIpGetClicked(final View view){
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+			ConnectivityManager connectivityManager = getSystemService(ConnectivityManager.class);
+			Network currentNetwork = connectivityManager.getActiveNetwork();
+			LinkProperties linkProperties = connectivityManager.getLinkProperties(currentNetwork);
+
+			List<LinkAddress> addresses = linkProperties.getLinkAddresses();
+			InetAddress addr = addresses.get(0).getAddress();
+			IpAddressView.setText(addr.toString());
+
+
+		}
 	}
 
 
