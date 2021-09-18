@@ -37,7 +37,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     private final static int NOTIFICATION_ID = 864;
     private final static int OPEN_ACTIVITY_REQ = 0;
     private final static int DISCONNECT_REQ = 1;
-    private Network mNetwork;
+    private Network mNetwork = Network.local;
     private Adpcm encodeAdpcm = new Adpcm();
     private Adpcm decodeAdpcm = new Adpcm();
     private HighPassFilter highPassFilter = new HighPassFilter();
@@ -95,7 +95,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         //Adpcm.initAdpcm(decodeState);
         //Adpcm.initAdpcm(encodeState);
 
-        mNetwork = Network.local;
+        //mNetwork = Network.local;
         final IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_DISCONNECT);
         registerReceiver(disconnectActionBroadcastReceiver, filter);

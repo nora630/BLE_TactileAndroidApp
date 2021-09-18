@@ -75,6 +75,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 	private Switch mSwitch;
 	private TextView IpAddressView;
 	private OutputControlService.LocalBinder outputControlService;
+	private HapbeatService.Network mNetwork = HapbeatService.Network.local;
 
 	//private TextView batteryLevelView;
 
@@ -169,9 +170,11 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 				if (mSwitch.isChecked()){
-					if (hapbeatService!=null) hapbeatService.setNetwork(HapbeatService.Network.UDP);
+					//if (hapbeatService!=null) hapbeatService.setNetwork(HapbeatService.Network.UDP);
+					mNetwork = HapbeatService.Network.UDP;
 				} else {
-					if (hapbeatService!=null) hapbeatService.setNetwork(HapbeatService.Network.local);
+					//if (hapbeatService!=null) hapbeatService.setNetwork(HapbeatService.Network.local);
+					mNetwork = HapbeatService.Network.local;
 				}
 			}
 		});
@@ -382,12 +385,12 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 	@Override
 	public void onAccelerometerSend(byte[] value) {
 			if(mUdpClientService!=null) mUdpClientService.addDataToQueue(value);
-			else if (hapbeatService!=null && hapbeatService.getNetwork()==HapbeatService.Network.local) hapbeatService.hapbeatSend(value);
+			else if (hapbeatService!=null && mNetwork==HapbeatService.Network.local) hapbeatService.hapbeatSend(value);
 	}
 
 	@Override
 	public void onServerToHapbeatSend(byte[] value) {
-		if (hapbeatService!=null && hapbeatService.getNetwork()==HapbeatService.Network.UDP) hapbeatService.hapbeatSend(value);
+		if (hapbeatService!=null && mNetwork==HapbeatService.Network.UDP) hapbeatService.hapbeatSend(value);
 	}
 
 	/*
