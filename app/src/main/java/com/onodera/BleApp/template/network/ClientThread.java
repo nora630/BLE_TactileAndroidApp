@@ -19,7 +19,7 @@ public abstract class ClientThread extends Thread {
     protected volatile boolean mKeepAlive;
     protected InetAddress mInetAddress;
     private String mIpAddress;
-    private final int DATA_SEND_INTERVAL = 2;
+    private final int DATA_SEND_INTERVAL = 40;
     protected Object mQueueMutex = new Object();
     protected ArrayDeque<Byte> mDataQueue = new ArrayDeque<>();
 
@@ -29,7 +29,7 @@ public abstract class ClientThread extends Thread {
     protected abstract void closeConection();
 
     protected AtomicBoolean mIsNetworkConnected = new AtomicBoolean(false);
-    private byte[] sendDataBuffer;
+    private byte[] sendDataBuffer = new byte[MAXIMUM_PACKET_SIZE];
 
     public void setIpAddress(String IpAddress) {this.mIpAddress = IpAddress;}
 
@@ -62,22 +62,25 @@ public abstract class ClientThread extends Thread {
 
             while (mIsNetworkConnected.get() && mKeepAlive) {
 
+                /*
+
                 try {
                     Thread.sleep(DATA_SEND_INTERVAL);
                     //mDataQueue.add((byte)12);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                } */
 
                 int nData = 0;
 
 
                 synchronized (mQueueMutex) {
-                    nData = Math.min(mDataQueue.size(), MAXIMUM_PACKET_SIZE);
-                    if (nData==0)
-                        continue;
-                    sendDataBuffer = new byte[nData];
-                    for (int i=0; i<nData; i++){
+                    //nData = Math.min(mDataQueue.size(), MAXIMUM_PACKET_SIZE);
+                    //if (nData==0)
+                    //nData = mDataQueue.size();
+                    if(mDataQueue.size()<MAXIMUM_PACKET_SIZE) continue;
+                    //sendDataBuffer = new byte[MAXIMUM_PACKET_SIZE];
+                    for (int i=0; i<MAXIMUM_PACKET_SIZE; i++){
                         sendDataBuffer[i] = mDataQueue.pop();
                     }
                 }
@@ -85,13 +88,15 @@ public abstract class ClientThread extends Thread {
 
 
 
-                if (nData>0){
-                    sendData(sendDataBuffer, nData);
+                //if (nData>0){
+                    sendData(sendDataBuffer, MAXIMUM_PACKET_SIZE);
                     //Log.d("MyMonitor", "send!");
-                }
+                //}
+
+
             }
         }
-        //closeConection();
+        //closeConection();.
     }
 
     public void addDataToSendQueue(byte[] data, int size){

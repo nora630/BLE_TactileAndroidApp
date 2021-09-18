@@ -88,7 +88,7 @@ public class UdpServerService extends Service {
             }
             nData = mPacket.getLength();
             for(int i=0; i<nData; i++){
-                ReadBuffer[i] = (byte) (mReceiveBuffer[i] & 0xff);
+                ReadBuffer[i] = mReceiveBuffer[i];
             }
             return nData;
         }

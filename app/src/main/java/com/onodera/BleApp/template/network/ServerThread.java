@@ -8,6 +8,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.ArrayDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.onodera.BleApp.template.network.NetworkConfiguration.MAXIMUM_PACKET_SIZE;
@@ -16,6 +17,8 @@ public abstract class ServerThread extends Thread {
     //protected final AtomicBoolean mKeepAlive = new AtomicBoolean(false);
     protected volatile boolean mKeepAlive = false;
     private byte[] mReadBuffer = new byte[MAXIMUM_PACKET_SIZE];
+    protected Object mQueueMutex = new Object();
+    protected ArrayDeque<Byte> mDataQueue = new ArrayDeque<>();
 
     protected abstract void createSocket();
     protected abstract void waitConnection();
@@ -45,11 +48,12 @@ public abstract class ServerThread extends Thread {
 
             //count++;
             //if(count>=2000) {
+            /*
 
             if(nData>0) {
                 int val = mReadBuffer[0] & 0xff;
                 Log.d("MyMonitor", "Receive: " + val);
-            }
+            } */
 
             if(nData>0) {
                 //networkDataReceived(mReadBuffer);
