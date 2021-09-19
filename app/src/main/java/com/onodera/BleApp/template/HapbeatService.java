@@ -127,11 +127,13 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         startForegroundService();
     }
 
-
+/*
     @Override
     public void onBatteryLevelChanged(@NonNull final BluetoothDevice device, final int batteryLevel) {
 
     }
+
+ */
 
     @Override
     public void onDeviceConnecting(@NonNull final BluetoothDevice device) {

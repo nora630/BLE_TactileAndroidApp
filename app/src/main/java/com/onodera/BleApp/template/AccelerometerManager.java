@@ -36,6 +36,7 @@ import no.nordicsemi.android.ble.data.Data;
 import no.nordicsemi.android.log.LogContract;
 import com.onodera.BleApp.battery.BatteryManager;
 import com.onodera.BleApp.parser.TemplateParser;
+import com.onodera.BleApp.profile.LoggableBleManager;
 import com.onodera.BleApp.template.callback.AccelerometerDataCallback;
 
 /**
@@ -45,7 +46,7 @@ import com.onodera.BleApp.template.callback.AccelerometerDataCallback;
  * {@link AccelerometerManagerCallbacks} to extend {@link no.nordicsemi.android.ble.BleManagerCallbacks}
  * and replace BatteryManagerGattCallback to BleManagerGattCallback in this class.
  */
-public class AccelerometerManager extends BatteryManager<AccelerometerManagerCallbacks> {
+public class AccelerometerManager extends LoggableBleManager<AccelerometerManagerCallbacks> {
 	// TODO Replace the services and characteristics below to match your device.
 
 	public static final UUID BASE_UUID = UUID.fromString("0200180A-4202-37BB-EA11-139884E095EA");
@@ -83,7 +84,7 @@ public class AccelerometerManager extends BatteryManager<AccelerometerManagerCal
 
 	@NonNull
 	@Override
-	protected BatteryManagerGattCallback getGattCallback() {
+	protected BleManagerGattCallback getGattCallback() {
 		return new AccelerometerManagerGattCallback();
 	}
 
@@ -91,7 +92,7 @@ public class AccelerometerManager extends BatteryManager<AccelerometerManagerCal
 	 * BluetoothGatt callbacks for connection/disconnection, service discovery,
 	 * receiving indication, etc.
 	 */
-	private class AccelerometerManagerGattCallback extends BatteryManagerGattCallback {
+	private class AccelerometerManagerGattCallback extends BleManagerGattCallback {
 
 		@Override
 		protected void initialize() {
@@ -187,7 +188,7 @@ public class AccelerometerManager extends BatteryManager<AccelerometerManagerCal
 		@Override
 		protected void onDeviceDisconnected() {
 			// Release Battery Service
-			super.onDeviceDisconnected();
+			//////////////super.onDeviceDisconnected();
 
 			// TODO Release references to your characteristics.
 			requiredCharacteristic = null;

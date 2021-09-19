@@ -94,6 +94,7 @@ public class AccelerometerService extends BleProfileService implements Accelerom
         return binder;
     }
 
+
     @Override
     protected LoggableBleManager<AccelerometerManagerCallbacks> initializeManager() {
         return manager = new AccelerometerManager(this);
@@ -147,10 +148,11 @@ public class AccelerometerService extends BleProfileService implements Accelerom
         }
     }
 
+    /*
     @Override
     public void onBatteryLevelChanged(@NonNull final BluetoothDevice device, final int batteryLevel) {
 
-    }
+    } */
 
     @Override
     public void onDeviceConnecting(@NonNull final BluetoothDevice device) {

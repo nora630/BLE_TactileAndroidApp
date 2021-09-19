@@ -12,15 +12,17 @@ import androidx.annotation.NonNull;
 
 import com.onodera.BleApp.battery.BatteryManager;
 import com.onodera.BleApp.parser.TemplateParser;
+import com.onodera.BleApp.profile.LoggableBleManager;
 import com.onodera.BleApp.template.callback.AccelerometerDataCallback;
 
 import java.util.UUID;
 
+import no.nordicsemi.android.ble.BleManager;
 import no.nordicsemi.android.ble.WriteRequest;
 import no.nordicsemi.android.ble.data.Data;
 import no.nordicsemi.android.log.LogContract;
 
-public class HapbeatManager extends BatteryManager<HapbeatManagerCallbacks> {
+public class HapbeatManager extends LoggableBleManager<HapbeatManagerCallbacks> {
     // TODO Replace the services and characteristics below to match your device.
 
     public static final UUID BASE_UUID = UUID.fromString("0200180A-4202-37BB-EA11-139884E095EA");
@@ -59,7 +61,7 @@ public class HapbeatManager extends BatteryManager<HapbeatManagerCallbacks> {
 
     @NonNull
     @Override
-    protected BatteryManagerGattCallback getGattCallback() {
+    protected BleManagerGattCallback getGattCallback() {
         return new HapbeatManagerGattCallback();
     }
 
@@ -67,7 +69,7 @@ public class HapbeatManager extends BatteryManager<HapbeatManagerCallbacks> {
      * BluetoothGatt callbacks for connection/disconnection, service discovery,
      * receiving indication, etc.
      */
-    private class HapbeatManagerGattCallback extends BatteryManagerGattCallback {
+    private class HapbeatManagerGattCallback extends BleManagerGattCallback {
 
         @Override
         protected boolean isRequiredServiceSupported(@NonNull final BluetoothGatt gatt) {
@@ -115,7 +117,7 @@ public class HapbeatManager extends BatteryManager<HapbeatManagerCallbacks> {
         @Override
         protected void onDeviceDisconnected() {
             // Release Battery Service
-            super.onDeviceDisconnected();
+            ////////super.onDeviceDisconnected();
 
             // TODO Release references to your characteristics.
             requiredCharacteristic = null;
