@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +77,9 @@ public abstract class BleConnectActivity extends AppCompatActivity
     private BluetoothDevice hapbeatBluetoothDevice;
     private String accelName;
     private String hapbeatName;
+
+    private Switch mAmpSwitch;
+    private boolean amp = false;
 
     protected UUID mUuid;
 
@@ -295,6 +300,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
             hapbeatName = bleService.getDeviceName();
             hapbeatNameView.setText(hapbeatName);
             hapbeatConnectButton.setText(R.string.action_disconnect);
+            hapbeatService.setAmpBoolean(amp);
 
             // And notify user if device is connected
             if (bleService.isConnected()) {
@@ -488,6 +494,19 @@ public abstract class BleConnectActivity extends AppCompatActivity
         accelNameView = findViewById(R.id.device_name);
         hapbeatConnectButton = findViewById(R.id.action_connect2);
         hapbeatNameView = findViewById(R.id.device_name2);
+        mAmpSwitch = findViewById(R.id.AmpSwitch);
+        mAmpSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (mAmpSwitch.isChecked()){
+                    amp = true;
+                    if(hapbeatService!=null) hapbeatService.setAmpBoolean(amp);
+                } else {
+                    amp = false;
+                    if(hapbeatService!=null) hapbeatService.setAmpBoolean(amp);
+                }
+            }
+        });
 
     }
 
