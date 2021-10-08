@@ -22,7 +22,9 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.onodera.BleApp.R;
 import com.onodera.BleApp.template.AccelerometerService;
+import com.onodera.BleApp.template.Adpcm;
 import com.onodera.BleApp.template.HapbeatService;
+import com.onodera.BleApp.template.HighPassFilter;
 
 import java.util.ArrayList;
 
@@ -30,6 +32,9 @@ import java.util.ArrayList;
 public class GraphActivity extends AppCompatActivity {
 
     private LineChart mChart;
+    private Adpcm encodeAdpcm = new Adpcm();
+    private Adpcm decodeAdpcm = new Adpcm();
+    private HighPassFilter highPassFilter = new HighPassFilter();
 
     //private int[] intValue = new int[20];
     //private int index = 0;
@@ -45,8 +50,6 @@ public class GraphActivity extends AppCompatActivity {
                 //int[] intValue = new int[20];
                 int intValue;
                 for(int i=0; i<value.length; i++){
-                    //intValue = value[i] & 0xFF;
-                    //if(i+1==index+20) index += 20;
                     setData(value[i]);
                 }
                 /*

@@ -29,6 +29,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 import static com.onodera.BleApp.template.network.NetworkConfiguration.MAXIMUM_PACKET_SIZE;
 import static com.onodera.BleApp.template.network.NetworkConfiguration.UDP_PORT;
@@ -60,10 +61,20 @@ public class UdpClientService extends Service {
         private DatagramPacket mPacket;
         private byte[] mSendBuffer = new byte[MAXIMUM_PACKET_SIZE];
 
-        public UdpClientThread(String IpAddress){
+        public UdpClientThread(String IpAddress) {
             setIpAddress(IpAddress);
             mPacket = new DatagramPacket(mSendBuffer, MAXIMUM_PACKET_SIZE);
             mPacket.setPort(UDP_PORT);
+            try {
+                mInetAddress = InetAddress.getByName(mIpAddress);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+            onResolveIP(mInetAddress);
+            boolean isConnected = createConnection();
+            if(!isConnected) {
+                Log.d("MyMonitor", "Cannot Connect To : " + mIpAddress);
+            }
         }
 
         @Override
@@ -97,15 +108,20 @@ public class UdpClientService extends Service {
 
         @Override
         protected void sendData(byte[] sendDataBuffer, int nData) {
-            for (int i=0; i<nData; i++){
-                mSendBuffer[i] = sendDataBuffer[i];
-            }
-            mPacket.setLength(nData);
-            try {
-                mSocket.send(mPacket);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < nData; i++) {
+                        mSendBuffer[i] = sendDataBuffer[i];
+                    }
+                    mPacket.setLength(nData);
+                    try {
+                        mSocket.send(mPacket);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
 
         @Override
@@ -169,14 +185,19 @@ public class UdpClientService extends Service {
                 }
             }
 
+            public void sendData(byte[] value) {
+                mClientThread.sendData(value, value.length);
+            }
+
 
     }
 
     @Override
     public int onStartCommand(final Intent intent, final int flags, final int startId){
         String IpAddress = intent.getStringExtra("IpAddress");
+
         mClientThread = new UdpClientThread(IpAddress);
-        mClientThread.start();
+        //mClientThread.start();
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, makeIntentFilter());
         return START_REDELIVER_INTENT;
     }

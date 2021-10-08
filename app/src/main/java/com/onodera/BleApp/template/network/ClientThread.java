@@ -18,7 +18,7 @@ public abstract class ClientThread extends Thread {
 
     protected volatile boolean mKeepAlive;
     protected InetAddress mInetAddress;
-    private String mIpAddress;
+    protected String mIpAddress;
     private final int DATA_SEND_INTERVAL = 40;
     protected Object mQueueMutex = new Object();
     protected ArrayDeque<Byte> mDataQueue = new ArrayDeque<>();
@@ -35,6 +35,9 @@ public abstract class ClientThread extends Thread {
 
     @Override
     public void run() {
+
+
+        /*
         //super.run();
         mKeepAlive = true;
 
@@ -70,6 +73,7 @@ public abstract class ClientThread extends Thread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } */
+        /*
 
                 int nData = 0;
 
@@ -97,6 +101,7 @@ public abstract class ClientThread extends Thread {
             }
         }
         //closeConection();.
+*/
     }
 
     public void addDataToSendQueue(byte[] data, int size){

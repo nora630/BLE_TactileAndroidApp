@@ -57,6 +57,9 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.util.List;
 
+import static com.onodera.BleApp.template.HapbeatService.BROADCAST_OUTPUT_MEASUREMENT;
+import static com.onodera.BleApp.template.HapbeatService.EXTRA_OUTPUT_DATA;
+
 /**
  * Modify the Template Activity to match your needs.
  */
@@ -384,7 +387,9 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 
 	@Override
 	public void onAccelerometerSend(byte[] value) {
-			if(mUdpClientService!=null) mUdpClientService.addDataToQueue(value);
+			if(mUdpClientService!=null) {
+				mUdpClientService.sendData(value);
+			}
 			else if (hapbeatService!=null && mNetwork==HapbeatService.Network.local) hapbeatService.hapbeatSend(value);
 	}
 
