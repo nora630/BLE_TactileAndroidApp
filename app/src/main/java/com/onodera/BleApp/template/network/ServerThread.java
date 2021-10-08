@@ -23,7 +23,7 @@ public abstract class ServerThread extends Thread {
     protected abstract void createSocket();
     protected abstract void waitConnection();
     protected abstract void closeSocket();
-    protected abstract int waitForData(byte[] ReadBuffer);
+    protected abstract int waitForData(/*byte[] ReadBuffer*/);
     protected abstract void networkDataReceived(byte[] ReadBuffer);
 
     private int count = 0;
@@ -36,14 +36,15 @@ public abstract class ServerThread extends Thread {
 
     @Override
     public void run() {
-        //super.run();
+        super.run();
         //mKeepAlive.set(true);
         mKeepAlive = true;
         createSocket();
             //waitConnection();
             //mKeepAlive.set(true);
         while(/*mKeepAlive.get()*/mKeepAlive){
-            int nData = waitForData(mReadBuffer);
+            int nData = waitForData(/*mReadBuffer*/);
+            int data = 0;
 
 
             //count++;
@@ -55,12 +56,22 @@ public abstract class ServerThread extends Thread {
                 Log.d("MyMonitor", "Receive: " + val);
             } */
 
-            if(nData>0) {
+
+            /*
+            if(nData==20) {
                 //networkDataReceived(mReadBuffer);
                 mListener.onServerToHapbeatSend(mReadBuffer);
-            }
+            } */
+            //synchronized (mQueueMutex){
+                if(mDataQueue.size()>=MAXIMUM_PACKET_SIZE){
+                    for(int i=0; i<MAXIMUM_PACKET_SIZE; i++){
+                        mReadBuffer[i] = mDataQueue.pop();
+                    }
+                    data = MAXIMUM_PACKET_SIZE;
+                }
+            //}
 
-
+            if(data==MAXIMUM_PACKET_SIZE) mListener.onServerToHapbeatSend(mReadBuffer);
 
 
             //    count = 0;

@@ -35,7 +35,7 @@ public abstract class ClientThread extends Thread {
 
     @Override
     public void run() {
-        //super.run();
+        super.run();
         mKeepAlive = true;
 
         //mDataQueue.add((byte)12);
@@ -74,7 +74,7 @@ public abstract class ClientThread extends Thread {
                 int nData = 0;
 
 
-                synchronized (mQueueMutex) {
+                //synchronized (mQueueMutex) {
                     //nData = Math.min(mDataQueue.size(), MAXIMUM_PACKET_SIZE);
                     //if (nData==0)
                     //nData = mDataQueue.size();
@@ -83,15 +83,16 @@ public abstract class ClientThread extends Thread {
                     for (int i=0; i<MAXIMUM_PACKET_SIZE; i++){
                         sendDataBuffer[i] = mDataQueue.pop();
                     }
-                }
+                    nData = MAXIMUM_PACKET_SIZE;
+                //}
 
 
 
 
-                //if (nData>0){
+                if (nData==MAXIMUM_PACKET_SIZE){
                     sendData(sendDataBuffer, MAXIMUM_PACKET_SIZE);
                     //Log.d("MyMonitor", "send!");
-                //}
+                }
 
 
             }

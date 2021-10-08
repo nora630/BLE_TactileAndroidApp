@@ -79,7 +79,7 @@ public class UdpServerService extends Service {
         }
 
         @Override
-        protected int waitForData(byte[] ReadBuffer) {
+        protected int waitForData(/*byte[] ReadBuffer*/) {
             int nData = 0;
             try {
                 mSocket.receive(mPacket);
@@ -87,9 +87,13 @@ public class UdpServerService extends Service {
                 e.printStackTrace();
             }
             nData = mPacket.getLength();
-            for(int i=0; i<nData; i++){
-                ReadBuffer[i] = mReceiveBuffer[i];
-            }
+            //synchronized (mQueueMutex) {
+                for (int i = 0; i < nData; i++) {
+                    //ReadBuffer[i] = mReceiveBuffer[i];
+                    mDataQueue.add(mReceiveBuffer[i]);
+
+                }
+            //}
             return nData;
         }
 

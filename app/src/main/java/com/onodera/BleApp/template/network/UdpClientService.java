@@ -162,11 +162,11 @@ public class UdpClientService extends Service {
             }
 
             public void addDataToQueue(byte[] value) {
-                synchronized (mClientThread.mQueueMutex) {
+                //synchronized (mClientThread.mQueueMutex) {
                     for (int i=0; i<value.length; i++) {
                         mClientThread.mDataQueue.add(value[i]);
                     }
-                }
+                //}
             }
 
 
