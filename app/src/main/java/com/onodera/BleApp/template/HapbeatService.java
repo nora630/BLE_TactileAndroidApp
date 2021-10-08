@@ -41,8 +41,10 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     private Adpcm encodeAdpcm = new Adpcm();
     private Adpcm decodeAdpcm = new Adpcm();
     private HighPassFilter highPassFilter = new HighPassFilter();
+    private HighPassFilter highPassFilter1 = new HighPassFilter();
     private int mVolumeScale = 50;
     private boolean mAmp = false;
+    private int counter = 0;
 
     private HapbeatManager manager;
 
@@ -351,29 +353,41 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         int[] data = new int[20];
         for (int i = 0; i < value.length; i++) {
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
+            sample = highPassFilter.filter(sample);
             if(mAmp) {
                 sample = highPassFilter.voiceFilter(sample);
-                sample *= 2;
+                //sample = highPassFilter1.voiceFilter(sample);
+                sample *= 4;
             }
             sample = (int)(sample * mVolumeScale / 250.0);
-            sample = highPassFilter.filter(sample);
+            //sample = highPassFilter.filter(sample);
             data[i] = sample;
-            //Log.d("MyMonitor", "" + sample);
+            //Log.d("MyMonitor", " " + sample);
             code = encodeAdpcm.ADPCMEncoder((short) sample);
             code = (byte) ((code << 4) & 0xf0);
 
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i]) & 0x0f));
+            sample = highPassFilter.filter(sample);
             if(mAmp) {
                 sample = highPassFilter.voiceFilter(sample);
-                sample *= 2;
+                //sample = highPassFilter1.voiceFilter(sample);
+                sample *= 4;
             }
             sample = (int)(sample * mVolumeScale / 250.0);
-            sample = highPassFilter.filter(sample);
+            //sample = highPassFilter.filter(sample);
             data[i] = sample;
             //Log.d("MyMonitor", "" + sample);
             code |= encodeAdpcm.ADPCMEncoder((short) sample);
 
             value[i] = code;
+        }
+        counter++;
+        if(counter>=250){
+            encodeAdpcm.prevsample = 0;
+            encodeAdpcm.previndex = 0;
+            decodeAdpcm.prevsample = 0;
+            decodeAdpcm.previndex = 0;
+            counter = 0;
         }
         final Intent broadcast = new Intent(BROADCAST_OUTPUT_MEASUREMENT);
         broadcast.putExtra(EXTRA_OUTPUT_DATA, data);
