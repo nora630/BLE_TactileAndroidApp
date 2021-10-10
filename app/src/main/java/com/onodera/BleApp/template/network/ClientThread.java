@@ -19,7 +19,7 @@ public abstract class ClientThread extends Thread {
     protected volatile boolean mKeepAlive;
     protected InetAddress mInetAddress;
     private String mIpAddress;
-    private final int DATA_SEND_INTERVAL = 40;
+    private final int DATA_SEND_INTERVAL = 20;
     protected Object mQueueMutex = new Object();
     protected ArrayDeque<Byte> mDataQueue = new ArrayDeque<>();
 

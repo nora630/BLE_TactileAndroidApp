@@ -385,12 +385,12 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 	@Override
 	public void onAccelerometerSend(byte[] value) {
 			if(mUdpClientService!=null) mUdpClientService.addDataToQueue(value);
-			else if (hapbeatService!=null && mNetwork==HapbeatService.Network.local) hapbeatService.hapbeatSend(value);
+			else if (hapbeatService!=null && mNetwork==HapbeatService.Network.local) hapbeatService.addDataToHapbeatQueue(value);
 	}
 
 	@Override
 	public void onServerToHapbeatSend(byte[] value) {
-		if (hapbeatService!=null && mNetwork==HapbeatService.Network.UDP) hapbeatService.hapbeatSend(value);
+		if (hapbeatService!=null && mNetwork==HapbeatService.Network.UDP) hapbeatService.addDataToHapbeatQueue(value);
 	}
 
 	/*

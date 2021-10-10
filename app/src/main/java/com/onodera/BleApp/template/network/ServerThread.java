@@ -17,6 +17,7 @@ public abstract class ServerThread extends Thread {
     //protected final AtomicBoolean mKeepAlive = new AtomicBoolean(false);
     protected volatile boolean mKeepAlive = false;
     private byte[] mReadBuffer = new byte[MAXIMUM_PACKET_SIZE];
+    private final int DATA_SEND_INTERVAL = 2;
     protected Object mQueueMutex = new Object();
     protected ArrayDeque<Byte> mDataQueue = new ArrayDeque<>();
 
@@ -57,7 +58,13 @@ public abstract class ServerThread extends Thread {
 
             if(nData>0) {
                 //networkDataReceived(mReadBuffer);
-                mListener.onServerToHapbeatSend(mReadBuffer);
+                if(mListener!=null) mListener.onServerToHapbeatSend(mReadBuffer);
+            }
+
+            try {
+                Thread.sleep(DATA_SEND_INTERVAL);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
 

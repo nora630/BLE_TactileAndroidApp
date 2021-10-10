@@ -19,7 +19,10 @@ import com.onodera.BleApp.R;
 import com.onodera.BleApp.ToolboxApplication;
 import com.onodera.BleApp.profile.BleProfileService;
 import com.onodera.BleApp.profile.LoggableBleManager;
+import com.onodera.BleApp.template.network.NetworkConfiguration;
 import com.onodera.BleApp.template.network.UdpServerService;
+
+import java.util.ArrayDeque;
 
 import no.nordicsemi.android.log.Logger;
 
@@ -44,9 +47,44 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     private int mVolumeScale = 50;
     private boolean mAmp = false;
 
+    private HapbeatThread mHapbeatThread;
+
     private HapbeatManager manager;
 
     private final LocalBinder binder = new TemplateBinder();
+
+    public class HapbeatThread extends Thread {
+        private Object mQueueMutex = new Object();
+        private ArrayDeque<Byte> mDataQueue = new ArrayDeque<>();
+        private byte[] value = new byte[NetworkConfiguration.MAXIMUM_PACKET_SIZE];
+        private volatile boolean mKeepAlive = true;
+        private final int DATA_SEND_INTERVAL = 2;
+
+        @Override
+        public void run() {
+            super.run();
+            while (mKeepAlive) {
+                int nData = 0;
+                synchronized (mQueueMutex) {
+                    if(mDataQueue.size()< NetworkConfiguration.MAXIMUM_PACKET_SIZE) continue;
+                    for(int i=0; i<NetworkConfiguration.MAXIMUM_PACKET_SIZE; i++){
+                        value[i] = mDataQueue.pop();
+                    }
+                    nData = NetworkConfiguration.MAXIMUM_PACKET_SIZE;
+                }
+                if(nData==NetworkConfiguration.MAXIMUM_PACKET_SIZE){
+                    volumeControl(value);
+                    manager.send(value);
+                }
+                try {
+                    Thread.sleep(DATA_SEND_INTERVAL);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
 
     /*
     private Adpcm decodeAdpcm = new Adpcm();
@@ -72,6 +110,12 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         public void hapbeatSend(byte[] value){
             volumeControl(value);
             manager.send(value);
+        }
+
+        public void addDataToHapbeatQueue(byte[] data){
+            synchronized (mHapbeatThread.mQueueMutex){
+                for(int i=0; i<data.length; i++) mHapbeatThread.mDataQueue.add(data[i]);
+            }
         }
 
     }
@@ -107,6 +151,8 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         filter1.addAction(UdpServerService.BROADCAST_NETWORK_MEASUREMENT);
         //filter1.addAction(BROADCAST_OUTPUT_MEASUREMENT);
         //LocalBroadcastManager.getInstance(this).registerReceiver(intentBroadcastReceiver, filter1);
+        mHapbeatThread = new HapbeatThread();
+        mHapbeatThread.start();
     }
 
 
@@ -116,7 +162,8 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         stopForegroundService();
         unregisterReceiver(disconnectActionBroadcastReceiver);
         //LocalBroadcastManager.getInstance(this).unregisterReceiver(intentBroadcastReceiver);
-
+        mHapbeatThread.mKeepAlive = false;
+        mHapbeatThread = null;
         super.onDestroy();
     }
 
