@@ -402,9 +402,9 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
             if(mAmp) {
                 sample = highPassFilter.voiceFilter(sample);
-                sample *= 2;
+                sample *= 3;
             }
-            sample = (int)(sample * mVolumeScale / 300.0);
+            sample = (int)(sample * mVolumeScale / 180.0);
             sample = highPassFilter.filter(sample);
             data[2*i] = sample;
             //Log.d("MyMonitor", "" + sample);
@@ -414,9 +414,9 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i]) & 0x0f));
             if(mAmp) {
                 sample = highPassFilter.voiceFilter(sample);
-                sample *= 2;
+                sample *= 3;
             }
-            sample = (int)(sample * mVolumeScale / 300.0);
+            sample = (int)(sample * mVolumeScale / 180.0);
             sample = highPassFilter.filter(sample);
             data[2*i+1] = sample;
             //Log.d("MyMonitor", "" + sample);
