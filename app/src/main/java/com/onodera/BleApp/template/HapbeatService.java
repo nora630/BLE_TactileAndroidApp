@@ -64,18 +64,18 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         public void run() {
             super.run();
             while (mKeepAlive) {
-                int nData = 0;
+                //int nData = 0;
                 synchronized (mQueueMutex) {
                     if(mDataQueue.size()< NetworkConfiguration.MAXIMUM_PACKET_SIZE) continue;
                     for(int i=0; i<NetworkConfiguration.MAXIMUM_PACKET_SIZE; i++){
                         value[i] = mDataQueue.pop();
                     }
-                    nData = NetworkConfiguration.MAXIMUM_PACKET_SIZE;
+                    //nData = NetworkConfiguration.MAXIMUM_PACKET_SIZE;
                 }
-                if(nData==NetworkConfiguration.MAXIMUM_PACKET_SIZE){
+                //if(nData==NetworkConfiguration.MAXIMUM_PACKET_SIZE){
                     volumeControl(value);
                     manager.send(value);
-                }
+                //}
                 try {
                     Thread.sleep(DATA_SEND_INTERVAL);
                 } catch (InterruptedException e) {
@@ -392,19 +392,21 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         }
     };
 
+    int[] data = new int[40];
+
     private void volumeControl(byte[] value) {
         int sample;
         byte code;
-        int[] data = new int[20];
+        //int[] data = new int[20];
         for (int i = 0; i < value.length; i++) {
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
             if(mAmp) {
                 sample = highPassFilter.voiceFilter(sample);
                 sample *= 2;
             }
-            sample = (int)(sample * mVolumeScale / 250.0);
+            sample = (int)(sample * mVolumeScale / 300.0);
             sample = highPassFilter.filter(sample);
-            data[i] = sample;
+            data[2*i] = sample;
             //Log.d("MyMonitor", "" + sample);
             code = encodeAdpcm.ADPCMEncoder((short) sample);
             code = (byte) ((code << 4) & 0xf0);
@@ -414,9 +416,9 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
                 sample = highPassFilter.voiceFilter(sample);
                 sample *= 2;
             }
-            sample = (int)(sample * mVolumeScale / 250.0);
+            sample = (int)(sample * mVolumeScale / 300.0);
             sample = highPassFilter.filter(sample);
-            data[i] = sample;
+            data[2*i+1] = sample;
             //Log.d("MyMonitor", "" + sample);
             code |= encodeAdpcm.ADPCMEncoder((short) sample);
 

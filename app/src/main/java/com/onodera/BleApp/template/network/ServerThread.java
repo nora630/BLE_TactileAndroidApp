@@ -43,8 +43,10 @@ public abstract class ServerThread extends Thread {
         createSocket();
             //waitConnection();
             //mKeepAlive.set(true);
+
+        int nData = 0;
         while(/*mKeepAlive.get()*/mKeepAlive){
-            int nData = waitForData(mReadBuffer);
+            nData = waitForData(mReadBuffer);
 
 
             //count++;
@@ -56,9 +58,10 @@ public abstract class ServerThread extends Thread {
                 Log.d("MyMonitor", "Receive: " + val);
             } */
 
-            if(nData>0) {
+            if(nData>0&&mListener!=null) {
                 //networkDataReceived(mReadBuffer);
-                if(mListener!=null) mListener.onServerToHapbeatSend(mReadBuffer);
+                mListener.onServerToHapbeatSend(mReadBuffer);
+                //nData = 0;
             }
 
             try {

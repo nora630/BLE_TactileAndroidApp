@@ -71,7 +71,7 @@ public abstract class ClientThread extends Thread {
                     e.printStackTrace();
                 } */
 
-                int nData = 0;
+                //int nData = 0;
 
 
                 synchronized (mQueueMutex) {
