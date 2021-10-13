@@ -44,6 +44,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     private Adpcm encodeAdpcm = new Adpcm();
     private Adpcm decodeAdpcm = new Adpcm();
     private HighPassFilter highPassFilter = new HighPassFilter();
+    private LowPassFilter lowPassFilter = new LowPassFilter();
     private int mVolumeScale = 50;
     private boolean mAmp = false;
 
@@ -143,12 +144,12 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         //Adpcm.initAdpcm(encodeState);
 
         //mNetwork = Network.local;
-        final IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_DISCONNECT);
-        registerReceiver(disconnectActionBroadcastReceiver, filter);
-        final IntentFilter filter1 = new IntentFilter();
-        filter1.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
-        filter1.addAction(UdpServerService.BROADCAST_NETWORK_MEASUREMENT);
+        //final IntentFilter filter = new IntentFilter();
+        //filter.addAction(ACTION_DISCONNECT);
+        //registerReceiver(disconnectActionBroadcastReceiver, filter);
+        //final IntentFilter filter1 = new IntentFilter();
+        //filter1.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);
+        //filter1.addAction(UdpServerService.BROADCAST_NETWORK_MEASUREMENT);
         //filter1.addAction(BROADCAST_OUTPUT_MEASUREMENT);
         //LocalBroadcastManager.getInstance(this).registerReceiver(intentBroadcastReceiver, filter1);
         mHapbeatThread = new HapbeatThread();
@@ -160,7 +161,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     public void onDestroy() {
         // when user has disconnected from the sensor, we have to cancel the notification that we've created some milliseconds before using unbindService
         stopForegroundService();
-        unregisterReceiver(disconnectActionBroadcastReceiver);
+        //unregisterReceiver(disconnectActionBroadcastReceiver);
         //LocalBroadcastManager.getInstance(this).unregisterReceiver(intentBroadcastReceiver);
         mHapbeatThread.mKeepAlive = false;
         mHapbeatThread = null;
@@ -381,6 +382,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     /**
      * This broadcast receiver listens for {@link #ACTION_DISCONNECT} that may be fired by pressing Disconnect action button on the notification.
      */
+    /*
     private final BroadcastReceiver disconnectActionBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {
@@ -392,7 +394,9 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         }
     };
 
-    int[] data = new int[40];
+     */
+
+    //int[] data = new int[40];
 
     private void volumeControl(byte[] value) {
         int sample;
@@ -404,9 +408,10 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
                 sample = highPassFilter.voiceFilter(sample);
                 sample *= 3;
             }
-            sample = (int)(sample * mVolumeScale / 180.0);
+            sample = (int)(sample * mVolumeScale / 256.0);
+            sample = lowPassFilter.filter(sample);
             sample = highPassFilter.filter(sample);
-            data[2*i] = sample;
+            //data[2*i] = sample;
             //Log.d("MyMonitor", "" + sample);
             code = encodeAdpcm.ADPCMEncoder((short) sample);
             code = (byte) ((code << 4) & 0xf0);
@@ -416,34 +421,35 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
                 sample = highPassFilter.voiceFilter(sample);
                 sample *= 3;
             }
-            sample = (int)(sample * mVolumeScale / 180.0);
+            sample = (int)(sample * mVolumeScale / 256.0);
+            sample = lowPassFilter.filter(sample);
             sample = highPassFilter.filter(sample);
-            data[2*i+1] = sample;
+            //data[2*i+1] = sample;
             //Log.d("MyMonitor", "" + sample);
             code |= encodeAdpcm.ADPCMEncoder((short) sample);
 
             value[i] = code;
         }
-        final Intent broadcast = new Intent(BROADCAST_OUTPUT_MEASUREMENT);
-        broadcast.putExtra(EXTRA_OUTPUT_DATA, data);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+        //final Intent broadcast = new Intent(BROADCAST_OUTPUT_MEASUREMENT);
+        //broadcast.putExtra(EXTRA_OUTPUT_DATA, data);
+        //LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
     }
 
 
 
 
-
+    /*
     private BroadcastReceiver intentBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
             final String action = intent.getAction();
 
-            /*
+
             if(BROADCAST_OUTPUT_MEASUREMENT.equals(action)) {
                 byte[] value = intent.getByteArrayExtra(EXTRA_OUTPUT_DATA);
                 manager.send(value);
-            } */
+            }
 
             switch (mNetwork) {
                 case local:
@@ -464,11 +470,13 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
                 int[] intValue = new int[20];
                 for(int i=0; i<20; i++){
                     intValue[i] = value[i] & 0xFF;
-                } */
+                }
 
 
                 }
 
         }
     };
+
+     */
 }

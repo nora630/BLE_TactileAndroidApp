@@ -222,10 +222,11 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		 */
 	}
 
+	/*
 	@Override
 	protected void onInitialize(final Bundle savedInstanceState) {
-		LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, makeIntentFilter());
-	}
+		//LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, makeIntentFilter());
+	}*/
 
 	@Override
 	protected void onStop() {
@@ -256,7 +257,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		stopService(service);
 		mUdpServerService = null;
 		mUdpClientService = null;
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+		//LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
 		String text = PhoneConnectButton.getText().toString();
 		if(text=="DISCONNECT"){
 			Intent service2 = new Intent(BleMainActivity.this, UdpClientService.class);
@@ -285,7 +286,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		return true;
 	}
 
-
+/*
 	@Override
 	protected boolean onOptionsItemSelected(final int itemId) {
 		switch (itemId) {
@@ -297,6 +298,8 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		return true;
 	}
 
+
+ */
 
 
 	@Override
@@ -351,7 +354,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		}
 	}
 
-
+/*
 	private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(final Context context, final Intent intent) {
@@ -381,6 +384,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		intentFilter.addAction(AccelerometerService.BROADCAST_BATTERY_LEVEL);
 		return intentFilter;
 	}
+ */
 
 	@Override
 	public void onAccelerometerSend(byte[] value) {

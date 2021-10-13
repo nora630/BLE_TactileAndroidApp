@@ -100,6 +100,7 @@ public class AccelerometerService extends BleProfileService implements Accelerom
         return manager = new AccelerometerManager(this);
     }
 
+    /*
     @Override
     public void onCreate() {
         super.onCreate();
@@ -107,13 +108,13 @@ public class AccelerometerService extends BleProfileService implements Accelerom
         final IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_DISCONNECT);
         registerReceiver(disconnectActionBroadcastReceiver, filter);
-    }
+    } */
 
     @Override
     public void onDestroy() {
         // when user has disconnected from the sensor, we have to cancel the notification that we've created some milliseconds before using unbindService
         stopForegroundService();
-        unregisterReceiver(disconnectActionBroadcastReceiver);
+        //unregisterReceiver(disconnectActionBroadcastReceiver);
 
         super.onDestroy();
     }
@@ -350,6 +351,7 @@ public class AccelerometerService extends BleProfileService implements Accelerom
     /**
      * This broadcast receiver listens for {@link #ACTION_DISCONNECT} that may be fired by pressing Disconnect action button on the notification.
      */
+    /*
     private final BroadcastReceiver disconnectActionBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {
@@ -360,4 +362,6 @@ public class AccelerometerService extends BleProfileService implements Accelerom
                 stopSelf();
         }
     };
+
+     */
 }
