@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,6 +78,18 @@ public abstract class BleConnectActivity extends AppCompatActivity
     private BluetoothDevice hapbeatBluetoothDevice;
     private String accelName;
     private String hapbeatName;
+
+    private SeekBar seekBarView;
+    private TextView seekTextView;
+    private int volumeScale = 50;
+
+    private SeekBar lowSeekBarView;
+    private TextView lowSeekTextView;
+    private int lowValue = 10;
+
+    private SeekBar highSeekBarView;
+    private TextView highSeekTextView;
+    private int highValue = 10;
 
 
     protected UUID mUuid;
@@ -299,6 +312,10 @@ public abstract class BleConnectActivity extends AppCompatActivity
             hapbeatNameView.setText(hapbeatName);
             hapbeatConnectButton.setText(R.string.action_disconnect);
 
+            hapbeatService.setVolumeScale(volumeScale);
+            hapbeatService.setLowValue(lowValue);
+            hapbeatService.setHighValue(highValue);
+
             // And notify user if device is connected
             if (bleService.isConnected()) {
                 onHapbeatConnected(hapbeatBluetoothDevice);
@@ -491,6 +508,87 @@ public abstract class BleConnectActivity extends AppCompatActivity
         accelNameView = findViewById(R.id.device_name);
         hapbeatConnectButton = findViewById(R.id.action_connect2);
         hapbeatNameView = findViewById(R.id.device_name2);
+
+        seekBarView = findViewById(R.id.seekBar);
+        seekTextView = findViewById(R.id.value2);
+
+        int p = seekBarView.getProgress();
+        String s = "volume: " + p/10.0f;
+        seekTextView.setText(s);
+
+        seekBarView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                String s = "volume: " + i/10.0f;
+                volumeScale = i;
+                if (hapbeatService!=null) hapbeatService.setVolumeScale(i);
+                seekTextView.setText(s);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        lowSeekBarView = findViewById(R.id.low_seekBar);
+        lowSeekTextView = findViewById(R.id.low_value);
+
+        p = lowSeekBarView.getProgress();
+        s = "0~50Hz: " + p/10.0f;
+        lowSeekTextView.setText(s);
+
+        lowSeekBarView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                String s = "0~50Hz: " + i/10.0f;
+                lowValue = i;
+                if (hapbeatService!=null) hapbeatService.setLowValue(i);
+                lowSeekTextView.setText(s);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        highSeekBarView = findViewById(R.id.high_seekBar);
+        highSeekTextView = findViewById(R.id.high_value);
+
+        p = highSeekBarView.getProgress();
+        s = "50~500Hz: " + p/10.0f;
+        highSeekTextView.setText(s);
+
+        highSeekBarView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                String s = "50~500Hz: " + i/10.0f;
+                highValue = i;
+                if (hapbeatService!=null) hapbeatService.setHighValue(i);
+                highSeekTextView.setText(s);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
     }
 

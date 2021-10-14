@@ -41,6 +41,8 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     private HighPassFilter highPassFilter = new HighPassFilter();
     private LowPassFilter lowPassFilter = new LowPassFilter();
     private int mVolumeScale = 50;
+    private int mLowValue = 10;
+    private int mHighValue = 10;
 
     private HapbeatThread mHapbeatThread;
 
@@ -100,6 +102,9 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
 
         public void setVolumeScale(int volumeScale) { mVolumeScale = volumeScale; }
 
+        public void setLowValue(int lowValue) { mLowValue = lowValue; }
+
+        public void setHighValue(int highValue) { mHighValue = highValue; }
 
         public void hapbeatSend(byte[] value){
             volumeControl(value);
@@ -397,9 +402,14 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         //int[] data = new int[20];
         for (int i = 0; i < value.length; i++) {
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
-            sample = (int)(sample * mVolumeScale / 256.0);
+            sample = (int)(sample * mVolumeScale / 256.0f);
+
             sample1 = lowPassFilter.firFilter(sample);
+            sample1 = (int)(sample1 * mLowValue / 10.0f);
+
             sample2 = highPassFilter.firFilter(sample);
+            sample2 = (int)(sample2 * mHighValue / 10.0f);
+
             sample = sample1 + sample2;
             sample = highPassFilter.butterworthFilter(sample);
             //data[2*i] = sample;
@@ -408,9 +418,14 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
             code = (byte) ((code << 4) & 0xf0);
 
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i]) & 0x0f));
-            sample = (int)(sample * mVolumeScale / 256.0);
+            sample = (int)(sample * mVolumeScale / 256.0f);
+
             sample1 = lowPassFilter.firFilter(sample);
+            sample1 = (int)(sample1 * mLowValue / 10.0f);
+
             sample2 = highPassFilter.firFilter(sample);
+            sample2 = (int)(sample2 * mHighValue / 10.0f);
+
             sample = sample1 + sample2;
             sample = highPassFilter.butterworthFilter(sample);
             //data[2*i+1] = sample;

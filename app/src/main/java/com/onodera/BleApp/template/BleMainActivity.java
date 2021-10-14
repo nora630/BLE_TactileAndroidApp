@@ -67,8 +67,8 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 	private UdpClientService.LocalBinder mUdpClientService;
 	private UdpServerService.LocalBinder mUdpServerService;
 	private TextView valueView;
-	private SeekBar seekBarView;
-	private TextView seekTextView;
+	//private SeekBar seekBarView;
+	//private TextView seekTextView;
 	private EditText editPhoneView;
 	private TextView Phoneview;
 	private Button   PhoneConnectButton;
@@ -184,18 +184,22 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 	private void setGUI() {
 		// TODO assign your views to fields
 		valueView = findViewById(R.id.value);
+		/*
 		seekBarView = findViewById(R.id.seekBar);
 		seekTextView = findViewById(R.id.value2);
 
 		int p = seekBarView.getProgress();
 		String s = "volume: " + p/10.0;
 		seekTextView.setText(s);
+
+		 */
 		//outputControlService.setVolumeScale(p);
 
+		/*
 		seekBarView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-				String s = "" + i/10.0;
+				String s = "volume: " + i/10.0;
 				if (hapbeatService!=null) hapbeatService.setVolumeScale(i);
 				seekTextView.setText(s);
 			}
@@ -210,6 +214,8 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 
 			}
 		});
+
+		 */
 
 		//batteryLevelView = findViewById(R.id.battery);
 
