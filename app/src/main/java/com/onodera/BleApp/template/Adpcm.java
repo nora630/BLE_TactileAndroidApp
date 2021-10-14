@@ -141,7 +141,7 @@ public class Adpcm {
         prevsample = (short)predsample;
         previndex = index;
 
-        //Log.d("adpcm", "prevsample="+prevsample+"   previndex="+previndex);
+        Log.d("adpcm", "prevsample="+prevsample+"   previndex="+previndex);
 
         return(predsample);
     }

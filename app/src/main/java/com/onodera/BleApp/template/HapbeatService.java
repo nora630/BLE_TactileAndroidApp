@@ -402,7 +402,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         //int[] data = new int[20];
         for (int i = 0; i < value.length; i++) {
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
-            sample = (int)(sample * mVolumeScale / 256.0f);
+            sample = (int)(sample * mVolumeScale / 800.0f);
 
             sample1 = lowPassFilter.firFilter(sample);
             sample1 = (int)(sample1 * mLowValue / 10.0f);
@@ -418,7 +418,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
             code = (byte) ((code << 4) & 0xf0);
 
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i]) & 0x0f));
-            sample = (int)(sample * mVolumeScale / 256.0f);
+            sample = (int)(sample * mVolumeScale / 800.0f);
 
             sample1 = lowPassFilter.firFilter(sample);
             sample1 = (int)(sample1 * mLowValue / 10.0f);
