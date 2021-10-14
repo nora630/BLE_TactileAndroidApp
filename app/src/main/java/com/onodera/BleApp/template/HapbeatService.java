@@ -4,10 +4,8 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
@@ -20,11 +18,8 @@ import com.onodera.BleApp.ToolboxApplication;
 import com.onodera.BleApp.profile.BleProfileService;
 import com.onodera.BleApp.profile.LoggableBleManager;
 import com.onodera.BleApp.template.network.NetworkConfiguration;
-import com.onodera.BleApp.template.network.UdpServerService;
 
 import java.util.ArrayDeque;
-
-import no.nordicsemi.android.log.Logger;
 
 public class HapbeatService extends BleProfileService implements HapbeatManagerCallbacks {
     public static final String BROADCAST_OUTPUT_MEASUREMENT = "com.onodera.BleApp.template.BROADCAST_OUTPUT_MEASUREMENT";
@@ -46,7 +41,6 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     private HighPassFilter highPassFilter = new HighPassFilter();
     private LowPassFilter lowPassFilter = new LowPassFilter();
     private int mVolumeScale = 50;
-    private boolean mAmp = false;
 
     private HapbeatThread mHapbeatThread;
 
@@ -106,7 +100,6 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
 
         public void setVolumeScale(int volumeScale) { mVolumeScale = volumeScale; }
 
-        public void setAmpBoolean(boolean amp) { mAmp = amp; }
 
         public void hapbeatSend(byte[] value){
             volumeControl(value);
@@ -399,31 +392,27 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     //int[] data = new int[40];
 
     private void volumeControl(byte[] value) {
-        int sample;
+        int sample, sample1, sample2;
         byte code;
         //int[] data = new int[20];
         for (int i = 0; i < value.length; i++) {
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
-            if(mAmp) {
-                sample = highPassFilter.voiceFilter(sample);
-                sample *= 3;
-            }
             sample = (int)(sample * mVolumeScale / 256.0);
-            sample = lowPassFilter.filter(sample);
-            sample = highPassFilter.filter(sample);
+            sample1 = lowPassFilter.firFilter(sample);
+            sample2 = highPassFilter.firFilter(sample);
+            sample = sample1 + sample2;
+            sample = highPassFilter.butterworthFilter(sample);
             //data[2*i] = sample;
             //Log.d("MyMonitor", "" + sample);
             code = encodeAdpcm.ADPCMEncoder((short) sample);
             code = (byte) ((code << 4) & 0xf0);
 
             sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i]) & 0x0f));
-            if(mAmp) {
-                sample = highPassFilter.voiceFilter(sample);
-                sample *= 3;
-            }
             sample = (int)(sample * mVolumeScale / 256.0);
-            sample = lowPassFilter.filter(sample);
-            sample = highPassFilter.filter(sample);
+            sample1 = lowPassFilter.firFilter(sample);
+            sample2 = highPassFilter.firFilter(sample);
+            sample = sample1 + sample2;
+            sample = highPassFilter.butterworthFilter(sample);
             //data[2*i+1] = sample;
             //Log.d("MyMonitor", "" + sample);
             code |= encodeAdpcm.ADPCMEncoder((short) sample);

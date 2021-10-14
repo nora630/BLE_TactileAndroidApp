@@ -163,6 +163,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		super.setUpView();
 		editPhoneView = findViewById(R.id.editPhoneText);
 		IpAddressView = findViewById(R.id.ip_address);
+		IpAddressView.setTextIsSelectable(true);
 		//Phoneview = findViewById(R.id.phone_name);
 		PhoneConnectButton = findViewById(R.id.phone_connect);
 		mSwitch = findViewById(R.id.NetworkSwitch);
@@ -187,7 +188,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		seekTextView = findViewById(R.id.value2);
 
 		int p = seekBarView.getProgress();
-		String s = "" + p/10.0;
+		String s = "volume: " + p/10.0;
 		seekTextView.setText(s);
 		//outputControlService.setVolumeScale(p);
 

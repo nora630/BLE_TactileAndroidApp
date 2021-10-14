@@ -1,5 +1,7 @@
 package com.onodera.BleApp.template;
 
+import android.util.Log;
+
 public class Adpcm {
     /*
     class ADPCMstate {
@@ -100,6 +102,8 @@ public class Adpcm {
         prevsample = (short)predsample;
         previndex = index;
 
+        //Log.d("adpcm", ""+prevsample);
+
         return (byte) (code & 0x0f);
     }
 
@@ -136,6 +140,8 @@ public class Adpcm {
 
         prevsample = (short)predsample;
         previndex = index;
+
+        //Log.d("adpcm", "prevsample="+prevsample+"   previndex="+previndex);
 
         return(predsample);
     }

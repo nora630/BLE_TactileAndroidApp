@@ -198,15 +198,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 
-				<Switch
-					android:id="@+id/AmpSwitch"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:checked="false"
-					android:text="amplify"
-					android:textOff="no"
-					android:textOn="voice"
-					android:showText="true"/>
+
 			</TableRow>
 
 			<TableRow
