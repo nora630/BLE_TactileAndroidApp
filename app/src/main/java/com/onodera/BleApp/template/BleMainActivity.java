@@ -38,6 +38,7 @@ import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.os.IBinder;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -145,7 +146,11 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		//volumeControlService = new Intent(BleMainActivity.this, OutputControlService.class);
 		//bindService(volumeControlService, outputControlServiceConnection, 0);
 
+		//Log.d("cdebug", getMessage());
+
+
 	}
+
 
 	@Override
 	protected void onCreateView(final Bundle savedInstanceState) {

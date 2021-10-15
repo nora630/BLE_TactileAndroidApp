@@ -1,0 +1,7 @@
+Executable : C:\Users\sho_o\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\ninja.exe
+arguments : 
+-C
+C:\Users\sho_o\labo\BleTactileApp\Android-nRF-Toolbox\app\.cxx\cmake\release\armeabi-v7a
+adpcm
+jvmArgs : 
+

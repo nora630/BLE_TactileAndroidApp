@@ -1,0 +1,42 @@
+{
+  "stringTable": {
+    "0": "C:/Users/sho_o/labo/BleTactileApp/Android-nRF-Toolbox/app/.cxx/cmake/debug/x86",
+    "1": "--target=i686-none-linux-android18 --gcc-toolchain=C:/Users/sho_o/AppData/Local/Android/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/sho_o/AppData/Local/Android/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dadpcm_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security -O0 -fno-limit-debug-info -fPIC"
+  },
+  "buildFiles": [
+    "C:\\Users\\sho_o\\AppData\\Local\\Android\\Sdk\\ndk\\20.0.5594570\\build\\cmake\\android.toolchain.cmake",
+    "C:\\Users\\sho_o\\labo\\BleTactileApp\\Android-nRF-Toolbox\\app\\CMakeLists.txt",
+    "C:\\Users\\sho_o\\AppData\\Local\\Android\\Sdk\\ndk\\20.0.5594570\\build\\cmake\\platforms.cmake"
+  ],
+  "cleanCommands": [
+    "C:\\Users\\sho_o\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\sho_o\\labo\\BleTactileApp\\Android-nRF-Toolbox\\app\\.cxx\\cmake\\debug\\x86\" clean"
+  ],
+  "buildTargetsCommand": "C:\\Users\\sho_o\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"C:\\Users\\sho_o\\labo\\BleTactileApp\\Android-nRF-Toolbox\\app\\.cxx\\cmake\\debug\\x86\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "adpcm-Debug-x86": {
+      "buildCommand": "C:\\Users\\sho_o\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\sho_o\\labo\\BleTactileApp\\Android-nRF-Toolbox\\app\\.cxx\\cmake\\debug\\x86\" adpcm",
+      "buildType": "debug",
+      "toolchain": "2043880399",
+      "abi": "x86",
+      "artifactName": "adpcm",
+      "files": [
+        {
+          "src": "C:\\Users\\sho_o\\labo\\BleTactileApp\\Android-nRF-Toolbox\\app\\src\\main\\cpp\\adpcm.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "C:\\Users\\sho_o\\labo\\BleTactileApp\\Android-nRF-Toolbox\\app\\build\\intermediates\\cmake\\debug\\obj\\x86\\libadpcm.so"
+    }
+  },
+  "toolchains": {
+    "2043880399": {
+      "cCompilerExecutable": "C:\\Users\\sho_o\\AppData\\Local\\Android\\Sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": []
+}

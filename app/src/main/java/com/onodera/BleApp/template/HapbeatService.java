@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -36,8 +37,8 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     private final static int OPEN_ACTIVITY_REQ = 0;
     private final static int DISCONNECT_REQ = 1;
     private Network mNetwork = Network.local;
-    private Adpcm encodeAdpcm = new Adpcm();
-    private Adpcm decodeAdpcm = new Adpcm();
+    //private Adpcm encodeAdpcm = new Adpcm();
+    //private Adpcm decodeAdpcm = new Adpcm();
     private HighPassFilter highPassFilter = new HighPassFilter();
     private LowPassFilter lowPassFilter = new LowPassFilter();
     private int mVolumeScale = 50;
@@ -141,6 +142,8 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         //Adpcm.initAdpcm(decodeState);
         //Adpcm.initAdpcm(encodeState);
 
+        setADPCMstate();
+
         //mNetwork = Network.local;
         //final IntentFilter filter = new IntentFilter();
         //filter.addAction(ACTION_DISCONNECT);
@@ -152,8 +155,20 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         //LocalBroadcastManager.getInstance(this).registerReceiver(intentBroadcastReceiver, filter1);
         mHapbeatThread = new HapbeatThread();
         mHapbeatThread.start();
+
     }
 
+    static {
+        System.loadLibrary("adpcm");
+    }
+
+    //public native String getMessage();
+
+    public native void getADPCMdecode(byte[] code, int[] sample);
+
+    public native void getADPCMencode(int[] sample, byte[] code);
+
+    public native void setADPCMstate();
 
     @Override
     public void onDestroy() {
@@ -396,12 +411,39 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
 
     //int[] data = new int[40];
 
+    private  int[] sample = new int[NetworkConfiguration.MAXIMUM_PACKET_SIZE*2];
+    private int sample1, sample2;
+    //private byte[] code = new byte[NetworkConfiguration.MAXIMUM_PACKET_SIZE*2];
+
     private void volumeControl(byte[] value) {
-        int sample, sample1, sample2;
-        byte code;
+        //int[] sample;
+        //int sample1, sample2;
+        //byte code;
         //int[] data = new int[20];
+
+        getADPCMdecode(value, sample);
+
+        for (int i = 0; i < sample.length; i++) {
+            sample[i] = (int)(sample[i] * mVolumeScale / 800.0f);
+
+            sample1 = lowPassFilter.firFilter(sample[i]);
+            sample1 = (int)(sample1 * mLowValue / 10.0f);
+
+            sample2 = highPassFilter.firFilter(sample[i]);
+            sample2 = (int)(sample2 * mHighValue / 10.0f);
+
+            sample[i] = sample1 + sample2;
+            sample[i] = highPassFilter.butterworthFilter(sample[i]);
+        }
+
+        getADPCMencode(sample, value);
+
+
+
+        /*
         for (int i = 0; i < value.length; i++) {
-            sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
+            //sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i] >> 4) & 0x0f));
+            sample = getADPCMdecode((byte) ((value[i] >> 4) & 0x0f));
             sample = (int)(sample * mVolumeScale / 800.0f);
 
             sample1 = lowPassFilter.firFilter(sample);
@@ -414,10 +456,12 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
             sample = highPassFilter.butterworthFilter(sample);
             //data[2*i] = sample;
             //Log.d("MyMonitor", "" + sample);
-            code = encodeAdpcm.ADPCMEncoder((short) sample);
+            //code = encodeAdpcm.ADPCMEncoder((short) sample);
+            code = getADPCMencode((short) sample);
             code = (byte) ((code << 4) & 0xf0);
 
-            sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i]) & 0x0f));
+            //sample = decodeAdpcm.ADPCMDecoder((byte) ((value[i]) & 0x0f));
+            sample = getADPCMdecode((byte) ((value[i]) & 0x0f));
             sample = (int)(sample * mVolumeScale / 800.0f);
 
             sample1 = lowPassFilter.firFilter(sample);
@@ -430,10 +474,12 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
             sample = highPassFilter.butterworthFilter(sample);
             //data[2*i+1] = sample;
             //Log.d("MyMonitor", "" + sample);
-            code |= encodeAdpcm.ADPCMEncoder((short) sample);
+            //code |= encodeAdpcm.ADPCMEncoder((short) sample);
+            code |= getADPCMencode((short) sample);
 
             value[i] = code;
         }
+        */
         //final Intent broadcast = new Intent(BROADCAST_OUTPUT_MEASUREMENT);
         //broadcast.putExtra(EXTRA_OUTPUT_DATA, data);
         //LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);

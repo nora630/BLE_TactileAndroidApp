@@ -1,0 +1,7 @@
+[
+{
+  "directory": "C:/Users/sho_o/labo/BleTactileApp/Android-nRF-Toolbox/app/.cxx/cmake/debug/arm64-v8a",
+  "command": "C:\\Users\\sho_o\\AppData\\Local\\Android\\Sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe --target=aarch64-none-linux-android21 --gcc-toolchain=C:/Users/sho_o/AppData/Local/Android/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/sho_o/AppData/Local/Android/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dadpcm_EXPORTS  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles\\adpcm.dir\\src\\main\\cpp\\adpcm.c.o   -c C:\\Users\\sho_o\\labo\\BleTactileApp\\Android-nRF-Toolbox\\app\\src\\main\\cpp\\adpcm.c",
+  "file": "C:/Users/sho_o/labo/BleTactileApp/Android-nRF-Toolbox/app/src/main/cpp/adpcm.c"
+}
+]

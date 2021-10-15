@@ -1,0 +1,3 @@
+C:/Users/sho_o/labo/BleTactileApp/Android-nRF-Toolbox/app/.cxx/cmake/debug/x86_64/CMakeFiles/adpcm.dir
+C:/Users/sho_o/labo/BleTactileApp/Android-nRF-Toolbox/app/.cxx/cmake/debug/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/sho_o/labo/BleTactileApp/Android-nRF-Toolbox/app/.cxx/cmake/debug/x86_64/CMakeFiles/rebuild_cache.dir
