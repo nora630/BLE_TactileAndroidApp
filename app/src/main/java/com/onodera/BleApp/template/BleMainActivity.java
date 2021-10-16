@@ -298,7 +298,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		return true;
 	}
 
-/*
+
 	@Override
 	protected boolean onOptionsItemSelected(final int itemId) {
 		switch (itemId) {
@@ -309,7 +309,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		}
 		return true;
 	}
-*/
+
 
 
 
