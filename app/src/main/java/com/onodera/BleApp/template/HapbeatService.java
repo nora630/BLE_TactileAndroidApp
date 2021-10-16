@@ -438,9 +438,9 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
 
         getADPCMencode(sample, value);
 
-        final Intent broadcast = new Intent(BROADCAST_OUTPUT_MEASUREMENT);
-        broadcast.putExtra(EXTRA_OUTPUT_DATA, sample);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+        //final Intent broadcast = new Intent(BROADCAST_OUTPUT_MEASUREMENT);
+        //broadcast.putExtra(EXTRA_OUTPUT_DATA, sample);
+        //LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
 
         /*
         for (int i = 0; i < value.length; i++) {
