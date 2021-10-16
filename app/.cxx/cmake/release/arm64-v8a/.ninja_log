@@ -35,3 +35,5 @@
 814	1593	656032262	../../../../build/intermediates/cmake/release/obj/arm64-v8a/libadpcm.so	479547bf31baa893
 1	823	656033604	CMakeFiles/adpcm.dir/src/main/cpp/adpcm.c.o	9c36c58505606e39
 824	1602	656033605	../../../../build/intermediates/cmake/release/obj/arm64-v8a/libadpcm.so	479547bf31baa893
+1	826	656082158	CMakeFiles/adpcm.dir/src/main/cpp/adpcm.c.o	9c36c58505606e39
+826	1610	656082159	../../../../build/intermediates/cmake/release/obj/arm64-v8a/libadpcm.so	479547bf31baa893
