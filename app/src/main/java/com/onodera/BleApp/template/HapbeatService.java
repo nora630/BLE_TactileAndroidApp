@@ -412,7 +412,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     //int[] data = new int[40];
 
     private  int[] sample = new int[NetworkConfiguration.MAXIMUM_PACKET_SIZE*2];
-    private int sample1, sample2;
+    private float sample1, sample2, sample3;
     //private byte[] code = new byte[NetworkConfiguration.MAXIMUM_PACKET_SIZE*2];
 
     private void volumeControl(byte[] value) {
@@ -424,16 +424,16 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         getADPCMdecode(value, sample);
 
         for (int i = 0; i < sample.length; i++) {
-            sample[i] = (int)(sample[i] * mVolumeScale / 8000.0f);
+            sample3 = sample[i] * mVolumeScale / 8000.0f;
 
-            sample1 = lowPassFilter.firFilter(sample[i]);
-            sample1 = (int)(sample1 * mLowValue / 2.0f);
+            sample1 = lowPassFilter.firFilter(sample3);
+            sample1 = sample1 * mLowValue / 2.0f;
 
-            sample2 = highPassFilter.firFilter(sample[i]);
-            sample2 = (int)(sample2 * mHighValue / 1.0f);
+            sample2 = highPassFilter.firFilter(sample3);
+            sample2 = sample2 * mHighValue / 1.0f;
 
-            sample[i] = sample1 + sample2;
-            sample[i] = highPassFilter.butterworthFilter(sample[i]);
+            sample3 = sample1 + sample2;
+            sample[i] = (int)highPassFilter.butterworthFilter(sample3);
         }
 
         getADPCMencode(sample, value);

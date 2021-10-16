@@ -1,7 +1,7 @@
 package com.onodera.BleApp.template;
 
 public class LowPassFilter {
-    private int[] in1 = new int[60];
+    private float[] in1 = new float[60];
     private float[] h = {
             3.11284E-19f,
             0.000279382f,
@@ -67,13 +67,13 @@ public class LowPassFilter {
 
     };
 
-    public  int firFilter(int input) {
+    public  float firFilter(float input) {
         float output = 0;
         for (int i=0; i<h.length; i++){
             if(i==0) output += h[i] * input;
             else output += h[i] * in1[h.length-1-i];
         }
-        int tmp1 = 0, tmp2 = 0;
+        float tmp1 = 0, tmp2 = 0;
         for (int i=0; i<h.length-1; i++){
             if(i==0){
                 tmp1 = in1[h.length-2];
@@ -84,6 +84,6 @@ public class LowPassFilter {
                 tmp1 = tmp2;
             }
         }
-        return (int)output;
+        return output;
     }
 }

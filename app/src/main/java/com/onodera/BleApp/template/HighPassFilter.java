@@ -5,7 +5,7 @@ public class HighPassFilter {
     private float a0 = 1, a1 = -0.9969f, b0 = 0.9984f, b1 = -0.9984f;
 
     private float out2 = 0;
-    private int[] in2 = new int[60];
+    private float[] in2 = new float[60];
     private float[] h = {
             -9.46041E-18f,
             -0.000279857f,
@@ -71,21 +71,21 @@ public class HighPassFilter {
 
     };
 
-    public int butterworthFilter(int input) {
+    public float butterworthFilter(float input) {
         float output;
         output = b0/a0 * (float)input + b1/a0 * in1 - a1/a0 * out1;
-        in1 = (float)input;
+        in1 = input;
         out1 = output;
-        return (int)output;
+        return output;
     }
 
-    public int firFilter(int input) {
+    public float firFilter(float input) {
         float output = 0;
         for (int i=0; i<h.length; i++){
             if(i==0) output += h[i] * input;
             else output += h[i] * in2[h.length-1-i];
         }
-        int tmp1 = 0, tmp2 = 0;
+        float tmp1 = 0, tmp2 = 0;
         for (int i=0; i<h.length-1; i++){
             if(i==0){
                 tmp1 = in2[h.length-2];
@@ -96,6 +96,6 @@ public class HighPassFilter {
                 tmp1 = tmp2;
             }
         }
-        return (int)output;
+        return output;
     }
 }
