@@ -427,7 +427,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
             sample3 = sample[i] * mVolumeScale / 8000.0f;
 
             sample1 = lowPassFilter.firFilter(sample3);
-            sample1 = sample1 * mLowValue / 2.0f;
+            sample1 = sample1 * mLowValue / 1.0f;
 
             sample2 = highPassFilter.firFilter(sample3);
             sample2 = sample2 * mHighValue / 1.0f;
