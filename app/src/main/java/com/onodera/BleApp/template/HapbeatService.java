@@ -424,13 +424,13 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
         getADPCMdecode(value, sample);
 
         for (int i = 0; i < sample.length; i++) {
-            sample[i] = (int)(sample[i] * mVolumeScale / 2000.0f);
+            sample[i] = (int)(sample[i] * mVolumeScale / 4000.0f);
 
             sample1 = lowPassFilter.firFilter(sample[i]);
-            sample1 = (int)(sample1 * mLowValue / 5.0f);
+            sample1 = (int)(sample1 * mLowValue / 2.0f);
 
             sample2 = highPassFilter.firFilter(sample[i]);
-            sample2 = (int)(sample2 * mHighValue / 5.0f);
+            sample2 = (int)(sample2 * mHighValue / 2.0f);
 
             sample[i] = sample1 + sample2;
             sample[i] = highPassFilter.butterworthFilter(sample[i]);
