@@ -1,3 +1,5 @@
 # ninja log v5
 1	947	656077554	CMakeFiles/adpcm.dir/src/main/cpp/adpcm.c.o	a9f4cd7025bc6f6c
 947	1747	656077554	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libadpcm.so	98b92a78cb90df6b
+0	840	656088779	CMakeFiles/adpcm.dir/src/main/cpp/adpcm.c.o	a9f4cd7025bc6f6c
+840	1635	656088780	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libadpcm.so	98b92a78cb90df6b

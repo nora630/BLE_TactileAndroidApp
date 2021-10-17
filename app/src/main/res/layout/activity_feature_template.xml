@@ -238,7 +238,7 @@
 					android:layout_width="101dp"
 					android:layout_height="match_parent"
 					android:max="100"
-					android:progress="10" />
+					android:progress="20" />
 
 				<androidx.appcompat.widget.AppCompatTextView
 					android:id="@+id/low_value"
@@ -276,7 +276,7 @@
 					android:layout_width="101dp"
 					android:layout_height="match_parent"
 					android:max="100"
-					android:progress="10" />
+					android:progress="30" />
 
 				<androidx.appcompat.widget.AppCompatTextView
 					android:id="@+id/high_value"
@@ -316,7 +316,7 @@
 					android:checked="false"
 					android:text="Network"
 					android:textOff="Local"
-					android:textOn="UDP/TCP"
+					android:textOn="UDP"
 					android:showText="true"/>
 			</TableRow>
 
@@ -329,7 +329,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:ems="10"
-					android:hint="Phone"
+					android:hint="IP Address"
 					android:inputType="text" />
 			</TableRow>
 

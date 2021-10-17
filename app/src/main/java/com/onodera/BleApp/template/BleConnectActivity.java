@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -85,12 +86,13 @@ public abstract class BleConnectActivity extends AppCompatActivity
 
     private SeekBar lowSeekBarView;
     private TextView lowSeekTextView;
-    private int lowValue = 10;
+    private int lowValue = 20;
 
     private SeekBar highSeekBarView;
     private TextView highSeekTextView;
-    private int highValue = 10;
+    private int highValue = 30;
 
+    protected SharedPreferences pref;
 
     protected UUID mUuid;
 
@@ -312,6 +314,9 @@ public abstract class BleConnectActivity extends AppCompatActivity
             hapbeatNameView.setText(hapbeatName);
             hapbeatConnectButton.setText(R.string.action_disconnect);
 
+            //volumeScale = pref.getInt("volumeScale", volumeScale);
+            //lowValue = pref.getInt("lowValue", lowValue);
+            //highValue = pref.getInt("highValue", highValue);
             hapbeatService.setVolumeScale(volumeScale);
             hapbeatService.setLowValue(lowValue);
             hapbeatService.setHighValue(highValue);
@@ -362,6 +367,9 @@ public abstract class BleConnectActivity extends AppCompatActivity
             hapbeatLogSession = Logger.openSession(getApplicationContext(), logHapbeatUri);
         }
 
+        pref = getSharedPreferences("Pref", MODE_PRIVATE);
+
+
         // In onInitialize method a final class may register local broadcast receivers that will listen for events from the service
         onInitialize(savedInstanceState);
         // The onCreateView class should... create the view
@@ -374,6 +382,8 @@ public abstract class BleConnectActivity extends AppCompatActivity
         setUpView();
         // View is ready to be used
         onViewCreated(savedInstanceState);
+
+
 
         LocalBroadcastManager.getInstance(this).registerReceiver(commonBroadcastReceiver, makeIntentFilter());
     }
@@ -512,8 +522,12 @@ public abstract class BleConnectActivity extends AppCompatActivity
         seekBarView = findViewById(R.id.seekBar);
         seekTextView = findViewById(R.id.value2);
 
-        int p = seekBarView.getProgress();
-        String s = "volume: " + p/10.0f;
+        SharedPreferences.Editor editor = pref.edit();
+        volumeScale = pref.getInt("volumeScale", volumeScale);
+        seekBarView.setProgress(volumeScale);
+
+        //int p = seekBarView.getProgress();
+        String s = "volume: " + volumeScale/10.0f;
         seekTextView.setText(s);
 
         seekBarView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -521,6 +535,8 @@ public abstract class BleConnectActivity extends AppCompatActivity
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 String s = "volume: " + i/10.0f;
                 volumeScale = i;
+                editor.putInt("volumeScale", volumeScale);
+                editor.commit();
                 if (hapbeatService!=null) hapbeatService.setVolumeScale(i);
                 seekTextView.setText(s);
             }
@@ -539,8 +555,10 @@ public abstract class BleConnectActivity extends AppCompatActivity
         lowSeekBarView = findViewById(R.id.low_seekBar);
         lowSeekTextView = findViewById(R.id.low_value);
 
-        p = lowSeekBarView.getProgress();
-        s = "0~50Hz: " + p/10.0f;
+        lowValue = pref.getInt("lowValue", lowValue);
+        lowSeekBarView.setProgress(lowValue);
+        //p = lowSeekBarView.getProgress();
+        s = "0~50Hz: " + lowValue/10.0f;
         lowSeekTextView.setText(s);
 
         lowSeekBarView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -548,6 +566,8 @@ public abstract class BleConnectActivity extends AppCompatActivity
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 String s = "0~50Hz: " + i/10.0f;
                 lowValue = i;
+                editor.putInt("lowValue", lowValue);
+                editor.commit();
                 if (hapbeatService!=null) hapbeatService.setLowValue(i);
                 lowSeekTextView.setText(s);
             }
@@ -566,8 +586,10 @@ public abstract class BleConnectActivity extends AppCompatActivity
         highSeekBarView = findViewById(R.id.high_seekBar);
         highSeekTextView = findViewById(R.id.high_value);
 
-        p = highSeekBarView.getProgress();
-        s = "50~500Hz: " + p/10.0f;
+        highValue = pref.getInt("highValue", highValue);
+        highSeekBarView.setProgress(highValue);
+        //p = highSeekBarView.getProgress();
+        s = "50~500Hz: " + highValue/10.0f;
         highSeekTextView.setText(s);
 
         highSeekBarView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -575,6 +597,8 @@ public abstract class BleConnectActivity extends AppCompatActivity
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 String s = "50~500Hz: " + i/10.0f;
                 highValue = i;
+                editor.putInt("highValue", highValue);
+                editor.commit();
                 if (hapbeatService!=null) hapbeatService.setHighValue(i);
                 highSeekTextView.setText(s);
             }

@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.LinkAddress;
 import android.net.LinkProperties;
@@ -353,6 +354,10 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
 			ConnectivityManager connectivityManager = getSystemService(ConnectivityManager.class);
 			Network currentNetwork = connectivityManager.getActiveNetwork();
+			if (currentNetwork==null) {
+				IpAddressView.setText("NULL");
+				return;
+			}
 			LinkProperties linkProperties = connectivityManager.getLinkProperties(currentNetwork);
 
 			List<LinkAddress> addresses = linkProperties.getLinkAddresses();
