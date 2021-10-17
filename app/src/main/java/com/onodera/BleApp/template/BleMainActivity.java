@@ -74,8 +74,9 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 	private EditText editPhoneView;
 	private TextView Phoneview;
 	private Button   PhoneConnectButton;
-	private Switch mSwitch;
+	//private Switch mSwitch;
 	private TextView IpAddressView;
+	private TextView NetworkModeView;
 	private OutputControlService.LocalBinder outputControlService;
 	private HapbeatService.Network mNetwork = HapbeatService.Network.local;
 
@@ -170,8 +171,10 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		editPhoneView = findViewById(R.id.editPhoneText);
 		IpAddressView = findViewById(R.id.ip_address);
 		IpAddressView.setTextIsSelectable(true);
+		NetworkModeView = findViewById(R.id.network);
 		//Phoneview = findViewById(R.id.phone_name);
 		PhoneConnectButton = findViewById(R.id.phone_connect);
+		/*
 		mSwitch = findViewById(R.id.NetworkSwitch);
 		mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -185,6 +188,8 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 				}
 			}
 		});
+
+		 */
 	}
 
 	private void setGUI() {
@@ -341,11 +346,15 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 			service.putExtra("IpAddress", text);
 			startService(service);
 			bindService(service, udpClientServiceConnection, 0);
+			mNetwork = HapbeatService.Network.UDP;
+			NetworkModeView.setText(R.string.UDP_mode);
 
 		} else {
 			mUdpClientService.disconnect();
 			//unbindService(udpClientServiceConnection);
 			mUdpClientService = null;
+			mNetwork = HapbeatService.Network.local;
+			NetworkModeView.setText(R.string.local_mode);
 		}
 
 	}

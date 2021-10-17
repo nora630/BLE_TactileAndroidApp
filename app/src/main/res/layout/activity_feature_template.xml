@@ -309,15 +309,18 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 
-				<Switch
-					android:id="@+id/NetworkSwitch"
-					android:layout_width="match_parent"
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/network"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:checked="false"
-					android:text="Network"
-					android:textOff="Local"
-					android:textOn="UDP"
-					android:showText="true"/>
+					android:ellipsize="end"
+					android:freezesText="true"
+					android:maxLines="1"
+					android:text="@string/local_mode"
+					android:textAllCaps="true"
+					android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
 			</TableRow>
 
 			<TableRow
