@@ -47,6 +47,7 @@ import com.onodera.BleApp.R;
 import com.onodera.BleApp.template.network.ServerThread;
 import com.onodera.BleApp.template.network.UdpClientService;
 import com.onodera.BleApp.template.network.UdpServerService;
+import com.onodera.BleApp.template.signal.GraphActivity;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -304,7 +305,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		return true;
 	}
 
-/*
+
 	@Override
 	protected boolean onOptionsItemSelected(final int itemId) {
 		switch (itemId) {
@@ -315,7 +316,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		}
 		return true;
 	}
-*/
+
 
 
 
