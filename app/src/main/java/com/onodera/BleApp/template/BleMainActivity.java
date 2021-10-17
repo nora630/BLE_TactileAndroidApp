@@ -61,7 +61,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 	//private SeekBar seekBarView;
 	//private TextView seekTextView;
 	private EditText editPhoneView;
-	private TextView Phoneview;
+	private TextView HapbeatValueView;
 	private Button   PhoneConnectButton;
 	//private Switch mSwitch;
 	private TextView IpAddressView;
@@ -161,6 +161,8 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		IpAddressView = findViewById(R.id.ip_address);
 		IpAddressView.setTextIsSelectable(true);
 		NetworkModeView = findViewById(R.id.network_mode);
+		HapbeatValueView = findViewById(R.id.hapbeat_value);
+		HapbeatValueView.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
 		//Phoneview = findViewById(R.id.phone_name);
 		PhoneConnectButton = findViewById(R.id.phone_connect);
 		/*
@@ -337,6 +339,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 			bindService(service, udpClientServiceConnection, 0);
 			mNetwork = HapbeatService.Network.UDP;
 			NetworkModeView.setText(R.string.UDP_mode);
+			HapbeatValueView.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
 
 		} else {
 			mUdpClientService.disconnect();
@@ -344,6 +347,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 			mUdpClientService = null;
 			mNetwork = HapbeatService.Network.local;
 			NetworkModeView.setText(R.string.local_mode);
+			HapbeatValueView.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
 		}
 
 	}
