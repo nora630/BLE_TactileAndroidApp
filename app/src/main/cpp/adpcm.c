@@ -239,3 +239,9 @@ Java_com_onodera_BleApp_template_HapbeatService_getADPCMencode(JNIEnv *env, jobj
     (*env)->ReleaseIntArrayElements(env,sample,s,40);
     return;
 }
+
+JNIEXPORT void JNICALL
+Java_com_onodera_BleApp_template_HapbeatService_clearADPCMstate(JNIEnv *env, jobject thiz) {
+    encodeState.previndex = 0;
+    decodeState.previndex = 0;
+}

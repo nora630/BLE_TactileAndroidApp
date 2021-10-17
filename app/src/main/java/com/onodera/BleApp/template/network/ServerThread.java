@@ -19,7 +19,7 @@ public abstract class ServerThread extends Thread {
     private byte[] mReadBuffer = new byte[MAXIMUM_PACKET_SIZE];
     private final int DATA_SEND_INTERVAL = 2;
     protected Object mQueueMutex = new Object();
-    protected ArrayDeque<Byte> mDataQueue = new ArrayDeque<>();
+    protected ArrayDeque<Byte> mDataQueue = new ArrayDeque<>(4096);
 
     protected abstract void createSocket();
     protected abstract void waitConnection();

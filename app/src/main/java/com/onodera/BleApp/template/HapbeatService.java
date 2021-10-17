@@ -53,10 +53,11 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
 
     public class HapbeatThread extends Thread {
         private Object mQueueMutex = new Object();
-        private ArrayDeque<Byte> mDataQueue = new ArrayDeque<>();
+        private ArrayDeque<Byte> mDataQueue = new ArrayDeque<>(4096);
         private byte[] value = new byte[NetworkConfiguration.MAXIMUM_PACKET_SIZE];
         private volatile boolean mKeepAlive = true;
         private final int DATA_SEND_INTERVAL = 2;
+        //private int count = 0;
 
         @Override
         public void run() {
@@ -73,9 +74,14 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
                 //if(nData==NetworkConfiguration.MAXIMUM_PACKET_SIZE){
                     volumeControl(value);
                     manager.send(value);
-                    //final Intent broadcast = new Intent(BROADCAST_OUTPUT_MEASUREMENT);
-                    //broadcast.putExtra(EXTRA_OUTPUT_DATA, sample);
-                    //LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcast);
+                    final Intent broadcast = new Intent(BROADCAST_OUTPUT_MEASUREMENT);
+                    broadcast.putExtra(EXTRA_OUTPUT_DATA, sample);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcast);
+                    //count++;
+                    //if(count>250){
+                    //    setADPCMstate();
+                    //    count = 0;
+                    //}
                 //}
                 try {
                     Thread.sleep(DATA_SEND_INTERVAL);
@@ -172,6 +178,8 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
     public native void getADPCMencode(int[] sample, byte[] code);
 
     public native void setADPCMstate();
+
+    public native void clearADPCMstate();
 
     @Override
     public void onDestroy() {
