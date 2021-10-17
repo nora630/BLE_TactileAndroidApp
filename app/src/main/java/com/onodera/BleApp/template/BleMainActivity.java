@@ -22,38 +22,27 @@
 package com.onodera.BleApp.template;
 
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.LinkAddress;
 import android.net.LinkProperties;
 import android.net.Network;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.os.IBinder;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.onodera.BleApp.R;
 import com.onodera.BleApp.template.network.ServerThread;
 import com.onodera.BleApp.template.network.UdpClientService;
 import com.onodera.BleApp.template.network.UdpServerService;
-import com.onodera.BleApp.template.signal.GraphActivity;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -171,7 +160,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		editPhoneView = findViewById(R.id.editPhoneText);
 		IpAddressView = findViewById(R.id.ip_address);
 		IpAddressView.setTextIsSelectable(true);
-		NetworkModeView = findViewById(R.id.network);
+		NetworkModeView = findViewById(R.id.network_mode);
 		//Phoneview = findViewById(R.id.phone_name);
 		PhoneConnectButton = findViewById(R.id.phone_connect);
 		/*

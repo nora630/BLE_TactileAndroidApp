@@ -136,6 +136,13 @@
 					android:onClick="onConnectClicked2"
 					android:text="@string/hapbeat_connect" />
 
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/hapbeat_value"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:freezesText="true"
+					android:text="@string/not_available_value" />
+
 			</TableRow>
 
 			<TableRow
@@ -310,7 +317,7 @@
 				android:layout_height="match_parent">
 
 				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/network"
+					android:id="@+id/network_mode"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:ellipsize="end"
