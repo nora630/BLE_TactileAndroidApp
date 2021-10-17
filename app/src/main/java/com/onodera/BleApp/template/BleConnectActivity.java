@@ -683,7 +683,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
     public void onConnectClicked(final View view) {
         if (isBLEEnabled()) {
             if (accelService == null) {
-                setDefaultUI();
+                //setDefaultUI();
                 mUuid = getAccelFilterUUID();
                 showDeviceScanningDialog(getAccelFilterUUID());
             } else {
@@ -697,7 +697,7 @@ public abstract class BleConnectActivity extends AppCompatActivity
     public void onConnectClicked2(final View view) {
         if (isBLEEnabled()) {
             if (hapbeatService == null) {
-                setDefaultUI();
+                //setDefaultUI();
                 mUuid = getHapbeatFilterUUID();
                 showDeviceScanningDialog(getHapbeatFilterUUID());
             } else {
@@ -1017,5 +1017,5 @@ public abstract class BleConnectActivity extends AppCompatActivity
         runOnUiThread(() -> Toast.makeText(BleConnectActivity.this, messageResId, Toast.LENGTH_SHORT).show());
     }
 
-    protected abstract void setDefaultUI();
+    //protected abstract void setDefaultUI();
 }

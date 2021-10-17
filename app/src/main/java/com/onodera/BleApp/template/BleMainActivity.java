@@ -276,12 +276,13 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 
 	}
 
+	/*
 	@Override
 	protected void setDefaultUI() {
 		// TODO clear your UI
 		valueView.setText(R.string.not_available_value);
 		//batteryLevelView.setText(R.string.not_available);
-	}
+	} */
 
 	@Override
 	protected int getLoggerProfileTitle() {
