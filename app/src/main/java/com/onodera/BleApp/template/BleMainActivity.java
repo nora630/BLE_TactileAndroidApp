@@ -185,7 +185,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 
 	private void setGUI() {
 		// TODO assign your views to fields
-		valueView = findViewById(R.id.value);
+		//valueView = findViewById(R.id.value);
 		/*
 		seekBarView = findViewById(R.id.seekBar);
 		seekTextView = findViewById(R.id.value2);

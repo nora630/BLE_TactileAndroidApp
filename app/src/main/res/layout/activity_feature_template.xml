@@ -83,13 +83,6 @@
 					android:textAllCaps="true"
 					android:textAppearance="?android:attr/textAppearanceLarge" />
 
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/value"
-					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
-					android:freezesText="true"
-					android:text="@string/not_available_value" />
-
 			</TableRow>
 
 			<TableRow
@@ -121,6 +114,13 @@
 					android:textAllCaps="true"
 					android:textAppearance="?android:attr/textAppearanceLarge" />
 
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/hapbeat_value"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:freezesText="true"
+					android:text="@string/not_available_value" />
+
 			</TableRow>
 
 			<TableRow
@@ -135,13 +135,6 @@
 					android:layout_alignParentBottom="true"
 					android:onClick="onConnectClicked2"
 					android:text="@string/hapbeat_connect" />
-
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/hapbeat_value"
-					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
-					android:freezesText="true"
-					android:text="@string/not_available_value" />
 
 			</TableRow>
 
