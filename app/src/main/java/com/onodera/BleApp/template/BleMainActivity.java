@@ -284,13 +284,13 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 
 	}
 
-	/*
+
 	@Override
 	protected void setDefaultUI() {
 		// TODO clear your UI
-		valueView.setText(R.string.not_available_value);
+		HapbeatValueView.setText(R.string.not_available_value);
 		//batteryLevelView.setText(R.string.not_available);
-	} */
+	}
 
 	@Override
 	protected int getLoggerProfileTitle() {
@@ -323,18 +323,6 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 	@Override
 	protected int getDefaultDeviceName() {
 		return R.string.template_default_name;
-	}
-
-	// Handling updates from the device
-	@SuppressWarnings("unused")
-	private void setValueOnView(@NonNull final BluetoothDevice device, final int value) {
-		// TODO assign the value to a view
-		valueView.setText(String.valueOf(value));
-	}
-
-	@SuppressWarnings("unused")
-	public void onBatteryLevelChanged(@NonNull final BluetoothDevice device, final int value) {
-		//batteryLevelView.setText(getString(R.string.battery, value));
 	}
 
 	public void onConnectPhoneClicked(final View view){
