@@ -53,7 +53,7 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
 
     public class HapbeatThread extends Thread {
         private Object mQueueMutex = new Object();
-        private ArrayDeque<Byte> mDataQueue = new ArrayDeque<>(4096);
+        private ArrayDeque<Byte> mDataQueue = new ArrayDeque<>(32768);
         private byte[] value = new byte[NetworkConfiguration.MAXIMUM_PACKET_SIZE];
         private volatile boolean mKeepAlive = true;
         private final int DATA_SEND_INTERVAL = 2;

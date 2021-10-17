@@ -21,7 +21,7 @@ public abstract class ClientThread extends Thread {
     private String mIpAddress;
     private final int DATA_SEND_INTERVAL = 20;
     protected Object mQueueMutex = new Object();
-    protected ArrayDeque<Byte> mDataQueue = new ArrayDeque<>(4096);
+    protected ArrayDeque<Byte> mDataQueue = new ArrayDeque<>(32768);
 
     protected abstract void onResolveIP(InetAddress ipAddress);
     protected abstract boolean createConnection();
