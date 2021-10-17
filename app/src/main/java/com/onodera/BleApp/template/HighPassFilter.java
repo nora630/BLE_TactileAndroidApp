@@ -70,12 +70,12 @@ public class HighPassFilter {
             -0.000849535f,
     };
 
-    public float butterworthFilter(float input) {
+    public int butterworthFilter(int input) {
         float output;
         output = b0/a0 * (float)input + b1/a0 * in1 - a1/a0 * out1;
         in1 = input;
         out1 = output;
-        return output;
+        return (int)output;
     }
 
     public float firFilter(float input) {
