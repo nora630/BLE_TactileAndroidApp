@@ -22,8 +22,11 @@
 package com.onodera.BleApp.template;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.net.LinkAddress;
@@ -31,6 +34,7 @@ import android.net.LinkProperties;
 import android.net.Network;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.os.IBinder;
 import android.view.Menu;
@@ -122,6 +126,10 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		//final Intent volumeControlService;
 		//volumeControlService = new Intent(BleMainActivity.this, OutputControlService.class);
 		//startService(volumeControlService);
+
+		final IntentFilter filter = new IntentFilter();
+		filter.addAction(HapbeatService.BROADCAST_OUTPUT_MEASUREMENT);
+		LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, filter);
 
 	}
 
@@ -266,7 +274,7 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		stopService(service);
 		mUdpServerService = null;
 		mUdpClientService = null;
-		//LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
 		String text = PhoneConnectButton.getText().toString();
 		if(text=="DISCONNECT"){
 			Intent service2 = new Intent(BleMainActivity.this, UdpClientService.class);
@@ -374,30 +382,20 @@ public class BleMainActivity extends BleConnectActivity implements ServerThread.
 		}
 	}
 
-/*
+
 	private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(final Context context, final Intent intent) {
 			final String action = intent.getAction();
-			final BluetoothDevice device = intent.getParcelableExtra(AccelerometerService.EXTRA_DEVICE);
 
-			if (AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT.equals(action)) {
-				byte[] value = intent.getByteArrayExtra(AccelerometerService.EXTRA_DATA);
-
-				// Update GUI
-				int[] intValue = new int[20];
-				for(int i=0; i<20; i++){
-					intValue[i] = value[i] & 0xFF;
-				}
-				setValueOnView(device, intValue[1]);
-			} else if (AccelerometerService.BROADCAST_BATTERY_LEVEL.equals(action)) {
-				final int batteryLevel = intent.getIntExtra(AccelerometerService.EXTRA_BATTERY_LEVEL, 0);
-				// Update GUI
-				onBatteryLevelChanged(device, batteryLevel);
+			if (HapbeatService.BROADCAST_OUTPUT_MEASUREMENT.equals(action)) {
+				int[] sample = intent.getIntArrayExtra(HapbeatService.EXTRA_OUTPUT_DATA);
+				HapbeatValueView.setText(""+sample[0]);
 			}
+
 		}
 	};
-
+/*
 	private static IntentFilter makeIntentFilter() {
 		final IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(AccelerometerService.BROADCAST_TEMPLATE_MEASUREMENT);

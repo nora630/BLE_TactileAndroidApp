@@ -73,6 +73,9 @@ public class HapbeatService extends BleProfileService implements HapbeatManagerC
                 //if(nData==NetworkConfiguration.MAXIMUM_PACKET_SIZE){
                     volumeControl(value);
                     manager.send(value);
+                    final Intent broadcast = new Intent(BROADCAST_OUTPUT_MEASUREMENT);
+                    broadcast.putExtra(EXTRA_OUTPUT_DATA, sample);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcast);
                 //}
                 try {
                     Thread.sleep(DATA_SEND_INTERVAL);
